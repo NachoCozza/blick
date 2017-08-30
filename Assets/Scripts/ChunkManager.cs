@@ -5,21 +5,43 @@ using UnityEngine;
 public class ChunkManager : MonoBehaviour {
 
 	public GameObject [] floors; //ToDo borrar y que sea todo dinamico
-	public Queue<GameObject> chunks;
 	public GameObject [] chunkPrefabs; //ToDo
+    public int totalChunks;
 
-	public float interval = 2f;
+	GameObject [] chunks;
+	float interval = 0f;
+    float chunkSize = 10f;
 
-	// Use this for initialization
-	void Start () {
-		StartCoroutine ("SpawnNextAndDeleteLast");
-		chunks = new Queue<GameObject> (floors);
-
+    // Use this for initialization
+    void Awake() {
+        chunks = new GameObject[totalChunks];
+        interval = (chunkSize / GetComponent<FloorMovement>().speed) * (totalChunks / 2);
+        float initZ = GetComponent<PerspectiveController>().player.transform.position.z;
+        for (int i = 0; i < totalChunks; i++)
+        {
+            int prefabIdx = Random.Range(0, chunkPrefabs.Length); //ToDo quen levante todos
+            GameObject newChunk = Instantiate(chunkPrefabs[prefabIdx]);
+            Debug.Log("Z" + initZ + (i * chunkSize));
+            newChunk.transform.position = new Vector3(newChunk.transform.position.x, newChunk.transform.position.y, initZ + (i * chunkSize));
+            Debug.Log(newChunk.transform.position);
+            chunks[i] = newChunk;
+        }
+        Debug.Log(interval);
 	}
 
-	public GameObject [] GetChunks() {
-		return chunks.ToArray (); //todo optimize
+    private void Start()
+    {
+        StartCoroutine("SpawnNextAndDeleteLast");
+    }
+
+    public GameObject [] GetChunks() {
+        return chunks;
 	}
+
+    public float GetChunkSize()
+    {
+        return chunkSize;
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -27,15 +49,23 @@ public class ChunkManager : MonoBehaviour {
 	}
 
 	IEnumerator SpawnNextAndDeleteLast() {
-		while (true) {
+        yield return new WaitForSeconds(interval);
+        while (true) {
+            int newIndex = totalChunks / 2;
+            float lastZ = 0;
+            for (int i =0; i < totalChunks / 2; i ++)
+            {
+                GameObject toDelete = chunks[i];
+                lastZ = toDelete.transform.position.z;
+                Destroy(toDelete);
+                chunks[i] = chunks[newIndex + i];
+                int prefabIdx = Random.Range(0, chunkPrefabs.Length); //ToDo quen levante todos
+                GameObject newChunk = Instantiate(chunkPrefabs[prefabIdx]);
+                newChunk.transform.position = new Vector3(newChunk.transform.position.x, newChunk.transform.position.y, lastZ + totalChunks * chunkSize);
+                chunks[newIndex + i] = newChunk;
+            }
 			yield return new WaitForSeconds (interval);
-			int prefabIdx = Random.Range (0, chunkPrefabs.Length); //ToDo quen levante todos
-			GameObject lastChunk = chunks.Dequeue ();
-			float lastZ = lastChunk.transform.position.z;
-			Destroy (lastChunk);
-			GameObject newChunk = Instantiate (chunkPrefabs[prefabIdx]);
-			newChunk.transform.position = new Vector3 (newChunk.transform.position.x, newChunk.transform.position.y, lastZ+30f);
-			chunks.Enqueue (newChunk);
+            
 		}
 	}
 

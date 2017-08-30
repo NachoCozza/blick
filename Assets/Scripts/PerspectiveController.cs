@@ -13,7 +13,7 @@ public class PerspectiveController : MonoBehaviour {
     public GameObject cameraRight;
 	public GameObject cameraTop;
 
-    public GameObject [] floors;
+    GameObject [] floors;
 
     BoxCollider [] colliders3D; 
     BoxCollider2D [] colliders2D;
@@ -25,7 +25,8 @@ public class PerspectiveController : MonoBehaviour {
 
     void Start () 
 	{
-		colliders3D = new BoxCollider[floors.Length];
+        floors = GetComponent<ChunkManager>().GetChunks();
+        colliders3D = new BoxCollider[floors.Length];
 		colliders2D = new BoxCollider2D[floors.Length];
 
 		InstantiateAll3D ();
