@@ -2,18 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ChunkManager : MonoBehaviour {
+public class ChunkManager : MonoBehaviour
+{
 
-	public GameObject [] floors; //ToDo borrar y que sea todo dinamico
-	public GameObject [] chunkPrefabs; //ToDo
+    public GameObject[] floors; //ToDo borrar y que sea todo dinamico
+    public GameObject[] chunkPrefabs; //ToDo
     public int totalChunks;
 
-	GameObject [] chunks;
-	float interval = 0f;
+    GameObject[] chunks;
+    float interval = 0f;
     float chunkSize = 10f;
 
     // Use this for initialization
-    void Awake() {
+    void Awake()
+    {
         chunks = new GameObject[totalChunks];
         interval = (chunkSize / GetComponent<FloorMovement>().speed) * (totalChunks / 2);
         float initZ = GetComponent<PerspectiveController>().player.transform.position.z;
@@ -27,33 +29,37 @@ public class ChunkManager : MonoBehaviour {
             chunks[i] = newChunk;
         }
         Debug.Log(interval);
-	}
+    }
 
     private void Start()
     {
         StartCoroutine("SpawnNextAndDeleteLast");
     }
 
-    public GameObject [] GetChunks() {
+    public GameObject[] GetChunks()
+    {
         return chunks;
-	}
+    }
 
     public float GetChunkSize()
     {
         return chunkSize;
     }
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 
-	IEnumerator SpawnNextAndDeleteLast() {
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
+
+    IEnumerator SpawnNextAndDeleteLast()
+    {
         yield return new WaitForSeconds(interval);
-        while (true) {
+        while (true)
+        {
             int newIndex = totalChunks / 2;
             float lastZ = 0;
-            for (int i =0; i < totalChunks / 2; i ++)
+            for (int i = 0; i < totalChunks / 2; i++)
             {
                 GameObject toDelete = chunks[i];
                 lastZ = toDelete.transform.position.z;
@@ -64,9 +70,9 @@ public class ChunkManager : MonoBehaviour {
                 newChunk.transform.position = new Vector3(newChunk.transform.position.x, newChunk.transform.position.y, lastZ + totalChunks * chunkSize);
                 chunks[newIndex + i] = newChunk;
             }
-			yield return new WaitForSeconds (interval);
-            
-		}
-	}
+            yield return new WaitForSeconds(interval);
+
+        }
+    }
 
 }
