@@ -5,9 +5,6 @@ using UnityEngine;
 public class PerspectiveController : MonoBehaviour
 {
     //ToDo optimize. unificar los 3 perspective
-
-    bool is3D = true;
-
     public GameObject player;
 
     public GameObject cameraPerspective;
@@ -21,31 +18,42 @@ public class PerspectiveController : MonoBehaviour
 
 
     BoxCollider2D playerCollider2D;
-    //ToDo lo mismo que los colliders3d y 2d pero con rigidbody
     BoxCollider playerCollider3D;
+	Rigidbody playerRigidbody3D;
+	Rigidbody2D playerRigidbody2D;
+	bool is3D = false;
+
+	ChunkManager chunkManager;
+
+	public bool Is3D() { return is3D; }
 
     void Start()
     {
-        floors = GetComponent<ChunkManager>().GetChunks();
+		chunkManager = GetComponent<ChunkManager> ();
+        floors = chunkManager.GetChunks();
         colliders3D = new BoxCollider[floors.Length];
         colliders2D = new BoxCollider2D[floors.Length];
 
         InstantiateAll3D();
     }
 
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.P))
         {
             ChangeToPerspective();
+			return;
         }
         if (Input.GetKeyDown(KeyCode.O))
         {
             ChangeToRight();
+			return;
         }
         if (Input.GetKeyDown(KeyCode.I))
         {
             ChangeToTop();
+			return;
         }
     }
 
@@ -84,30 +92,52 @@ public class PerspectiveController : MonoBehaviour
         arr = new BoxCollider2D[initLength];
     }
 
+	private void DestroyAll3D() {
+		DestroyAll(colliders3D);
+		Destroy(playerCollider3D);
+		Destroy (playerRigidbody3D);
+		cameraPerspective.SetActive(false);
+	}
+
+	private void DestroyAll2D() {
+		DestroyAll(colliders2D);
+		Destroy(playerCollider2D);
+		Destroy (playerRigidbody2D);
+		cameraRight.SetActive(false);
+		cameraTop.SetActive(false);
+	}
+
     private void InstantiateAll3D()
     {
-        for (int i = 0; i < floors.Length; i++)
-        {
-            colliders3D[i] = floors[i].GetComponent<BoxCollider>();
-        }
-        playerCollider3D = player.GetComponent<BoxCollider>();
+		if (!is3D) {
+			for (int i = 0; i < floors.Length; i++)
+			{
+				colliders3D[i] = floors[i].AddComponent<BoxCollider>();
+			}
+			playerCollider3D = player.AddComponent<BoxCollider>();
+			playerRigidbody3D = player.AddComponent<Rigidbody> ();
+			is3D = true;
+		}
     }
 
     private void InstantiateAll2D()
     {
-        for (int i = 0; i < floors.Length; i++)
-        {
-            colliders2D[i] = floors[i].AddComponent<BoxCollider2D>();
-        }
-
-        playerCollider2D = player.AddComponent<BoxCollider2D>();
+		if (is3D) {
+			for (int i = 0; i < floors.Length; i++)
+			{
+				colliders2D[i] = floors[i].AddComponent<BoxCollider2D>();
+			}
+			
+			playerCollider2D = player.AddComponent<BoxCollider2D>();
+			playerRigidbody2D = player.AddComponent<Rigidbody2D> ();
+			is3D = false;
+		}
     }
 
     IEnumerator Apply2D(bool right)
     {
-        DestroyAll(colliders3D);
-        Destroy(playerCollider3D);
-        cameraPerspective.SetActive(false);
+		floors = chunkManager.GetChunks ();
+		DestroyAll3D ();
         if (right)
         {
             cameraTop.SetActive(false);
@@ -127,38 +157,16 @@ public class PerspectiveController : MonoBehaviour
             cameraTop.SetActive(true);
         }
         //player.transform.position = new Vector3(player3D.transform.position.x, player2D.transform.position.y, player2D.transform.position.z);
-        is3D = false;
     }
 
     IEnumerator Apply3D()
     {
-        DestroyAll(colliders2D);
-        Destroy(playerCollider2D);
-        cameraRight.SetActive(false);
-        cameraTop.SetActive(false);
-        yield return new WaitForEndOfFrame();
+		floors = chunkManager.GetChunks ();
+		DestroyAll2D ();
+		yield return new WaitForEndOfFrame();
         InstantiateAll3D();
         cameraPerspective.SetActive(true);
         //player.transform.position = new Vector3(player3D.transform.position.x, player2D.transform.position.y, player2D.transform.position.z);
-        is3D = true;
     }
-
-    /* IEnumerator ChangeTo3D()
-     {
-         Destroy(floor2D);
-         Destroy(floor2D2);
-         yield return new WaitForEndOfFrame();
-
-         camera3D.SetActive(true);
-         player3D.SetActive(true);
-
-         camera2D.SetActive(false);
-         player2D.SetActive(false);
-         Destroy(floor2D);
-         floor3D = floor.AddComponent<BoxCollider>();
-         floor3D2 = floor2.AddComponent<BoxCollider>();
-
-         player3D.transform.position = new Vector3(player2D.transform.position.x, player3D.transform.position.y, player3D.transform.position.z);
-         is3D = true;
-     }*/
+		
 }

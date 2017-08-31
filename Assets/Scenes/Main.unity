@@ -340,7 +340,8 @@ Prefab:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 65587426144554412, guid: 9acb677b33924e34092e7d03ee5605ea, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 9acb677b33924e34092e7d03ee5605ea, type: 2}
   m_IsPrefabParent: 0
 --- !u!1 &1204401748 stripped
@@ -348,22 +349,7 @@ GameObject:
   m_PrefabParentObject: {fileID: 1030748332201380, guid: 9acb677b33924e34092e7d03ee5605ea,
     type: 2}
   m_PrefabInternal: {fileID: 1079106397}
---- !u!54 &1204401749
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1204401748}
-  serializedVersion: 2
-  m_Mass: 1
-  m_Drag: 0
-  m_AngularDrag: 0.05
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
---- !u!114 &1204401753
+--- !u!114 &1204401751
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
@@ -374,8 +360,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc8b60affde23b048811837d2e71d3e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  character: {fileID: 0}
   speed: 1
+  jumpStrength: 1
+  topLimit: 5
+  bottomLimit: -5
 --- !u!1 &1404265141
 GameObject:
   m_ObjectHideFlags: 0
@@ -405,14 +393,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b750dadc588cdc41aaa03f73940ea6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  floors:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
   chunkPrefabs:
   - {fileID: 1027505495299264, guid: fc40e279b0fba5b4cbefbd3fdc522fca, type: 2}
   - {fileID: 1557725694012442, guid: c8d496d9a1b338344adad9a4ef63696e, type: 2}
   - {fileID: 1986607142050234, guid: 753e4a03ee417654f8119b6cc13d1040, type: 2}
+  - {fileID: 1224763638579816, guid: ab24e0357a1b34f8fb4ca17dca7f754e, type: 2}
   totalChunks: 20
 --- !u!114 &1404265143
 MonoBehaviour:
