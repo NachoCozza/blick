@@ -11,10 +11,9 @@ public class PerspectiveController : MonoBehaviour
     public GameObject cameraRight;
     public GameObject cameraTop;
 
-    GameObject[] floors;
+    GameObject[] chunks;
 
-    BoxCollider[] colliders3D;
-    BoxCollider2D[] colliders2D;
+    Vector3 [][] originalPositions;
 
 
     BoxCollider2D playerCollider2D;
@@ -27,14 +26,15 @@ public class PerspectiveController : MonoBehaviour
 
 	public bool Is3D() { return is3D; }
 
+    enum LastView { Persp, Top, Right };
+    LastView lastView = LastView.Persp;
+
     void Start()
     {
 		chunkManager = GetComponent<ChunkManager> ();
-        floors = chunkManager.GetChunks();
-        colliders3D = new BoxCollider[floors.Length];
-        colliders2D = new BoxCollider2D[floors.Length];
-
-        InstantiateAll3D();
+        chunks = chunkManager.GetChunks();
+        originalPositions = new Vector3[chunks.Length][];
+        StoreAllPositions();
     }
 
 
@@ -42,131 +42,87 @@ public class PerspectiveController : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.P))
         {
-            ChangeToPerspective();
+            ChangeTo3D();
 			return;
         }
         if (Input.GetKeyDown(KeyCode.O))
         {
-            ChangeToRight();
+            ChangeTo2D(true);
 			return;
         }
         if (Input.GetKeyDown(KeyCode.I))
         {
-            ChangeToTop();
+            ChangeTo2D(false);
 			return;
         }
     }
 
-    void ChangeToPerspective()
+    void ChangeTo3D()
     {
-        StartCoroutine("Apply3D");
-    }
+        chunks = chunkManager.GetChunks();
+        cameraTop.SetActive(false);
+        cameraRight.SetActive(false);
+        cameraPerspective.SetActive(true);
 
-    void ChangeToRight()
-    {
-        StartCoroutine("Apply2D", true);
-    }
-
-    void ChangeToTop()
-    {
-        StartCoroutine("Apply2D", false);
-    }
-
-    private void DestroyAll(BoxCollider[] arr)
-    {
-        int initLength = arr.Length;
-        for (int i = 0; i < initLength; i++)
+        //Todo poner los bloques como estaban antes y alinear al jugador a un bloque posible
+        for (int chunkIdx = 0; chunkIdx < chunks.Length; chunkIdx++)
         {
-            Destroy(arr[i]);
+            int childIdx = 0;
+            foreach (Transform child in chunks[chunkIdx].transform)
+            {
+                Vector3 newPos = originalPositions[chunkIdx][childIdx];
+                newPos.z = child.position.z;
+                child.position = newPos;
+                childIdx++;
+            }
         }
-        arr = new BoxCollider[initLength];
+        lastView = LastView.Persp;
     }
 
-    private void DestroyAll(BoxCollider2D[] arr)
+    void ChangeTo2D(bool right)
     {
-        int initLength = arr.Length;
-        for (int i = 0; i < initLength; i++)
-        {
-            Destroy(arr[i]);
-        }
-        arr = new BoxCollider2D[initLength];
-    }
-
-	private void DestroyAll3D() {
-		DestroyAll(colliders3D);
-		Destroy(playerCollider3D);
-		Destroy (playerRigidbody3D);
-		cameraPerspective.SetActive(false);
-	}
-
-	private void DestroyAll2D() {
-		DestroyAll(colliders2D);
-		Destroy(playerCollider2D);
-		Destroy (playerRigidbody2D);
-		cameraRight.SetActive(false);
-		cameraTop.SetActive(false);
-	}
-
-    private void InstantiateAll3D()
-    {
-		if (!is3D) {
-			for (int i = 0; i < floors.Length; i++)
-			{
-				colliders3D[i] = floors[i].AddComponent<BoxCollider>();
-			}
-			playerCollider3D = player.AddComponent<BoxCollider>();
-			playerRigidbody3D = player.AddComponent<Rigidbody> ();
-			is3D = true;
-		}
-    }
-
-    private void InstantiateAll2D()
-    {
-		if (is3D) {
-			for (int i = 0; i < floors.Length; i++)
-			{
-				colliders2D[i] = floors[i].AddComponent<BoxCollider2D>();
-			}
-			
-			playerCollider2D = player.AddComponent<BoxCollider2D>();
-			playerRigidbody2D = player.AddComponent<Rigidbody2D> ();
-			is3D = false;
-		}
-    }
-
-    IEnumerator Apply2D(bool right)
-    {
-		floors = chunkManager.GetChunks ();
-		DestroyAll3D ();
-        if (right)
-        {
-            cameraTop.SetActive(false);
-        }
-        else
-        {
-            cameraRight.SetActive(false);
-        }
-        yield return new WaitForEndOfFrame();
-        InstantiateAll2D();
+        Vector3 multiplier;
+        cameraPerspective.SetActive(false);
         if (right)
         {
             cameraRight.SetActive(true);
+            cameraTop.SetActive(false);
+            multiplier = new Vector3(0, 1, 1);
         }
         else
         {
             cameraTop.SetActive(true);
+            cameraRight.SetActive(false);
+            multiplier = new Vector3(1, 0, 1);
         }
-        //player.transform.position = new Vector3(player3D.transform.position.x, player2D.transform.position.y, player2D.transform.position.z);
+        chunks = chunkManager.GetChunks();
+        //itero todos los chunks, guardo la posicion y alineo todos los hijos
+        for (int chunkIdx = 0; chunkIdx < chunks.Length; chunkIdx ++)
+        {
+            int childIdx = 0;
+            foreach (Transform child in chunks[chunkIdx].transform)
+            {
+                Vector3 newPos = Vector3.Scale(originalPositions[chunkIdx][childIdx], multiplier);
+                newPos.z = child.position.z;
+                child.position = newPos;
+                childIdx++; 
+            }
+        }
+        lastView = right ? LastView.Right : LastView.Top;
     }
 
-    IEnumerator Apply3D()
+    public void StoreAllPositions()
     {
-		floors = chunkManager.GetChunks ();
-		DestroyAll2D ();
-		yield return new WaitForEndOfFrame();
-        InstantiateAll3D();
-        cameraPerspective.SetActive(true);
-        //player.transform.position = new Vector3(player3D.transform.position.x, player2D.transform.position.y, player2D.transform.position.z);
-    }
-		
+        chunks = chunkManager.GetChunks();
+        for (int chunkIdx = 0; chunkIdx < chunks.Length; chunkIdx++)
+        {
+            int childIdx = 0;
+            originalPositions[chunkIdx] = new Vector3[chunks[chunkIdx].transform.childCount];
+            foreach (Transform child in chunks[chunkIdx].transform)
+            {
+                originalPositions[chunkIdx][childIdx] = child.position;
+                childIdx++;
+            }
+        }
+    }	
 }
