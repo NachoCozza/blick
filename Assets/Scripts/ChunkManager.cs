@@ -8,13 +8,13 @@ public class ChunkManager : MonoBehaviour
     public GameObject[] chunkPrefabs; //ToDo
     public int totalChunks;
 
-    GameObject[] chunks;
+    Transform[] chunks;
     float interval = 0f;
     float chunkSize = 15f;
     PerspectiveController perspective;
 
 
-    public GameObject[] GetChunks()
+    public Transform[] GetChunks()
     {
         return chunks;
     }
@@ -29,7 +29,7 @@ public class ChunkManager : MonoBehaviour
     void Awake()
     {
         perspective = GetComponent<PerspectiveController>();
-        chunks = new GameObject[totalChunks];
+        chunks = new Transform[totalChunks];
         interval = (chunkSize / GetComponent<FloorMovement>().speed) * (totalChunks / 2);
         float initZ = perspective.player.transform.position.z;
         for (int i = 0; i < totalChunks; i++)
@@ -37,7 +37,7 @@ public class ChunkManager : MonoBehaviour
             int prefabIdx = Random.Range(0, chunkPrefabs.Length);
             GameObject newChunk = Instantiate(chunkPrefabs[prefabIdx]);
             newChunk.transform.position = new Vector3(newChunk.transform.position.x, newChunk.transform.position.y, initZ + (i * chunkSize));//negrada
-            chunks[i] = newChunk;
+            chunks[i] = newChunk.transform;
         }
     }
 
@@ -69,14 +69,13 @@ public class ChunkManager : MonoBehaviour
             float lastZ = 0;
             for (int i = 0; i < totalChunks / 2; i++)
             {
-                GameObject toDelete = chunks[i];
+                Transform toDelete = chunks[i];
                 lastZ = toDelete.transform.position.z;
-                Destroy(toDelete);
+                Destroy(toDelete.gameObject);
                 chunks[i] = chunks[newIndex + i];
                 GameObject newChunk = InstantiateNewChunk(lastZ);
-                chunks[newIndex + i] = newChunk;
+                chunks[newIndex + i] = newChunk.transform;
             }
-            perspective.StoreAllPositions(newIndex);
             perspective.AdjustNewChunks(newIndex);
             yield return new WaitForSeconds(interval);
 
