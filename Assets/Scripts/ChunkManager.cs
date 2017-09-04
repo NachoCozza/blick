@@ -76,6 +76,8 @@ public class ChunkManager : MonoBehaviour
                 GameObject newChunk = InstantiateNewChunk(lastZ);
                 chunks[newIndex + i] = newChunk;
             }
+            perspective.StoreAllPositions(newIndex);
+            perspective.AdjustNewChunks(newIndex);
             yield return new WaitForSeconds(interval);
 
         }

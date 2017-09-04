@@ -26,15 +26,15 @@ public class PerspectiveController : MonoBehaviour
 
 	public bool Is3D() { return is3D; }
 
-    enum LastView { Persp, Top, Right };
-    LastView lastView = LastView.Persp;
+    enum View { Persp, Top, Right };
+    View currentView = View.Persp;
 
     void Start()
     {
 		chunkManager = GetComponent<ChunkManager> ();
         chunks = chunkManager.GetChunks();
         originalPositions = new Vector3[chunks.Length][];
-        StoreAllPositions();
+        StoreAllPositions(0);
     }
 
 
@@ -65,18 +65,8 @@ public class PerspectiveController : MonoBehaviour
         cameraPerspective.SetActive(true);
 
         //Todo poner los bloques como estaban antes y alinear al jugador a un bloque posible
-        for (int chunkIdx = 0; chunkIdx < chunks.Length; chunkIdx++)
-        {
-            int childIdx = 0;
-            foreach (Transform child in chunks[chunkIdx].transform)
-            {
-                Vector3 newPos = originalPositions[chunkIdx][childIdx];
-                newPos.z = child.position.z;
-                child.position = newPos;
-                childIdx++;
-            }
-        }
-        lastView = LastView.Persp;
+        IterateChunksAndArrange(0, -1 * Vector3.one);
+        currentView = View.Persp;
     }
 
     void ChangeTo2D(bool right)
@@ -97,24 +87,14 @@ public class PerspectiveController : MonoBehaviour
         }
         chunks = chunkManager.GetChunks();
         //itero todos los chunks, guardo la posicion y alineo todos los hijos
-        for (int chunkIdx = 0; chunkIdx < chunks.Length; chunkIdx ++)
-        {
-            int childIdx = 0;
-            foreach (Transform child in chunks[chunkIdx].transform)
-            {
-                Vector3 newPos = Vector3.Scale(originalPositions[chunkIdx][childIdx], multiplier);
-                newPos.z = child.position.z;
-                child.position = newPos;
-                childIdx++; 
-            }
-        }
-        lastView = right ? LastView.Right : LastView.Top;
+        IterateChunksAndArrange(0, multiplier);
+        currentView = right ? View.Right : View.Top;
     }
 
-    public void StoreAllPositions()
+    public void StoreAllPositions(int startIdx)
     {
         chunks = chunkManager.GetChunks();
-        for (int chunkIdx = 0; chunkIdx < chunks.Length; chunkIdx++)
+        for (int chunkIdx = startIdx; chunkIdx < chunks.Length; chunkIdx++)
         {
             int childIdx = 0;
             originalPositions[chunkIdx] = new Vector3[chunks[chunkIdx].transform.childCount];
@@ -124,5 +104,34 @@ public class PerspectiveController : MonoBehaviour
                 childIdx++;
             }
         }
-    }	
+    }
+
+    private void IterateChunksAndArrange(int startIndex, Vector3 multiplier)
+    {
+        for (int chunkIdx = startIndex; chunkIdx < chunks.Length; chunkIdx++)
+        {
+            int childIdx = 0;
+            Vector3 newPos;
+            foreach (Transform child in chunks[chunkIdx].transform)
+            {
+                if (multiplier == -Vector3.one)
+                {
+                    newPos = originalPositions[chunkIdx][childIdx];
+                }
+                else
+                {
+                    newPos = Vector3.Scale(originalPositions[chunkIdx][childIdx], multiplier);
+                }
+                newPos.z = child.position.z;
+                child.position = newPos;
+                childIdx++;
+            }
+        }
+    }
+
+    public void AdjustNewChunks(int startIndex)
+    {
+        Vector3 multiplier = currentView == View.Right ? new Vector3(0, 1, 1) : new Vector3(1, 0, 1);
+        IterateChunksAndArrange(startIndex - 1, multiplier);
+    }
 }

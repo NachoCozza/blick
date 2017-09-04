@@ -424,7 +424,6 @@ MonoBehaviour:
   - {fileID: 1027505495299264, guid: fc40e279b0fba5b4cbefbd3fdc522fca, type: 2}
   - {fileID: 1454432790740058, guid: c8d496d9a1b338344adad9a4ef63696e, type: 2}
   - {fileID: 1132481218990506, guid: 753e4a03ee417654f8119b6cc13d1040, type: 2}
-  - {fileID: 1957282371178244, guid: ab24e0357a1b34f8fb4ca17dca7f754e, type: 2}
   - {fileID: 1513914642181490, guid: abbbe27d150e79549ba60b0a74d7d9cc, type: 2}
   totalChunks: 20
 --- !u!114 &1404265143
