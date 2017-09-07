@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class PerspectiveController : MonoBehaviour
 {
-    //ToDo optimize. unificar los 3 perspective
     public GameObject player;
 
     public GameObject cameraPerspective;
@@ -12,19 +11,8 @@ public class PerspectiveController : MonoBehaviour
     public GameObject cameraTop;
 
     Transform[] chunks;
-
     Vector3[][] originalPositions;
-
-
-    BoxCollider2D playerCollider2D;
-    BoxCollider playerCollider3D;
-    Rigidbody playerRigidbody3D;
-    Rigidbody2D playerRigidbody2D;
-    bool is3D = false;
-
     ChunkManager chunkManager;
-
-    public bool Is3D() { return is3D; }
 
     enum View { Persp, Top, Right };
     View currentView = View.Persp;
@@ -37,24 +25,29 @@ public class PerspectiveController : MonoBehaviour
         StoreAllPositions(false);
     }
 
-
-    void Update()
+    private void CheckKeys()
     {
-        if (Input.GetKeyDown(KeyCode.P))
+        if (Input.GetKeyDown(KeyCode.P) && currentView != View.Persp)
         {
             ChangeTo3D();
             return;
         }
-        if (Input.GetKeyDown(KeyCode.O))
+        if (Input.GetKeyDown(KeyCode.O) && currentView != View.Right)
         {
             ChangeTo2D(true);
             return;
         }
-        if (Input.GetKeyDown(KeyCode.I))
+        if (Input.GetKeyDown(KeyCode.I) && currentView != View.Top)
         {
             ChangeTo2D(false);
             return;
         }
+    }
+
+
+    void Update()
+    {
+        CheckKeys();
     }
 
     void ChangeTo3D()
@@ -63,7 +56,6 @@ public class PerspectiveController : MonoBehaviour
         cameraRight.SetActive(false);
         cameraPerspective.SetActive(true);
 
-        //Todo poner los bloques como estaban antes y alinear al jugador a un bloque posible
         IterateChunksAndArrange(0, -1 * Vector3.one);
         currentView = View.Persp;
     }
@@ -119,7 +111,7 @@ public class PerspectiveController : MonoBehaviour
             Vector3 newPos;
             foreach (Transform child in chunks[chunkIdx].transform)
             {
-                if (multiplier == -Vector3.one)
+                if (multiplier == -Vector3.one) //en este caso es perspectiva, asi que tambien alineo al jugador al gameobject mas cercano en Z
                 {
                     newPos = originalPositions[chunkIdx][childIdx];
                 }
@@ -127,6 +119,29 @@ public class PerspectiveController : MonoBehaviour
                 {
                     newPos = Vector3.Scale(originalPositions[chunkIdx][childIdx], multiplier);
                 }
+
+                    /*
+                    * Si el chunk actual es el mismo que el ultimo que recorri Y ademas una de dos: 
+                    * 1) tiene un solo hijo por ende se debe parar en ese
+                    * 2) La Z del hijo actual es anterior a la del jugador y la Z del siguiente es mayor a la del jugador (el jugador esta entre medio de estas dos)
+                    * 
+                    * Si se cumple la 1er condicion, y una de esas 2, pongo al jugador en la posicion X e Y del bloque dentro del chunk
+                    */
+                if (chunkIdx == FloorMovement.lastChunkIndex)
+                {
+                    bool mustTranslate = chunks[chunkIdx].childCount == 1;
+                    if (!mustTranslate)
+                    {
+                        mustTranslate = newPos.z <= player.transform.position.z && chunks[chunkIdx].GetChild(childIdx + 1).transform.position.x > player.transform.position.z;
+                    }
+                    if (mustTranslate)
+                    {
+                        Vector3 aux = newPos;
+                        aux.z = player.transform.position.z;
+                        player.transform.position = aux;
+                    }
+                }
+
                 newPos.z = child.position.z;
                 child.position = newPos;
                 childIdx++;

@@ -24,14 +24,12 @@ public class ChunkManager : MonoBehaviour
         return chunkSize;
     }
 
-
-
     void Awake()
     {
         perspective = GetComponent<PerspectiveController>();
         chunks = new Transform[totalChunks];
-        interval = (chunkSize / GetComponent<FloorMovement>().speed) * (totalChunks / 2);
-        float initZ = perspective.player.transform.position.z;
+        interval = (chunkSize / GetComponent<FloorMovement>().speed) * (totalChunks / 2 + 2);
+        float initZ = perspective.player.transform.position.z + chunkSize / 2;
         for (int i = 0; i < totalChunks; i++)
         {
             int prefabIdx = Random.Range(0, chunkPrefabs.Length);
@@ -41,18 +39,8 @@ public class ChunkManager : MonoBehaviour
         }
     }
 
-    private void Start()
-    {
-        StartCoroutine("SpawnNextAndDeleteLast");
-    }
-
 
     GameObject InstantiateNewChunk(float zFromDeletedChunk)
-    {
-        return InstantiateNewChunk(zFromDeletedChunk, perspective.Is3D());
-    }
-
-    GameObject InstantiateNewChunk(float zFromDeletedChunk, bool is3D)
     {
         int prefabIdx = Random.Range(0, chunkPrefabs.Length);
         GameObject res = Instantiate(chunkPrefabs[prefabIdx]);
@@ -62,7 +50,8 @@ public class ChunkManager : MonoBehaviour
 
     IEnumerator SpawnNextAndDeleteLast()
     {
-        yield return new WaitForSeconds(interval);
+        WaitForSeconds wait = new WaitForSeconds(interval);
+        yield return wait;
         while (true)
         {
             int newIndex = totalChunks / 2;
@@ -77,7 +66,8 @@ public class ChunkManager : MonoBehaviour
                 chunks[newIndex + i] = newChunk.transform;
             }
             perspective.AdjustNewChunks(newIndex);
-            yield return new WaitForSeconds(interval);
+            FloorMovement.lastChunkIndex = 0;
+            yield return wait;
 
         }
     }
