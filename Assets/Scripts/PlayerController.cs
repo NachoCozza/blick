@@ -2,74 +2,82 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour {
+public class PlayerController : MonoBehaviour
+{
 
-	//Rigidbodies
-	private Rigidbody character3D;
-	private Rigidbody2D character2D;
+    //Character Movement Values
+    public float slideTime = 1f;
+    public float jumpStrength = 1.0f;
+    public float boundLanesPadding = 3f;
 
-	//Character Movement Values
-	public float speed = 1.0f;
-	public float jumpStrength = 1.0f;
+    float[] lanes = new float[3];
+    int moveToLane = 1;
+    int currentLane = 1;
 
-	//Z Axis Limits
-	public float topLimit = 5f;
-	public float bottomLimit = -5f;
+    bool sliding, jumping = false;
 
-	void Start ()
-	{
-		character3D = GetComponent<Rigidbody>();
-	}
+    PerspectiveController perspective;
+    Animator animator;
 
-	void FixedUpdate () 
-	{		
-		//Input Detection
-		float moveHorizontal = Input.GetAxis ("Horizontal") * Time.deltaTime * speed;
-		float moveVertical = Input.GetAxis ("Vertical") * Time.deltaTime * speed;
-		float jump = Input.GetAxis ("Jump") * Time.deltaTime * jumpStrength;
+    void Start()
+    {
+        GameObject levelManager = GameObject.FindGameObjectWithTag("GameController");
+        ChunkManager chunkManager = levelManager.GetComponent<ChunkManager>();
+        Bounds chunkBounds = chunkManager.GetChunks()[0].GetComponent<MeshRenderer>().bounds;
+        lanes[0] = chunkBounds.center.x - (chunkBounds.extents.x - boundLanesPadding);
+        lanes[1] = chunkBounds.center.x;
+        lanes[2] = chunkBounds.center.x + (chunkBounds.extents.x - boundLanesPadding);
 
-		transform.rotation = new Quaternion(0, 0, 0, 0); //Rotation Lock
+        animator = GetComponent<Animator>();
+        perspective = levelManager.GetComponent<PerspectiveController>();
+    }
 
-		transform.Translate(moveHorizontal, jump, moveVertical); //Movement
+    void Update()
+    {
+        if (perspective.currentView == PerspectiveController.View.Right)
+        {
+            if (Input.GetKeyDown(KeyCode.DownArrow) && !sliding)
+            {
+                StartCoroutine("DoSlide");
+            }
+            if (Input.GetKeyDown(KeyCode.UpArrow) && !jumping)
+            {
+                DoJump();
+            }
+        }
+        else
+        {
+            if (Input.GetKeyDown(KeyCode.DownArrow) && currentLane + 1 < lanes.Length)
+            {
+                moveToLane = currentLane + 1;
+            }
+            if (Input.GetKeyDown(KeyCode.UpArrow) && currentLane - 1 >= 0)
+            {
+                moveToLane = currentLane - 1;
+            }
 
-		//Limit Detection
-		if (HitTopLimit()) 
-		{
-			transform.position = new Vector3(transform.position.x,transform.position.y,topLimit);
-		}
-		else if (HitBottomLimit())
-		{
-			transform.position = new Vector3(transform.position.x,transform.position.y,bottomLimit);
-		}
-	}
+            if (currentLane != moveToLane)
+            {
+                Vector3 moveToPosition = transform.position;
+                moveToPosition.x = lanes[moveToLane];
+                transform.position = moveToPosition;
+                currentLane = moveToLane;
+            }
+        }
 
-	bool HitTopLimit ()
-	{
-		return (transform.position.z > topLimit);
-	}
 
-	bool HitBottomLimit ()
-	{
-		return (transform.position.z < bottomLimit);
-	}
+    }
 
-	public void SetRigidbody (Rigidbody rb)
-	{
-		character3D = rb;
-	}
+    IEnumerator DoSlide()
+    {
+        animator.SetBool("Sliding", true);
+        yield return new WaitForSeconds(slideTime);
+        animator.SetBool("Sliding", false);
+    }
 
-	public void SetRigidbody2D (Rigidbody2D rb2d)
-	{
-		character2D = rb2d;
-	}
+    void DoJump()
+    {
 
-	public Rigidbody GetRigidbody ()
-	{
-		return character3D;
-	}
+    }
 
-	public Rigidbody2D GetRigidbody2D ()
-	{
-		return character2D;		
-	}
 }

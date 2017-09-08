@@ -14,8 +14,10 @@ public class PerspectiveController : MonoBehaviour
     Vector3[][] originalPositions;
     ChunkManager chunkManager;
 
-    enum View { Persp, Top, Right };
-    View currentView = View.Persp;
+    [HideInInspector]
+    public View currentView = View.Persp;
+    public enum View { Persp, Top, Right };
+
 
     void Start()
     {

@@ -20,9 +20,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4936090942020152}
   - component: {fileID: 95622958927461774}
-  - component: {fileID: 54487747698283196}
-  - component: {fileID: 65657673881574892}
-  - component: {fileID: 114422165981145350}
+  - component: {fileID: 54391176663402118}
+  - component: {fileID: 65612096644601460}
+  - component: {fileID: 114285609366253116}
   m_Layer: 0
   m_Name: 3D Character
   m_TagString: Untagged
@@ -2452,7 +2452,7 @@ Transform:
   m_Father: {fileID: 4681842933958662}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!54 &54487747698283196
+--- !u!54 &54391176663402118
 Rigidbody:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -2465,9 +2465,9 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 112
   m_CollisionDetection: 0
---- !u!65 &65657673881574892
+--- !u!65 &65612096644601460
 BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -2496,7 +2496,7 @@ Animator:
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
---- !u!114 &114422165981145350
+--- !u!114 &114285609366253116
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -2507,10 +2507,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc8b60affde23b048811837d2e71d3e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 1
+  slideTime: 1
   jumpStrength: 1
-  topLimit: 5
-  bottomLimit: -5
+  boundLanesPadding: 3
 --- !u!137 &137044926212646324
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
