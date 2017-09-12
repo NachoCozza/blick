@@ -34,7 +34,7 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        if (perspective.currentView == PerspectiveController.View.Right)
+        if (perspective.currentView == View.Right)
         {
             if (Input.GetKeyDown(KeyCode.DownArrow) && !sliding)
             {
@@ -64,20 +64,25 @@ public class PlayerController : MonoBehaviour
                 currentLane = moveToLane;
             }
         }
-
-
     }
 
     IEnumerator DoSlide()
     {
-        animator.SetBool("Sliding", true);
+        animator.SetBool("IsSliding", true);
         yield return new WaitForSeconds(slideTime);
-        animator.SetBool("Sliding", false);
+        animator.SetBool("IsSliding", false);
     }
 
     void DoJump()
     {
+        animator.SetTrigger("Jump");
+    }
 
+    public void Die()
+    {
+        animator.SetTrigger("Die");
+        Debug.Log("Gotta die");
+        //ToDo save high score, go to highscore scene.
     }
 
 }

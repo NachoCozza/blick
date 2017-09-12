@@ -5,7 +5,7 @@ using UnityEngine;
 public class ChunkManager : MonoBehaviour
 {
 
-    public GameObject[] chunkPrefabs; //ToDo
+    public GameObject[] chunkPrefabs;
     public int totalChunks;
 
     Transform[] chunks;

@@ -16,7 +16,6 @@ public class PerspectiveController : MonoBehaviour
 
     [HideInInspector]
     public View currentView = View.Persp;
-    public enum View { Persp, Top, Right };
 
 
     void Start()
