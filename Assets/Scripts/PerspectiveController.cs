@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PerspectiveController : MonoBehaviour
-{
+public class PerspectiveController : MonoBehaviour {
     public GameObject player;
 
     public GameObject cameraPerspective;
@@ -18,61 +17,51 @@ public class PerspectiveController : MonoBehaviour
     public View currentView = View.Persp;
 
 
-    void Start()
-    {
+    void Start() {
         chunkManager = GetComponent<ChunkManager>();
         chunks = chunkManager.GetChunks();
         originalPositions = new Vector3[chunks.Length][];
         StoreAllPositions(false);
     }
 
-    private void CheckKeys()
-    {
-        if (Input.GetKeyDown(KeyCode.P) && currentView != View.Persp)
-        {
+    private void CheckKeys() {
+        if (Input.GetKeyDown(KeyCode.P) && currentView != View.Persp) {
             ChangeTo3D();
             return;
         }
-        if (Input.GetKeyDown(KeyCode.O) && currentView != View.Right)
-        {
+        if (Input.GetKeyDown(KeyCode.O) && currentView != View.Right) {
             ChangeTo2D(true);
             return;
         }
-        if (Input.GetKeyDown(KeyCode.I) && currentView != View.Top)
-        {
+        if (Input.GetKeyDown(KeyCode.I) && currentView != View.Top) {
             ChangeTo2D(false);
             return;
         }
     }
 
 
-    void Update()
-    {
+    void Update() {
         CheckKeys();
     }
 
-    void ChangeTo3D()
-    {
+    void ChangeTo3D() {
         cameraTop.SetActive(false);
         cameraRight.SetActive(false);
         cameraPerspective.SetActive(true);
 
-        IterateChunksAndArrange(0, -1 * Vector3.one);
+        IterateChunksAndArrange(0, -Vector3.one);
         currentView = View.Persp;
     }
 
-    void ChangeTo2D(bool right)
-    {
+    void ChangeTo2D(bool right) {
         Vector3 multiplier;
         cameraPerspective.SetActive(false);
-        if (right)
-        {
+        if (right) {
             cameraRight.SetActive(true);
             cameraTop.SetActive(false);
             multiplier = new Vector3(0, 1, 1);
         }
-        else
-        {
+        else {
             cameraTop.SetActive(true);
             cameraRight.SetActive(false);
             multiplier = new Vector3(1, 0, 1);
@@ -82,20 +71,15 @@ public class PerspectiveController : MonoBehaviour
         currentView = right ? View.Right : View.Top;
     }
 
-    public void StoreAllPositions(bool replaceFirstHalfWithSecondHalf)
-    {
-        for (int chunkIdx = 0; chunkIdx < chunks.Length; chunkIdx++)
-        {
+    public void StoreAllPositions(bool replaceFirstHalfWithSecondHalf) {
+        for (int chunkIdx = 0; chunkIdx < chunks.Length; chunkIdx++) {
             int childIdx = 0;
-            if (replaceFirstHalfWithSecondHalf && chunkIdx < originalPositions.Length / 2)
-            {
+            if (replaceFirstHalfWithSecondHalf && chunkIdx < originalPositions.Length / 2) {
                 originalPositions[chunkIdx] = originalPositions[originalPositions.Length / 2 + chunkIdx];
             }
-            else
-            {
+            else {
                 originalPositions[chunkIdx] = new Vector3[chunks[chunkIdx].transform.childCount];
-                foreach (Transform child in chunks[chunkIdx].transform)
-                {
+                foreach (Transform child in chunks[chunkIdx].transform) {
                     originalPositions[chunkIdx][childIdx] = child.position;
                     childIdx++;
                 }
@@ -104,39 +88,31 @@ public class PerspectiveController : MonoBehaviour
         }
     }
 
-    private void IterateChunksAndArrange(int startIndex, Vector3 multiplier)
-    {
-        for (int chunkIdx = startIndex; chunkIdx < chunks.Length; chunkIdx++)
-        {
+    private void IterateChunksAndArrange(int startIndex, Vector3 multiplier) {
+        for (int chunkIdx = startIndex; chunkIdx < chunks.Length; chunkIdx++) {
             int childIdx = 0;
             Vector3 newPos;
-            foreach (Transform child in chunks[chunkIdx].transform)
-            {
+            foreach (Transform child in chunks[chunkIdx].transform) {
                 if (multiplier == -Vector3.one) //en este caso es perspectiva, asi que tambien alineo al jugador al gameobject mas cercano en Z
                 {
                     newPos = originalPositions[chunkIdx][childIdx];
                 }
-                else
-                {
+                else {
                     newPos = Vector3.Scale(originalPositions[chunkIdx][childIdx], multiplier);
                 }
-
-                    /*
-                    * Si el chunk actual es el mismo que el ultimo que recorri Y ademas una de dos: 
-                    * 1) tiene un solo hijo por ende se debe parar en ese
-                    * 2) La Z del hijo actual es anterior a la del jugador y la Z del siguiente es mayor a la del jugador (el jugador esta entre medio de estas dos)
-                    * 
-                    * Si se cumple la 1er condicion, y una de esas 2, pongo al jugador en la posicion X e Y del bloque dentro del chunk
-                    */
-                if (chunkIdx == FloorMovement.lastChunkIndex)
-                {
+                /*
+                * Si el chunk actual es el mismo que el ultimo que recorri Y ademas una de dos: 
+                * 1) tiene un solo hijo por ende se debe parar en ese
+                * 2) La Z del hijo actual es anterior a la del jugador y la Z del siguiente es mayor a la del jugador (el jugador esta entre medio de estas dos)
+                * 
+                * Si se cumple la 1er condicion, y una de esas 2, pongo al jugador en la posicion X e Y del bloque dentro del chunk
+                */
+                if (chunkIdx == FloorMovement.lastChunkIndex) {
                     bool mustTranslate = chunks[chunkIdx].childCount == 1;
-                    if (!mustTranslate)
-                    {
+                    if (!mustTranslate) {
                         mustTranslate = newPos.z <= player.transform.position.z && chunks[chunkIdx].GetChild(childIdx + 1).transform.position.x > player.transform.position.z;
                     }
-                    if (mustTranslate)
-                    {
+                    if (mustTranslate) {
                         Vector3 aux = newPos;
                         aux.z = player.transform.position.z;
                         player.transform.position = aux;
@@ -150,11 +126,9 @@ public class PerspectiveController : MonoBehaviour
         }
     }
 
-    public void AdjustNewChunks(int startIndex)
-    {
+    public void AdjustNewChunks(int startIndex) {
         Vector3 multiplier = currentView == View.Right ? new Vector3(0, 1, 1) : new Vector3(1, 0, 1);
-        if (currentView == View.Persp)
-        {
+        if (currentView == View.Persp) {
             multiplier = -Vector3.one;
         }
 

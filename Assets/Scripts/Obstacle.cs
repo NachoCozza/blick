@@ -20,7 +20,7 @@ public class Obstacle : MonoBehaviour {
             }
             if (!canGoThrough)
             {
-                other.GetComponent<PlayerController>().Die();
+                other.GetComponent<PlayerController>().Die(DeathCause.Collision);
             }
         }
         
