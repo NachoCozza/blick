@@ -10,7 +10,7 @@ public class PerspectiveController : MonoBehaviour {
     public GameObject cameraTop;
 
     Transform[] chunks;
-    Vector3[][] originalPositions;
+    Vector3[] originalPositions; //used to be array of array, but cannot get array size of children so had to be List
     ChunkManager chunkManager;
 
     [HideInInspector]
@@ -20,7 +20,7 @@ public class PerspectiveController : MonoBehaviour {
     void Start() {
         chunkManager = GetComponent<ChunkManager>();
         chunks = chunkManager.GetChunks();
-        originalPositions = new Vector3[chunks.Length][];
+        originalPositions = new Vector3[chunks.Length];
         StoreAllPositions(false);
     }
 
@@ -73,58 +73,54 @@ public class PerspectiveController : MonoBehaviour {
 
     public void StoreAllPositions(bool replaceFirstHalfWithSecondHalf) {
         for (int chunkIdx = 0; chunkIdx < chunks.Length; chunkIdx++) {
-            int childIdx = 0;
             if (replaceFirstHalfWithSecondHalf && chunkIdx < originalPositions.Length / 2) {
                 originalPositions[chunkIdx] = originalPositions[originalPositions.Length / 2 + chunkIdx];
             }
             else {
-                originalPositions[chunkIdx] = new Vector3[chunks[chunkIdx].transform.childCount];
-                foreach (Transform child in chunks[chunkIdx].transform) {
-                    originalPositions[chunkIdx][childIdx] = child.position;
-                    childIdx++;
-                }
-
+                originalPositions[chunkIdx] = chunks[chunkIdx].transform.GetChild(0).transform.position;
+                //foreach (Transform child in chunks[chunkIdx].transform) {
+                //    if (child.tag == "Floor") { //ToDo check if "child" isn't actually the parent (child != chunks[chunkIdx].transform[0] doesnt work)
+                //        originalPositions[chunkIdx].add(child.position);
+                //    }
+                //}
             }
         }
     }
 
     private void IterateChunksAndArrange(int startIndex, Vector3 multiplier) {
         for (int chunkIdx = startIndex; chunkIdx < chunks.Length; chunkIdx++) {
-            int childIdx = 0;
             Vector3 newPos;
-            foreach (Transform child in chunks[chunkIdx].transform) {
-                if (multiplier == -Vector3.one) //en este caso es perspectiva, asi que tambien alineo al jugador al gameobject mas cercano en Z
-                {
-                    newPos = originalPositions[chunkIdx][childIdx];
-                }
-                else {
-                    newPos = Vector3.Scale(originalPositions[chunkIdx][childIdx], multiplier);
-                }
-                /*
-                * Si el chunk actual es el mismo que el ultimo que recorri Y ademas una de dos: 
-                * 1) tiene un solo hijo por ende se debe parar en ese
-                * 2) La Z del hijo actual es anterior a la del jugador y la Z del siguiente es mayor a la del jugador (el jugador esta entre medio de estas dos)
-                * 
-                * Si se cumple la 1er condicion, y una de esas 2, pongo al jugador en la posicion X e Y del bloque dentro del chunk
-                */
-                if (chunkIdx == FloorMovement.lastChunkIndex) {
-                    bool mustTranslate = chunks[chunkIdx].childCount == 1;
-                    if (!mustTranslate) {
-                        mustTranslate = newPos.z <= player.transform.position.z && chunks[chunkIdx].GetChild(childIdx + 1).transform.position.x > player.transform.position.z;
-                    }
-                    if (mustTranslate) {
-                        Vector3 aux = newPos;
-                        aux.z = player.transform.position.z;
-                        player.transform.position = aux;
-                    }
-                }
-
-                newPos.z = child.position.z;
-                child.position = newPos;
-                childIdx++;
+            Transform child = chunks[chunkIdx].GetChild(0);
+            if (multiplier == -Vector3.one) //en este caso es perspectiva, asi que tambien alineo al jugador al gameobject mas cercano en Z
+            {
+                newPos = originalPositions[chunkIdx];
             }
+            else {
+                newPos = Vector3.Scale(originalPositions[chunkIdx], multiplier);
+            }
+            /*
+            * Si el chunk actual es el mismo que el ultimo que recorri Y ademas una de dos: 
+            * 1) tiene un solo hijo por ende se debe parar en ese
+            * 2) La Z del hijo actual es anterior a la del jugador y la Z del siguiente es mayor a la del jugador (el jugador esta entre medio de estas dos)
+            * 
+            * Si se cumple la 1er condicion, y una de esas 2, pongo al jugador en la posicion X e Y del bloque dentro del chunk
+            */
+            if (chunkIdx == FloorMovement.lastChunkIndex) {
+                bool mustTranslate = chunks[chunkIdx].childCount == 1;
+                if (!mustTranslate) {
+                    mustTranslate = newPos.z <= player.transform.position.z && chunks[chunkIdx].GetChild(0).transform.position.x > player.transform.position.z;
+                }
+                if (mustTranslate) {
+                    Vector3 aux = newPos;
+                    aux.z = player.transform.position.z;
+                    player.transform.position = aux;
+                }
+            }
+            newPos.z = child.position.z;
+            child.position = newPos;
         }
     }
+
 
     public void AdjustNewChunks(int startIndex) {
         Vector3 multiplier = currentView == View.Right ? new Vector3(0, 1, 1) : new Vector3(1, 0, 1);
