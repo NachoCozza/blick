@@ -11,12 +11,12 @@ public class PerspectiveController : MonoBehaviour {
     public GameObject cameraTop;
 
     Transform[] chunks;
-    Vector3[] originalPositions; //used to be array of array, but cannot get array size of children so had to be List
+    Vector3[] originalPositions;
     ChunkManager chunkManager;
 
     [HideInInspector]
     public View currentView = View.Persp;
-
+    private bool mustMoveChunks = false;
 
     void Start() {
         chunkManager = GetComponent<ChunkManager>();
@@ -48,30 +48,21 @@ public class PerspectiveController : MonoBehaviour {
     void ChangeTo3D() {
         currentView = View.Persp;
         camera.SetCurrentView(currentView);
-        //cameraTop.SetActive(false);
-        //cameraRight.SetActive(false);
-        //cameraPerspective.SetActive(true);
-
-        IterateChunksAndArrange(0, -Vector3.one);
+        IterateChunksAndArrange(0, -Vector3.one, false);
     }
 
     void ChangeTo2D(bool right) {
         currentView = right ? View.Right : View.Top;
         camera.SetCurrentView(currentView);
         Vector3 multiplier;
-        //cameraPerspective.SetActive(false);
         if (right) {
-            //cameraRight.SetActive(true);
-            //cameraTop.SetActive(false);
             multiplier = new Vector3(0, 1, 1);
         }
         else {
-            //cameraTop.SetActive(true);
-            //cameraRight.SetActive(false);
             multiplier = new Vector3(1, 0, 1);
         }
         //itero todos los chunks, guardo la posicion y alineo todos los hijos
-        IterateChunksAndArrange(0, multiplier);
+        IterateChunksAndArrange(0, multiplier, false);
     }
 
     public void StoreAllPositions(bool replaceFirstHalfWithSecondHalf) {
@@ -90,7 +81,20 @@ public class PerspectiveController : MonoBehaviour {
         }
     }
 
-    private void IterateChunksAndArrange(int startIndex, Vector3 multiplier) {
+    //This method will wait for ExecuteChunkArrangement() to be called before actually arranging the chunks
+    private void IterateChunksAndArrange(int startIndex, Vector3 multiplier, bool instantExecution) {
+        if (instantExecution) {
+            UnlockChunkArrangement();
+        }
+        IEnumerator doChunkArrangement = DoChunkArrengement(startIndex, multiplier);
+        StartCoroutine(doChunkArrangement);
+        
+    }
+
+    IEnumerator DoChunkArrengement(int startIndex, Vector3 multiplier) {
+        while (!mustMoveChunks) {
+            yield return 0;
+        }
         for (int chunkIdx = startIndex; chunkIdx < chunks.Length; chunkIdx++) {
             Vector3 newPos;
             Transform child = chunks[chunkIdx].GetChild(0);
@@ -109,19 +113,14 @@ public class PerspectiveController : MonoBehaviour {
             * Si se cumple la 1er condicion, y una de esas 2, pongo al jugador en la posicion X e Y del bloque dentro del chunk
             */
             if (chunkIdx == FloorMovement.lastChunkIndex) {
-                bool mustTranslate = chunks[chunkIdx].childCount == 1;
-                if (!mustTranslate) {
-                    mustTranslate = newPos.z <= player.transform.position.z && chunks[chunkIdx].GetChild(0).transform.position.x > player.transform.position.z;
-                }
-                if (mustTranslate) {
-                    Vector3 aux = newPos;
-                    aux.z = player.transform.position.z;
-                    player.transform.position = aux;
-                }
+                Vector3 aux = newPos;
+                aux.z = player.transform.position.z;
+                player.transform.position = aux;
             }
             newPos.z = child.position.z;
             child.position = newPos;
         }
+        mustMoveChunks = false;
     }
 
 
@@ -131,9 +130,14 @@ public class PerspectiveController : MonoBehaviour {
             multiplier = -Vector3.one;
         }
 
-        //esto se puede unificar en 1 sola funcion pero paja. Si hay performance baja refactorizar
+        //These 2 calls should be unified in a single function to optimize iterations, but it's easier to code like this. ToDo: Fix if performance issues
         StoreAllPositions(true);
-        IterateChunksAndArrange(startIndex, multiplier);
+        IterateChunksAndArrange(startIndex, multiplier, true);
+    }
+
+    //This method sets this flag to true, so that IterateChunksAndArrange stops waiting and actually does arrange the chunks
+    public void UnlockChunkArrangement() {
+        mustMoveChunks = true;
     }
 
 }

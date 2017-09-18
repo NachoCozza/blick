@@ -383,9 +383,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   chunkPrefabs:
   - {fileID: 1697166664298626, guid: d3f625ab4bf08b14a9d0bf21804834fb, type: 2}
-  - {fileID: 1213174681127432, guid: 67cafac206faefa44ab0eb721a2a5cdf, type: 2}
-  - {fileID: 1997498680875108, guid: 1eaa680aa6ad37e4ea8b0d363f693849, type: 2}
-  - {fileID: 1800186691215014, guid: a581b1ebb9adbbe48801beeca677c3bd, type: 2}
+  - {fileID: 1913342361872912, guid: f9774162483d8ac489c79af9bfce72a2, type: 2}
   totalChunks: 20
 --- !u!114 &910479012
 MonoBehaviour:
@@ -700,7 +698,8 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
-  movementTime: 1
+  movementTime: 0.3
+  fovTime: 0.2
 --- !u!1 &1713990547
 GameObject:
   m_ObjectHideFlags: 0

@@ -52,6 +52,7 @@ public class FloorMovement : MonoBehaviour
         {
             yield return wait;
             lastChunkIndex++;
+            //Debug.Log("Chunk idx is now " + lastChunkIndex);
             //Time.timeScale = 0;
             //yield return new WaitForSecondsRealtime(2);
             //Time.timeScale = 1;
