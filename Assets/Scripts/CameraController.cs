@@ -37,7 +37,6 @@ public class CameraController : MonoBehaviour {
 
     // Use this for initialization
     public void SetCurrentView(View view) {
-        Debug.Log("change to " + view);
         Transform moveTo = null;
         Matrix4x4 projectTo;
         switch (view) {
@@ -58,7 +57,6 @@ public class CameraController : MonoBehaviour {
         if (moving) {
             StopCoroutine(currentTransitionCoroutine);
             moving = false;
-            Debug.Log("Stop corotuine");
         }
         currentTransitionCoroutine = StartCoroutine(MoveToPosition(moveTo, projectTo));
     }
@@ -78,12 +76,10 @@ public class CameraController : MonoBehaviour {
                 transitionTime += Time.deltaTime;
                 transform.localPosition = Vector3.Lerp(startTransform.position, endTransform.position, movementCurve.Evaluate(i));
                 transform.localRotation = Quaternion.Lerp(startTransform.rotation, endTransform.rotation, movementCurve.Evaluate(i));
-                //cam.projectionMatrix = MatrixLerp(src, dest, (Time.time - startTime) / duration);
                 cam.projectionMatrix = MatrixLerp(starttProjection, endProjection, movementCurve.Evaluate(i));
                
                 yield return wait;
             }
-            Debug.Log("reached transform in " + transitionTime);
             transitionTime = 0f;
             moving = false;
         }

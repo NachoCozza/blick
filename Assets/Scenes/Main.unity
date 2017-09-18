@@ -121,7 +121,7 @@ GameObject:
   - component: {fileID: 245431873}
   - component: {fileID: 245431872}
   m_Layer: 0
-  m_Name: Camera - Top
+  m_Name: Top
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -191,7 +191,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 245431871}
   m_LocalRotation: {x: 0.5, y: -0.5, z: 0.5, w: 0.5}
-  m_LocalPosition: {x: 0, y: 20, z: 9.49}
+  m_LocalPosition: {x: 0, y: 11.7, z: 9.49}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 755649337}
@@ -352,7 +352,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &910479010
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -383,6 +383,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   chunkPrefabs:
   - {fileID: 1697166664298626, guid: d3f625ab4bf08b14a9d0bf21804834fb, type: 2}
+  - {fileID: 1213174681127432, guid: 67cafac206faefa44ab0eb721a2a5cdf, type: 2}
+  - {fileID: 1997498680875108, guid: 1eaa680aa6ad37e4ea8b0d363f693849, type: 2}
+  - {fileID: 1800186691215014, guid: a581b1ebb9adbbe48801beeca677c3bd, type: 2}
   totalChunks: 20
 --- !u!114 &910479012
 MonoBehaviour:
@@ -489,7 +492,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1404265142
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -711,7 +714,7 @@ GameObject:
   - component: {fileID: 1713990549}
   - component: {fileID: 1713990548}
   m_Layer: 0
-  m_Name: Camera - Right
+  m_Name: Right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
