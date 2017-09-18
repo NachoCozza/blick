@@ -5,6 +5,7 @@ using UnityEngine;
 public class PerspectiveController : MonoBehaviour {
     public GameObject player;
 
+    public CameraController camera;
     public GameObject cameraPerspective;
     public GameObject cameraRight;
     public GameObject cameraTop;
@@ -45,30 +46,32 @@ public class PerspectiveController : MonoBehaviour {
     }
 
     void ChangeTo3D() {
-        cameraTop.SetActive(false);
-        cameraRight.SetActive(false);
-        cameraPerspective.SetActive(true);
+        currentView = View.Persp;
+        camera.SetCurrentView(currentView);
+        //cameraTop.SetActive(false);
+        //cameraRight.SetActive(false);
+        //cameraPerspective.SetActive(true);
 
         IterateChunksAndArrange(0, -Vector3.one);
-        currentView = View.Persp;
     }
 
     void ChangeTo2D(bool right) {
+        currentView = right ? View.Right : View.Top;
+        camera.SetCurrentView(currentView);
         Vector3 multiplier;
-        cameraPerspective.SetActive(false);
+        //cameraPerspective.SetActive(false);
         if (right) {
-            cameraRight.SetActive(true);
-            cameraTop.SetActive(false);
+            //cameraRight.SetActive(true);
+            //cameraTop.SetActive(false);
             multiplier = new Vector3(0, 1, 1);
         }
         else {
-            cameraTop.SetActive(true);
-            cameraRight.SetActive(false);
+            //cameraTop.SetActive(true);
+            //cameraRight.SetActive(false);
             multiplier = new Vector3(1, 0, 1);
         }
         //itero todos los chunks, guardo la posicion y alineo todos los hijos
         IterateChunksAndArrange(0, multiplier);
-        currentView = right ? View.Right : View.Top;
     }
 
     public void StoreAllPositions(bool replaceFirstHalfWithSecondHalf) {
