@@ -46,14 +46,16 @@ public class PerspectiveController : MonoBehaviour {
     }
 
     void ChangeTo3D() {
-        currentView = View.Persp;
-        camera.SetCurrentView(currentView);
+        View newView = View.Persp;
+        camera.SetCurrentView(currentView, newView);
+        currentView = newView;
         IterateChunksAndArrange(0, -Vector3.one, false);
     }
 
     void ChangeTo2D(bool right) {
-        currentView = right ? View.Right : View.Top;
-        camera.SetCurrentView(currentView);
+        View newView = right ? View.Right : View.Top;
+        camera.SetCurrentView(currentView, newView);
+        currentView = newView;
         Vector3 multiplier;
         if (right) {
             multiplier = new Vector3(0, 1, 1);
@@ -120,6 +122,8 @@ public class PerspectiveController : MonoBehaviour {
             newPos.z = child.position.z;
             child.position = newPos;
         }
+        Debug.Log("finished chunk arrangement");
+        yield return 0;
         mustMoveChunks = false;
     }
 

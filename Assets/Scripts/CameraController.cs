@@ -39,67 +39,70 @@ public class CameraController : MonoBehaviour {
     }
 
     // Use this for initialization
-    public void SetCurrentView(View view) {
+    public void SetCurrentView(View oldView, View newView) {
         Transform moveTo = null;
         Matrix4x4 projectTo;
-        switch (view) {
+        bool atStart;
+        switch (newView) {
             case View.Top:
                 moveTo = topTransform;
                 projectTo = orthoTop;
+                atStart = false;
                 break;
             case View.Right:
                 moveTo = rightTransform;
                 projectTo = orthoRight;
+
+                if (oldView == View.Persp) {
+                    atStart = false;
+                }
+                else {
+                    atStart = true;
+                }
                 break;
             case View.Persp:
             default:
                 moveTo = perspectiveTransform;
                 projectTo = perspective;
+                atStart = true;
                 break;
         }
         if (moving) {
             StopCoroutine(currentTransitionCoroutine);
             moving = false;
         }
-        currentTransitionCoroutine = StartCoroutine(MoveToPosition(moveTo, projectTo));
+        currentTransitionCoroutine = StartCoroutine(MoveToPosition(moveTo, projectTo, atStart));
     }
 
-
-    IEnumerator AnimateFOV(Matrix4x4 startProjection, Matrix4x4 endProjection) {
-        float i = 0f;
-        float rate = 1 / fovTime;
-        while (i < 1) {
-            i += Time.deltaTime * rate;
-            cam.projectionMatrix = MatrixLerp(startProjection, endProjection, movementCurve.Evaluate(i));
-            yield return 0;
-        }
-    }
-
-    IEnumerator AnimateCameraMovement(Transform startTransform, Transform endTransform) {
-        float i = 0f;
-        float rate = 1 / movementTime;
-        while (i < 1) {
-            i += Time.deltaTime * rate;
-            transform.localPosition = Vector3.Lerp(startTransform.position, endTransform.position, movementCurve.Evaluate(i));
-            transform.localRotation = Quaternion.Lerp(startTransform.rotation, endTransform.rotation, movementCurve.Evaluate(i));
-            yield return 0;
-        }
-        moving = false;
-    }
 
     // Update is called once per frame
-    IEnumerator MoveToPosition(Transform endTransform, Matrix4x4 endProjection) {
+    IEnumerator MoveToPosition(Transform endTransform, Matrix4x4 endProjection, bool atStart) {
         Transform startTransform = transform;
         Matrix4x4 startProjection = cam.projectionMatrix;
         if (!moving) {
             moving = true;
-            IEnumerator fov = AnimateFOV(startProjection, endProjection);
-            IEnumerator movement = AnimateCameraMovement(startTransform, endTransform);
-            StartCoroutine(fov);
-            perspectiveController.UnlockChunkArrangement();
-            StartCoroutine(movement);
-
-
+            if (atStart) {
+                perspectiveController.UnlockChunkArrangement();
+            }
+            float i = 0f;
+            float rate = 1 / movementTime;
+            while (i < 1) {
+                i += Time.deltaTime * rate;
+                transform.localPosition = Vector3.Lerp(startTransform.position, endTransform.position, movementCurve.Evaluate(i));
+                transform.localRotation = Quaternion.Lerp(startTransform.rotation, endTransform.rotation, movementCurve.Evaluate(i));
+                yield return 0;
+            }
+            if (!atStart) {
+                perspectiveController.UnlockChunkArrangement();
+            }
+            i = 0f;
+            rate = 1 / fovTime;
+            while (i < 1) {
+                i += Time.deltaTime * rate;
+                cam.projectionMatrix = MatrixLerp(startProjection, endProjection, movementCurve.Evaluate(i));
+                yield return 0;
+            }
+            moving = false;
         }
         yield return 0;
     }
