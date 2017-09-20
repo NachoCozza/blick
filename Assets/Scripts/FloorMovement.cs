@@ -8,7 +8,7 @@ public class FloorMovement : MonoBehaviour
     public float speed;
     public static int lastChunkIndex = 0;
     ChunkManager chunkManager;
-    Transform[] chunks;
+    Chunk[] chunks;
     bool started = false;
     // Use this for initialization
     void Start()
@@ -23,9 +23,9 @@ public class FloorMovement : MonoBehaviour
     {
         if (started)
         {
-            foreach (Transform f in chunks)
+            foreach (Chunk c in chunks)
             {
-                f.transform.position = new Vector3(f.transform.position.x, f.transform.position.y, f.transform.position.z - speed * Time.deltaTime);
+                c.transform.position = new Vector3(c.transform.position.x, c.transform.position.y, c.transform.position.z - speed * Time.deltaTime);
             }
 
         }

@@ -52,13 +52,7 @@ public class CameraController : MonoBehaviour {
             case View.Right:
                 moveTo = rightTransform;
                 projectTo = orthoRight;
-
-                if (oldView == View.Persp) {
-                    atStart = false;
-                }
-                else {
-                    atStart = true;
-                }
+                atStart = false;
                 break;
             case View.Persp:
             default:

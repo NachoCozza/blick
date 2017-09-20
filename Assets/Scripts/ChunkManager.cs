@@ -4,16 +4,17 @@ using UnityEngine;
 
 public class ChunkManager : MonoBehaviour {
 
-    public GameObject[] chunkPrefabs;
+    public GameObject[] chunkGroupPrefabs;
     public int totalChunks;
 
-    Transform[] chunks;
+    Chunk[] chunks;
     float interval = 0f;
     float chunkSize = 15f;
     PerspectiveController perspective;
+    int chunkGroupSize = 5;
 
 
-    public Transform[] GetChunks() {
+    public Chunk[] GetChunks() {
         return chunks;
     }
 
@@ -23,26 +24,28 @@ public class ChunkManager : MonoBehaviour {
 
     void Awake() {
         perspective = GetComponent<PerspectiveController>();
-        chunks = new Transform[totalChunks];
+        chunks = new Chunk[totalChunks];
         interval = (chunkSize / GetComponent<FloorMovement>().speed) * (totalChunks / 2 + 2);
         float initZ = perspective.player.transform.position.z + chunkSize / 2;
-        for (int i = 0; i < totalChunks; i++) { //Sorry for duplicated code :(
-            int prefabIdx = Random.Range(0, chunkPrefabs.Length);
-            if (i == 0) { 
-                prefabIdx = 0; //Start in center. prefab idx = 0 should be walkable in 0,0,0
-            }
-            GameObject newChunk = Instantiate(chunkPrefabs[prefabIdx]);
-            newChunk.transform.position = new Vector3(newChunk.transform.position.x, newChunk.transform.position.y, initZ + (i * chunkSize));
-            chunks[i] = newChunk.transform;
-        }
+        InstantiateNewChunks(0, initZ);
     }
 
 
-    GameObject InstantiateNewChunk(float zFromDeletedChunk) {
-        int prefabIdx = Random.Range(0, chunkPrefabs.Length);
-        GameObject res = Instantiate(chunkPrefabs[prefabIdx]);
-        res.transform.position = new Vector3(res.transform.position.x, res.transform.position.y, zFromDeletedChunk + totalChunks * chunkSize);
-        return res;
+    void InstantiateNewChunks(int startIndex, float lastZ) {
+        // int createdChunkGroups = 0;
+        for (int i = startIndex; i < totalChunks; i += chunkGroupSize) {
+            int prefabIdx = Random.Range(0, chunkGroupPrefabs.Length);
+            if (i == 0) {
+                prefabIdx = 0; //Start in center. prefab idx = 0 should be walkable in 0,0,0
+            }
+            GameObject newChunkGroup = Instantiate(chunkGroupPrefabs[prefabIdx]);
+            newChunkGroup.transform.position = new Vector3(newChunkGroup.transform.position.x, newChunkGroup.transform.position.y, lastZ + (i / chunkGroupSize * chunkSize * chunkGroupSize));
+            for (int k = 0; k < chunkGroupSize; k++) {
+                chunks[k + i] = newChunkGroup.transform.GetChild(k).gameObject.AddComponent<Chunk>();
+                // lastZ = chunks[k].transform.position.z;
+            }
+            // createdChunkGroups++;
+        }
     }
 
     IEnumerator SpawnNextAndDeleteLast() {
@@ -52,15 +55,13 @@ public class ChunkManager : MonoBehaviour {
             int newIndex = totalChunks / 2;
             float lastZ = 0;
             for (int i = 0; i < totalChunks / 2; i++) {
-                Transform toDelete = chunks[i];
+                Chunk toDelete = chunks[i];
                 lastZ = toDelete.transform.position.z;
                 Destroy(toDelete.gameObject);
                 chunks[i] = chunks[newIndex + i];
-                GameObject newChunk = InstantiateNewChunk(lastZ);
-                chunks[newIndex + i] = newChunk.transform;
             }
-            perspective.AdjustNewChunks(newIndex);
             FloorMovement.lastChunkIndex = 0;
+            InstantiateNewChunks(totalChunks / 2, lastZ);
             yield return wait;
 
         }
