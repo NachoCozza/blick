@@ -10,7 +10,7 @@ public class PerspectiveController : MonoBehaviour {
     public GameObject cameraRight;
     public GameObject cameraTop;
 
-    Chunk[]chunks;
+    Chunk[] chunks;
     ChunkManager chunkManager;
 
     [HideInInspector]
@@ -48,14 +48,12 @@ public class PerspectiveController : MonoBehaviour {
         IterateChunksAndArrange(false);
     }
 
-
-    
     private void IterateChunksAndArrange(bool instantExecution) {
         if (instantExecution) {
             UnlockChunkArrangement();
         }
         IEnumerator doChunkArrangement = DoChunkArrengement();
-        StartCoroutine(doChunkArrangement);    
+        StartCoroutine(doChunkArrangement);
     }
 
     //This method will wait for ExecuteChunkArrangement() to be called before actually arranging the chunks

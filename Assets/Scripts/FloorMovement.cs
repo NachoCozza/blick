@@ -33,11 +33,6 @@ public class FloorMovement : MonoBehaviour
 
     IEnumerator StartTimer()
     {
-        //for (int i = 0; i < 3; i ++)
-        //{
-        //    //Todo timer 
-        //    yield return new WaitForSeconds(1);
-        //}
         yield return null;
         started = true;
         StartCoroutine("UpdateLastChunkIndex");
@@ -52,10 +47,6 @@ public class FloorMovement : MonoBehaviour
         {
             yield return wait;
             lastChunkIndex++;
-            //Debug.Log("Chunk idx is now " + lastChunkIndex);
-            //Time.timeScale = 0;
-            //yield return new WaitForSecondsRealtime(2);
-            //Time.timeScale = 1;
         }
     }
 

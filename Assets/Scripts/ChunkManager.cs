@@ -32,7 +32,6 @@ public class ChunkManager : MonoBehaviour {
 
 
     void InstantiateNewChunks(int startIndex, float lastZ) {
-        // int createdChunkGroups = 0;
         for (int i = startIndex; i < totalChunks; i += chunkGroupSize) {
             int prefabIdx = Random.Range(0, chunkGroupPrefabs.Length);
             if (i == 0) {
@@ -42,9 +41,7 @@ public class ChunkManager : MonoBehaviour {
             newChunkGroup.transform.position = new Vector3(newChunkGroup.transform.position.x, newChunkGroup.transform.position.y, lastZ + (i / chunkGroupSize * chunkSize * chunkGroupSize));
             for (int k = 0; k < chunkGroupSize; k++) {
                 chunks[k + i] = newChunkGroup.transform.GetChild(k).gameObject.AddComponent<Chunk>();
-                // lastZ = chunks[k].transform.position.z;
             }
-            // createdChunkGroups++;
         }
     }
 
@@ -54,14 +51,16 @@ public class ChunkManager : MonoBehaviour {
         while (true) {
             int newIndex = totalChunks / 2;
             float lastZ = 0;
-            for (int i = 0; i < totalChunks / 2; i++) {
+            for (int i = 0; i < newIndex; i++) {
                 Chunk toDelete = chunks[i];
                 lastZ = toDelete.transform.position.z;
                 Destroy(toDelete.gameObject);
                 chunks[i] = chunks[newIndex + i];
             }
-            FloorMovement.lastChunkIndex = 0;
-            InstantiateNewChunks(totalChunks / 2, lastZ);
+            lastZ += chunkSize;
+            FloorMovement.lastChunkIndex -= newIndex;
+            InstantiateNewChunks(newIndex, lastZ);
+            //perspective.SetChunks(this.chunks);
             yield return wait;
 
         }

@@ -12,6 +12,7 @@ public class CameraController : MonoBehaviour {
     public float rightProjectionSize;
 
     public AnimationCurve movementCurve;
+    public AnimationCurve fovCurve;
     public float movementTime = 0.4f;
     public float fovTime = 0.3f;
 
@@ -26,6 +27,7 @@ public class CameraController : MonoBehaviour {
     PerspectiveController perspectiveController;
 
     private void Start() {
+        //Time.timeScale = 0.5f;
         cam = GetComponent<Camera>();
 
         float aspect = (float)Screen.width / (float)Screen.height;
@@ -52,7 +54,13 @@ public class CameraController : MonoBehaviour {
             case View.Right:
                 moveTo = rightTransform;
                 projectTo = orthoRight;
-                atStart = false;
+
+                if (oldView == View.Persp) {
+                    atStart = false;
+                }
+                else {
+                    atStart = true;
+                }
                 break;
             case View.Persp:
             default:
@@ -84,18 +92,19 @@ public class CameraController : MonoBehaviour {
                 i += Time.deltaTime * rate;
                 transform.localPosition = Vector3.Lerp(startTransform.position, endTransform.position, movementCurve.Evaluate(i));
                 transform.localRotation = Quaternion.Lerp(startTransform.rotation, endTransform.rotation, movementCurve.Evaluate(i));
+                cam.projectionMatrix = MatrixLerp(startProjection, endProjection, fovCurve.Evaluate(i));
                 yield return 0;
             }
             if (!atStart) {
                 perspectiveController.UnlockChunkArrangement();
             }
-            i = 0f;
-            rate = 1 / fovTime;
-            while (i < 1) {
-                i += Time.deltaTime * rate;
-                cam.projectionMatrix = MatrixLerp(startProjection, endProjection, movementCurve.Evaluate(i));
-                yield return 0;
-            }
+
+            //i = 0f;
+            //while (i < 1) {
+            //    i += Time.deltaTime * rate;
+            //    cam.projectionMatrix = MatrixLerp(startProjection, endProjection, fovCurve.Evaluate(i));
+            //    yield return 0;
+            //}
             moving = false;
         }
         yield return 0;
