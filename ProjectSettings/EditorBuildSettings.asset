@@ -5,6 +5,9 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Pixelation/Example/Scenes/TestScenePixelation.unity
     guid: 704f6cb87f631534ab77597da0df28ac
+  - enabled: 1
+    path: Assets/Scenes/Main.unity
+    guid: 99c1172adfe2a409ebdd5c3b51471eed
