@@ -24,11 +24,11 @@ public class PlayerController : MonoBehaviour {
         rigid = GetComponent<Rigidbody>();
         GameObject levelManager = GameObject.FindGameObjectWithTag("GameController");
         ChunkManager chunkManager = levelManager.GetComponent<ChunkManager>();
-        Bounds chunkBounds = chunkManager.GetChunks()[0].GetComponent<MeshRenderer>().bounds;
+       /* Bounds chunkBounds = chunkManager.GetChunks()[0].GetComponent<MeshRenderer>().bounds;
         lanes[0] = chunkBounds.center.x - (chunkBounds.extents.x - boundLanesPadding);
         lanes[1] = chunkBounds.center.x;
         lanes[2] = chunkBounds.center.x + (chunkBounds.extents.x - boundLanesPadding);
-
+        */
         animator = GetComponent<Animator>();
     }
 

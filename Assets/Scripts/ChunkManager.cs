@@ -9,20 +9,17 @@ public class ChunkManager : MonoBehaviour {
 
     Chunk[] chunks;
     float interval = 0f;
-    float chunkSize = 15f;
     PerspectiveController perspective;
-    int chunkGroupSize = 5;
+
+    public static float chunkSize = 15f;
+    public static int chunkGroupSize = 5;
 
 
     public Chunk[] GetChunks() {
         return chunks;
     }
 
-    public float GetChunkSize() {
-        return chunkSize;
-    }
-
-    void Awake() {
+    void Start() {
         perspective = GetComponent<PerspectiveController>();
         chunks = new Chunk[totalChunks];
         interval = (chunkSize / GetComponent<FloorMovement>().speed) * (totalChunks / 2 + 2);
@@ -37,10 +34,10 @@ public class ChunkManager : MonoBehaviour {
             if (i == 0) {
                 prefabIdx = 0; //Start in center. prefab idx = 0 should be walkable in 0,0,0
             }
-            GameObject newChunkGroup = Instantiate(chunkGroupPrefabs[prefabIdx]);
+            ChunkGroup newChunkGroup = Instantiate(chunkGroupPrefabs[prefabIdx]).GetComponent<ChunkGroup>() ;
             newChunkGroup.transform.position = new Vector3(newChunkGroup.transform.position.x, newChunkGroup.transform.position.y, lastZ + (i / chunkGroupSize * chunkSize * chunkGroupSize));
             for (int k = 0; k < chunkGroupSize; k++) {
-                chunks[k + i] = newChunkGroup.transform.GetChild(k).gameObject.AddComponent<Chunk>();
+                chunks[k + i] = newChunkGroup.AddChunkBehaviour(k);
             }
         }
     }
