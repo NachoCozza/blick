@@ -7,12 +7,7 @@ public class PlayerController : MonoBehaviour {
     //Character Movement Values
     public float slideTime = 1f;
     public float jumpForce = 3f;
-    public float boundLanesPadding = 3f;
-
-    float[] lanes = new float[3];
-    int moveToLane = 1;
-    int currentLane = 1;
-
+    public int health = 3;
 
     bool sliding, isGrounded = false;
     float initY = -1f;
@@ -23,40 +18,18 @@ public class PlayerController : MonoBehaviour {
     void Start() {
         rigid = GetComponent<Rigidbody>();
         GameObject levelManager = GameObject.FindGameObjectWithTag("GameController");
-        ChunkManager chunkManager = levelManager.GetComponent<ChunkManager>();
-       /* Bounds chunkBounds = chunkManager.GetChunks()[0].GetComponent<MeshRenderer>().bounds;
-        lanes[0] = chunkBounds.center.x - (chunkBounds.extents.x - boundLanesPadding);
-        lanes[1] = chunkBounds.center.x;
-        lanes[2] = chunkBounds.center.x + (chunkBounds.extents.x - boundLanesPadding);
-        */
         animator = GetComponent<Animator>();
+        Physics.gravity = new Vector3(0, -20f, 0);
     }
 
     void Update() {
-        if (true) //ToDo delete
-        {
-            if (Input.GetKeyDown(KeyCode.DownArrow) && !sliding) {
-                StartCoroutine("DoSlide");
-            }
-            if (Input.GetKeyDown(KeyCode.UpArrow) && isGrounded) {
-                DoJump();
-            }
+        if (Input.GetKeyDown(KeyCode.DownArrow) && !sliding) {
+            StartCoroutine("DoSlide");
         }
-        else {
-            if (Input.GetKeyDown(KeyCode.DownArrow) && currentLane + 1 < lanes.Length) {
-                moveToLane = currentLane + 1;
-            }
-            if (Input.GetKeyDown(KeyCode.UpArrow) && currentLane - 1 >= 0) {
-                moveToLane = currentLane - 1;
-            }
+        if (Input.GetKeyDown(KeyCode.UpArrow) && isGrounded) {
+            DoJump();
+        }
 
-            if (currentLane != moveToLane) {
-                Vector3 moveToPosition = transform.position;
-                moveToPosition.x = lanes[moveToLane];
-                transform.position = moveToPosition;
-                currentLane = moveToLane;
-            }
-        }
         if (transform.position.y < initY) {
             Die(DeathCause.Fall);
         }
@@ -85,6 +58,14 @@ public class PlayerController : MonoBehaviour {
                 animator.SetBool("Jumping", false);
             }
             isGrounded = true;
+        }
+    }
+
+    public void Damage(DeathCause cause) {
+        health--;
+        animator.SetTrigger("DamageCollision");
+        if (health == 0) {
+            Die(cause);
         }
     }
 

@@ -6,6 +6,8 @@ public class Obstacle : MonoBehaviour {
 
     public View[] allowedViews;
     PerspectiveController perspective;
+    static PlayerController player;
+    static PointsAndLevelManager points;
 
     void OnTriggerEnter(Collider other)
     {
@@ -20,7 +22,16 @@ public class Obstacle : MonoBehaviour {
             }
             if (!canGoThrough)
             {
-                other.GetComponent<PlayerController>().Die(DeathCause.Collision);
+                if (player == null) {
+                    player = other.GetComponent<PlayerController>();
+                }
+                player.Damage(DeathCause.Collision);
+            }
+            else {
+                if (points == null) {
+                    points = GameObject.FindGameObjectWithTag("GameController").GetComponent<PointsAndLevelManager>();
+                }
+                points.AddObstacle();
             }
         }
         

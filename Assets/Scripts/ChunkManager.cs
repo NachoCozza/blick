@@ -4,15 +4,21 @@ using UnityEngine;
 
 public class ChunkManager : MonoBehaviour {
 
-    public GameObject[] chunkGroupPrefabs;
+    public GameObject[] ChunkGroupsEasy;
+    public GameObject[] ChunkGroupsMedium;
+    public GameObject[] ChunkGroupsHard;
+    public GameObject[] ChunkGroupsImpossible;
     public int totalChunks;
 
     Chunk[] chunks;
     float interval = 0f;
     PerspectiveController perspective;
+    PointsAndLevelManager level;
 
     public static float chunkSize = 15f;
     public static int chunkGroupSize = 5;
+
+    int allTimeSpawnedChunks = 0;
 
 
     public Chunk[] GetChunks() {
@@ -21,6 +27,7 @@ public class ChunkManager : MonoBehaviour {
 
     void Start() {
         perspective = GetComponent<PerspectiveController>();
+        level = GetComponent<PointsAndLevelManager>();
         chunks = new Chunk[totalChunks];
         interval = (chunkSize / GetComponent<FloorMovement>().speed) * (totalChunks / 2 + 2);
         float initZ = perspective.player.transform.position.z + chunkSize / 2;
@@ -29,16 +36,34 @@ public class ChunkManager : MonoBehaviour {
 
 
     void InstantiateNewChunks(int startIndex, float lastZ) {
+        GameObject[] currentChunkGroups;
         for (int i = startIndex; i < totalChunks; i += chunkGroupSize) {
-            int prefabIdx = Random.Range(0, chunkGroupPrefabs.Length);
+            Difficulty difficulty = level.GetDifficulty(allTimeSpawnedChunks);
+            currentChunkGroups = GetCurrentChunkGroup(difficulty);
+            int prefabIdx = Random.Range(0, currentChunkGroups.Length);
             if (i == 0) {
                 prefabIdx = 0; //Start in center. prefab idx = 0 should be walkable in 0,0,0
             }
-            ChunkGroup newChunkGroup = Instantiate(chunkGroupPrefabs[prefabIdx]).GetComponent<ChunkGroup>() ;
+            ChunkGroup newChunkGroup = Instantiate(currentChunkGroups[prefabIdx]).GetComponent<ChunkGroup>();
             newChunkGroup.transform.position = new Vector3(newChunkGroup.transform.position.x, newChunkGroup.transform.position.y, lastZ + (i / chunkGroupSize * chunkSize * chunkGroupSize));
             for (int k = 0; k < chunkGroupSize; k++) {
                 chunks[k + i] = newChunkGroup.AddChunkBehaviour(k);
             }
+            allTimeSpawnedChunks += chunkGroupSize;
+        }
+    }
+
+    GameObject[] GetCurrentChunkGroup(Difficulty difficulty) {
+        switch (difficulty) {
+            case Difficulty.Easy:
+            default:
+                return ChunkGroupsEasy;
+            case Difficulty.Medium:
+                return ChunkGroupsMedium;
+            case Difficulty.Hard:
+                return ChunkGroupsHard;
+            case Difficulty.Impossible:
+                return ChunkGroupsImpossible;
         }
     }
 

@@ -2508,8 +2508,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   slideTime: 1
-  jumpForce: 7
-  boundLanesPadding: 3
+  jumpForce: 10
+  health: 3
 --- !u!137 &137044926212646324
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1

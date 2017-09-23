@@ -8,10 +8,11 @@ public class FloorMovement : MonoBehaviour {
     public static int lastChunkIndex = 0;
     ChunkManager chunkManager;
     Chunk[] chunks;
-    bool started = false;
-    // Use this for initialization
+    PointsAndLevelManager points;
+
     void Start() {
         chunkManager = GetComponent<ChunkManager>();
+        points = GetComponent<PointsAndLevelManager>();
         chunks = chunkManager.GetChunks();
         StartCoroutine("UpdateLastChunkIndex");
         chunkManager.StartCoroutine("SpawnNextAndDeleteLast");
@@ -19,12 +20,9 @@ public class FloorMovement : MonoBehaviour {
 
     // Update is called once per frame
     void FixedUpdate() {
-
         foreach (Chunk c in chunks) {
             c.transform.position = new Vector3(c.transform.position.x, c.transform.position.y, c.transform.position.z - speed * Time.deltaTime);
         }
-
-
     }
 
     IEnumerator UpdateLastChunkIndex() {
@@ -32,6 +30,7 @@ public class FloorMovement : MonoBehaviour {
         WaitForSeconds wait = new WaitForSeconds(interval);
         while (true) {
             yield return wait;
+            points.AddChunk();
             lastChunkIndex++;
         }
     }
