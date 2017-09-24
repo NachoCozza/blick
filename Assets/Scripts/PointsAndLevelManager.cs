@@ -7,13 +7,16 @@ public class PointsAndLevelManager : MonoBehaviour {
     [HideInInspector]
     public int points;
     public Difficulty currentDifficulty;
-    int pointRate;
 
+
+    int pointRate;
     int chunksPassed = 0;
+    FloorMovement floor;
 
     // Use this for initialization
     void Start() {
         currentDifficulty = Difficulty.Easy;
+        floor = GetComponent<FloorMovement>();
     }
 
     // Update is called once per frame
@@ -39,12 +42,15 @@ public class PointsAndLevelManager : MonoBehaviour {
         chunksPassed++;
         if (chunksPassed == 4) {
             currentDifficulty = Difficulty.Medium;
+            floor.Faster();
         }
         if (chunksPassed == 10) {
             currentDifficulty = Difficulty.Hard;
+            floor.Faster();
         }
         if (chunksPassed == 22) {
             currentDifficulty = Difficulty.Impossible;
+            floor.Faster();
         }
         if (chunksPassed == 40) {
             FinishGame();

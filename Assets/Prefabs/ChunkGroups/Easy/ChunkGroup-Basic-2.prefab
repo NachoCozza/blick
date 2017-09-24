@@ -54,6 +54,6 @@ MonoBehaviour:
   chunkPrefabs:
   - {fileID: 1611938902980580, guid: 5b1f2cb2bda2a8e41af06af1dfeac0a4, type: 2}
   - {fileID: 1997498680875108, guid: 1eaa680aa6ad37e4ea8b0d363f693849, type: 2}
-  - {fileID: 1122856568994260, guid: d442044a850fa8940899005c9fa94bc7, type: 2}
+  - {fileID: 1611938902980580, guid: 5b1f2cb2bda2a8e41af06af1dfeac0a4, type: 2}
   - {fileID: 1085260744626348, guid: 1ea16808264bc4b41ae0aa803c8ce11e, type: 2}
   - {fileID: 1867892929431388, guid: 2772d0e5c7cb5d747aa5f6e4be3477d6, type: 2}

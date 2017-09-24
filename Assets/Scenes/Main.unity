@@ -382,8 +382,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b750dadc588cdc41aaa03f73940ea6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chunkGroupPrefabs:
-  - {fileID: 0}
+  ChunkGroupsEasy: []
+  ChunkGroupsMedium: []
+  ChunkGroupsHard: []
+  ChunkGroupsImpossible: []
   totalChunks: 20
 --- !u!114 &910479012
 MonoBehaviour:
@@ -572,8 +574,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7b750dadc588cdc41aaa03f73940ea6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chunkGroupPrefabs:
-  - {fileID: 1384082929907094, guid: f9a92bbcb52d69d49b7c013535ff9638, type: 2}
+  ChunkGroupsEasy: []
+  ChunkGroupsMedium: []
+  ChunkGroupsHard: []
+  ChunkGroupsImpossible: []
   totalChunks: 20
 --- !u!114 &1404265143
 MonoBehaviour:
