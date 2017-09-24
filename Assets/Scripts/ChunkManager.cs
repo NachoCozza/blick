@@ -32,6 +32,7 @@ public class ChunkManager : MonoBehaviour {
         interval = (chunkSize / GetComponent<FloorMovement>().speed) * (totalChunks / 2 + 2);
         float initZ = perspective.player.transform.position.z + chunkSize / 2;
         InstantiateNewChunks(0, initZ);
+		StartCoroutine("SpawnNextAndDeleteLast");
     }
 
 

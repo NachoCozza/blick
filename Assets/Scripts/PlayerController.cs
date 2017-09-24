@@ -10,14 +10,15 @@ public class PlayerController : MonoBehaviour {
     public int health = 3;
 
     bool sliding, isGrounded = false;
+	bool dead = false;
     float initY = -1f;
 
     Animator animator;
     Rigidbody rigid;
 
+
     void Start() {
         rigid = GetComponent<Rigidbody>();
-        GameObject levelManager = GameObject.FindGameObjectWithTag("GameController");
         animator = GetComponent<Animator>();
         Physics.gravity = new Vector3(0, -20f, 0);
     }
@@ -64,16 +65,18 @@ public class PlayerController : MonoBehaviour {
     public void Damage(DeathCause cause) {
         health--;
         animator.SetTrigger("DamageCollision");
+		Debug.Log (" got damage");
         if (health == 0) {
             Die(cause);
         }
     }
 
     public void Die(DeathCause cause) {
-        animator.SetTrigger("Die");
-        //Debug.Log("Gotta die of " + cause.ToString());
-        Time.timeScale = 0.1f;
-        //ToDo save high score, go to highscore scene.
+		if (!dead) {
+			dead = true;
+			animator.SetTrigger("Die");
+			GameObject.FindGameObjectWithTag("GameController").GetComponent<PointsAndLevelManager> ().GameOver(cause);
+		}
     }
 
 }

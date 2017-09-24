@@ -11,6 +11,7 @@ public class PointsAndLevelManager : MonoBehaviour {
 	public float pointRate = 0.3f;
 	public Text scoreText;
 
+	public static bool gameOver = false;
 
 	int pointsPerTick = 1;
     int chunksPassed = 0;
@@ -78,8 +79,13 @@ public class PointsAndLevelManager : MonoBehaviour {
 
     }
 
-    void FinishGame() {
-        Debug.Log("FINISHED m8");
+	public void GameOver(DeathCause cause) {
+		gameOver = true;
+		GetComponent<ChunkManager> ().StopCoroutine ("SpawnNextAndDeleteLast");
+		GetComponent<ChunkManager> ().StopCoroutine ("UpdateLastChunkIndex");
+		Time.timeScale = 0.1f;
+		//ToDo save high score and redirect to score scene
+        Debug.Log("FINISHED m8, died of " + cause);
     }
 
 }

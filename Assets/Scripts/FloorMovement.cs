@@ -15,14 +15,15 @@ public class FloorMovement : MonoBehaviour {
         points = GetComponent<PointsAndLevelManager>();
         chunks = chunkManager.GetChunks();
         StartCoroutine("UpdateLastChunkIndex");
-        chunkManager.StartCoroutine("SpawnNextAndDeleteLast");
     }
 
     // Update is called once per frame
     void FixedUpdate() {
-        foreach (Chunk c in chunks) {
-            c.transform.position = new Vector3(c.transform.position.x, c.transform.position.y, c.transform.position.z - speed * Time.deltaTime);
-        }
+		if (!PointsAndLevelManager.gameOver) {
+			foreach (Chunk c in chunks) {
+				c.transform.position = new Vector3(c.transform.position.x, c.transform.position.y, c.transform.position.z - speed * Time.deltaTime);
+			}
+		}
     }
 
     public void Faster() {

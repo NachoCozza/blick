@@ -23,18 +23,20 @@ public class PerspectiveController : MonoBehaviour {
     }
 
     private void CheckKeys() {
-        if (Input.GetKeyDown(KeyCode.Z) && currentView != View.Persp) {
-            ChangePerspective(View.Persp);
-            return;
-        }
-        if (Input.GetKeyDown(KeyCode.X) && currentView != View.Right) {
-            ChangePerspective(View.Right);
-            return;
-        }
-		if (Input.GetKeyDown(KeyCode.C) && currentView != View.Top) {
-            ChangePerspective(View.Top);
-            return;
-        }
+		if (!PointsAndLevelManager.gameOver) {
+			if (Input.GetKeyDown(KeyCode.Z) && currentView != View.Persp) {
+				ChangePerspective(View.Persp);
+				return;
+			}
+			if (Input.GetKeyDown(KeyCode.X) && currentView != View.Right) {
+				ChangePerspective(View.Right);
+				return;
+			}
+			if (Input.GetKeyDown(KeyCode.C) && currentView != View.Top) {
+				ChangePerspective(View.Top);
+				return;
+			}
+		}
     }
 
 
@@ -64,13 +66,6 @@ public class PerspectiveController : MonoBehaviour {
         for (int chunkIdx = 0; chunkIdx < chunks.Length; chunkIdx++) {
             Chunk child = chunks[chunkIdx];
             child.AdjustCurrentPosition();
-            /*
-            * Si el chunk actual es el mismo que el ultimo que recorri Y ademas una de dos: 
-            * 1) tiene un solo hijo por ende se debe parar en ese
-            * 2) La Z del hijo actual es anterior a la del jugador y la Z del siguiente es mayor a la del jugador (el jugador esta entre medio de estas dos)
-            * 
-            * Si se cumple la 1er condicion, y una de esas 2, pongo al jugador en la posicion X e Y del bloque dentro del chunk
-            */
             if (chunkIdx == FloorMovement.lastChunkIndex) {
                 Vector3 aux = child.getTransform().position;
                 aux.z = player.transform.position.z;
@@ -85,5 +80,4 @@ public class PerspectiveController : MonoBehaviour {
     public void UnlockChunkArrangement() {
         mustMoveChunks = true;
     }
-
 }
