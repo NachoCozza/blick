@@ -23,15 +23,15 @@ public class PerspectiveController : MonoBehaviour {
     }
 
     private void CheckKeys() {
-        if (Input.GetKeyDown(KeyCode.P) && currentView != View.Persp) {
+        if (Input.GetKeyDown(KeyCode.Z) && currentView != View.Persp) {
             ChangePerspective(View.Persp);
             return;
         }
-        if (Input.GetKeyDown(KeyCode.O) && currentView != View.Right) {
+        if (Input.GetKeyDown(KeyCode.X) && currentView != View.Right) {
             ChangePerspective(View.Right);
             return;
         }
-        if (Input.GetKeyDown(KeyCode.I) && currentView != View.Top) {
+		if (Input.GetKeyDown(KeyCode.C) && currentView != View.Top) {
             ChangePerspective(View.Top);
             return;
         }

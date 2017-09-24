@@ -72,7 +72,7 @@ public class PlayerController : MonoBehaviour {
     public void Die(DeathCause cause) {
         animator.SetTrigger("Die");
         //Debug.Log("Gotta die of " + cause.ToString());
-        Time.timeScale = 0;
+        Time.timeScale = 0.1f;
         //ToDo save high score, go to highscore scene.
     }
 
