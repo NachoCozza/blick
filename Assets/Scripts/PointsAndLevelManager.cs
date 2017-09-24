@@ -50,20 +50,20 @@ public class PointsAndLevelManager : MonoBehaviour {
 
     public void AddChunk() {
         chunksPassed++;
-        if (chunksPassed == 4) {
+        if (chunksPassed == 10) {
             currentDifficulty = Difficulty.Medium;
 			UpDifficulty ();
             
         }
-        if (chunksPassed == 10) {
+        if (chunksPassed == 25) {
             currentDifficulty = Difficulty.Hard;
 			UpDifficulty ();
         }
-        if (chunksPassed == 22) {
+        if (chunksPassed == 40) {
             currentDifficulty = Difficulty.Impossible;
 			UpDifficulty ();
         }
-        if (chunksPassed == 40) {
+        if (chunksPassed == 65) {
 			UpDifficulty ();
         }
     }
