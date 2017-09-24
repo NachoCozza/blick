@@ -1,0 +1,171 @@
+fileFormatVersion: 2
+guid: 3aa3bd3f71fcab04bb558be7596ba2d9
+timeCreated: 1506278783
+licenseType: Free
+ModelImporter:
+  serializedVersion: 21
+  fileIDToRecycleName:
+    100000: AC_Big
+    100002: AC_Small
+    100004: Background
+    100006: Building1
+    100008: Building2
+    100010: Cabinet
+    100012: Ceiling
+    100014: Chair
+    100016: Desk
+    100018: Fence
+    100020: FenceFrame
+    100022: //RootNode
+    100024: pCube62
+    100026: Pipe_Long
+    100028: Sign
+    100030: StairDoor
+    100032: WaterTank
+    100034: EmergencyStairs
+    400000: AC_Big
+    400002: AC_Small
+    400004: Background
+    400006: Building1
+    400008: Building2
+    400010: Cabinet
+    400012: Ceiling
+    400014: Chair
+    400016: Desk
+    400018: Fence
+    400020: FenceFrame
+    400022: //RootNode
+    400024: pCube62
+    400026: Pipe_Long
+    400028: Sign
+    400030: StairDoor
+    400032: WaterTank
+    400034: EmergencyStairs
+    2300000: AC_Big
+    2300002: AC_Small
+    2300004: Background
+    2300006: Building1
+    2300008: Building2
+    2300010: Cabinet
+    2300012: Ceiling
+    2300014: Chair
+    2300016: Desk
+    2300018: Fence
+    2300020: FenceFrame
+    2300022: pCube62
+    2300024: Pipe_Long
+    2300026: Sign
+    2300028: StairDoor
+    2300030: WaterTank
+    2300032: //RootNode
+    2300034: EmergencyStairs
+    3300000: AC_Big
+    3300002: AC_Small
+    3300004: Background
+    3300006: Building1
+    3300008: Building2
+    3300010: Cabinet
+    3300012: Ceiling
+    3300014: Chair
+    3300016: Desk
+    3300018: Fence
+    3300020: FenceFrame
+    3300022: pCube62
+    3300024: Pipe_Long
+    3300026: Sign
+    3300028: StairDoor
+    3300030: WaterTank
+    3300032: //RootNode
+    3300034: EmergencyStairs
+    4300000: WaterTank
+    4300002: AC_Big
+    4300004: AC_Small
+    4300006: StairDoor
+    4300008: Fence
+    4300010: FenceFrame
+    4300012: Desk
+    4300014: Chair
+    4300016: Cabinet
+    4300018: Pipe_Long
+    4300020: pCube62
+    4300022: Building1
+    4300024: Sign
+    4300026: Building2
+    4300028: Background
+    4300030: Ceiling
+    4300032: EmergencyStairs
+  materials:
+    importMaterials: 0
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 0
+    importBlendShapes: 0
+    importCameras: 0
+    importLights: 0
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 0
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

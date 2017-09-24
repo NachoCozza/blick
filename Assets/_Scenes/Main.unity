@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657868, g: 0.49641263, b: 0.57481706, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -228,7 +228,7 @@ Light:
   m_SpotAngle: 30
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 2
+    m_Type: 0
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
@@ -245,20 +245,6 @@ Light:
   m_Lightmapping: 4
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
-  m_FalloffTable:
-    m_Table[0]: 0
-    m_Table[1]: 0
-    m_Table[2]: 0
-    m_Table[3]: 0
-    m_Table[4]: 0
-    m_Table[5]: 0
-    m_Table[6]: 0
-    m_Table[7]: 0
-    m_Table[8]: 0
-    m_Table[9]: 0
-    m_Table[10]: 0
-    m_Table[11]: 0
-    m_Table[12]: 0
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
   m_ShadowRadius: 0
@@ -333,7 +319,7 @@ Transform:
   - {fileID: 1713990552}
   - {fileID: 245431876}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &910479009
 GameObject:
@@ -410,7 +396,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &910479014
 MonoBehaviour:
@@ -437,7 +423,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4936090942020152, guid: 9acb677b33924e34092e7d03ee5605ea, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 0.5
+      value: 0.74
       objectReference: {fileID: 0}
     - target: {fileID: 4936090942020152, guid: 9acb677b33924e34092e7d03ee5605ea, type: 2}
       propertyPath: m_LocalPosition.z
@@ -461,7 +447,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4936090942020152, guid: 9acb677b33924e34092e7d03ee5605ea, type: 2}
       propertyPath: m_RootOrder
-      value: 1
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 4043520472846040, guid: 9acb677b33924e34092e7d03ee5605ea, type: 2}
       propertyPath: m_LocalRotation.x
@@ -488,6 +474,18 @@ Prefab:
         type: 2}
       propertyPath: m_Drag
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4936090942020152, guid: 9acb677b33924e34092e7d03ee5605ea, type: 2}
+      propertyPath: m_LocalScale.x
+      value: 0.85
+      objectReference: {fileID: 0}
+    - target: {fileID: 4936090942020152, guid: 9acb677b33924e34092e7d03ee5605ea, type: 2}
+      propertyPath: m_LocalScale.y
+      value: 0.85
+      objectReference: {fileID: 0}
+    - target: {fileID: 4936090942020152, guid: 9acb677b33924e34092e7d03ee5605ea, type: 2}
+      propertyPath: m_LocalScale.z
+      value: 0.85
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 9acb677b33924e34092e7d03ee5605ea, type: 2}
@@ -552,7 +550,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1204401748 stripped
 GameObject:
@@ -666,7 +664,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ChunkGroupsEasy:
   - {fileID: 1803670378778784, guid: 292fccd130294414982bf85138d41464, type: 2}
-  - {fileID: 1384082929907094, guid: f9a92bbcb52d69d49b7c013535ff9638, type: 2}
   ChunkGroupsMedium:
   - {fileID: 1803670378778784, guid: 292fccd130294414982bf85138d41464, type: 2}
   - {fileID: 1384082929907094, guid: f9a92bbcb52d69d49b7c013535ff9638, type: 2}
@@ -688,7 +685,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4dec39fa8fc4af4094f322fcf028617, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 9
+  speed: 6
 --- !u!4 &1404265144
 Transform:
   m_ObjectHideFlags: 0
@@ -835,7 +832,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 10, y: 0, z: 0}
 --- !u!114 &1701804499
 MonoBehaviour:
@@ -864,7 +861,7 @@ MonoBehaviour:
   perspectiveTransform: {fileID: 568630158}
   topTransform: {fileID: 245431876}
   rightTransform: {fileID: 1713990552}
-  topProjectionSize: 6.2
+  topProjectionSize: 8.23
   rightProjectionSize: 5.48
   movementCurve:
     serializedVersion: 2
@@ -889,15 +886,21 @@ MonoBehaviour:
     m_Curve:
     - serializedVersion: 2
       time: 0
-      value: 0
+      value: 0.0060577393
       inSlope: 0
       outSlope: 0
       tangentMode: 0
     - serializedVersion: 2
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
+      time: 0.2536451
+      value: 0.88122606
+      inSlope: 1.6300174
+      outSlope: 1.6300174
+      tangentMode: 0
+    - serializedVersion: 2
+      time: 0.59839725
+      value: 1.0052996
+      inSlope: 0.4447086
+      outSlope: 0.4447086
       tangentMode: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
@@ -1080,7 +1083,7 @@ RectTransform:
   m_Children:
   - {fileID: 1336414433}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
