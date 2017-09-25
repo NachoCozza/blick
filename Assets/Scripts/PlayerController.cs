@@ -8,10 +8,12 @@ public class PlayerController : MonoBehaviour {
     public float slideTime = 1f;
     public float jumpForce = 3f;
     public int health = 3;
+    public float inmuneTime = 2f;
 
     bool sliding, isGrounded = false;
-	bool dead = false;
+    bool dead = false;
     float initY = -1f;
+    bool inmune = false;
 
     Animator animator;
     Rigidbody rigid;
@@ -65,18 +67,40 @@ public class PlayerController : MonoBehaviour {
     public void Damage(DeathCause cause) {
         health--;
         animator.SetTrigger("DamageCollision");
-		Debug.Log (" got damage");
+        Debug.Log(" got damage");
         if (health == 0) {
             Die(cause);
+        }
+        else {
+            StartCoroutine("Inmune");
         }
     }
 
     public void Die(DeathCause cause) {
-		if (!dead) {
-			dead = true;
-			animator.SetTrigger("Die");
-			GameObject.FindGameObjectWithTag("GameController").GetComponent<PointsAndLevelManager> ().GameOver(cause);
-		}
+        if (!dead) {
+            dead = true;
+            animator.SetTrigger("Die");
+            GameObject.FindGameObjectWithTag("GameController").GetComponent<PointsAndLevelManager>().GameOver(cause);
+        }
+    }
+
+    IEnumerator Inmune() {
+        inmune = true;
+        WaitForSeconds wait = new WaitForSeconds(inmuneTime / 6);
+        SkinnedMeshRenderer mesh = transform.GetChild(0).GetComponent<SkinnedMeshRenderer>();
+        Color originalColor = mesh.material.color;
+        for (int i = 0; i < 3; i++) {
+            mesh.material.color = Color.red;
+            yield return wait;
+            mesh.material.color = originalColor;
+            yield return wait;
+        }
+        inmune = false;
+    }
+
+
+    public bool IsInmune() {
+        return inmune;
     }
 
 }
