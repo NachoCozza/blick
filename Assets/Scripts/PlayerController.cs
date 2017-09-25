@@ -10,6 +10,7 @@ public class PlayerController : MonoBehaviour {
     public int health = 3;
     public float inmuneTime = 2f;
 
+    PointsAndLevelManager points;
     bool sliding, isGrounded = false;
     bool dead = false;
     float initY = -1f;
@@ -23,6 +24,7 @@ public class PlayerController : MonoBehaviour {
         rigid = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
         Physics.gravity = new Vector3(0, -20f, 0);
+        points = GameObject.FindGameObjectWithTag("GameController").GetComponent<PointsAndLevelManager>();
     }
 
     void Update() {
@@ -67,6 +69,7 @@ public class PlayerController : MonoBehaviour {
     public void Damage(DeathCause cause) {
         health--;
         animator.SetTrigger("DamageCollision");
+        points.ResetObstacles();
         Debug.Log(" got damage");
         if (health == 0) {
             Die(cause);
