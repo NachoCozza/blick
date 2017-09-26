@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4838077705968510}
   - component: {fileID: 114544084719723040}
   m_Layer: 0
-  m_Name: ChunkGroup-Basic-1
+  m_Name: ChunkGroup3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -52,8 +52,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   chunkPrefabs:
-  - {fileID: 1239652639791276, guid: 54ae90cd71032da47bb5a8af3b5b453f, type: 2}
-  - {fileID: 1213174681127432, guid: 67cafac206faefa44ab0eb721a2a5cdf, type: 2}
-  - {fileID: 1381612161166368, guid: 9d7904676aeb9ee40a8c7f3e2db1003d, type: 2}
-  - {fileID: 1821000198687378, guid: a581b1ebb9adbbe48801beeca677c3bd, type: 2}
+  - {fileID: 1448024552236502, guid: 9d7904676aeb9ee40a8c7f3e2db1003d, type: 2}
   - {fileID: 1355008159917776, guid: 90c32e7d3fdf441499a554065a3bdef1, type: 2}
+  - {fileID: 1213174681127432, guid: 67cafac206faefa44ab0eb721a2a5cdf, type: 2}
+  - {fileID: 1441951028814524, guid: 0bd6e8a7cf5b4ac41802c7ac015d96c4, type: 2}
+  - {fileID: 1786340550944436, guid: 01e22bfc7f39c284892a2ad218b0791e, type: 2}
