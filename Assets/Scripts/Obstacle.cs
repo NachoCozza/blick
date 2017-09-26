@@ -30,7 +30,7 @@ public class Obstacle : MonoBehaviour {
                 if (points == null) {
                     points = GameObject.FindGameObjectWithTag("GameController").GetComponent<PointsAndLevelManager>();
                 }
-                points.AddObstacle();
+                points.AddObstacle(this.gameObject);
             }
         }
 
