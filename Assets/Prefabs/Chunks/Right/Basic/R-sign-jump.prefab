@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 33008155479375638}
   - component: {fileID: 23232445260302372}
   m_Layer: 8
-  m_Name: R-left-jump
+  m_Name: R-sign-jump
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

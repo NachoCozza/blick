@@ -159,7 +159,7 @@ GameObject:
   - component: {fileID: 33471458886332760}
   - component: {fileID: 23180052906411358}
   m_Layer: 8
-  m_Name: P-jump
+  m_Name: P-jumpOut
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
