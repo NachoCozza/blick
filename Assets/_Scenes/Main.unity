@@ -764,6 +764,7 @@ GameObject:
   - component: {fileID: 1404265145}
   - component: {fileID: 1404265146}
   - component: {fileID: 1404265147}
+  - component: {fileID: 1404265148}
   m_Layer: 0
   m_Name: LevelManager
   m_TagString: GameController
@@ -866,6 +867,19 @@ MonoBehaviour:
   chunksToHard: 25
   chunksToImpossible: 40
   chunksToWin: 70
+--- !u!114 &1404265148
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1404265141}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b728d60c45d95194c8c9f68856335e84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitsToDie: 3
+  timeToResetHits: 10
 --- !u!1001 &1456030197
 Prefab:
   m_ObjectHideFlags: 0

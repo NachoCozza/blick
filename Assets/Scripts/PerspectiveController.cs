@@ -6,9 +6,6 @@ public class PerspectiveController : MonoBehaviour {
     public GameObject player;
 
     public CameraController camera;
-    public GameObject cameraPerspective;
-    public GameObject cameraRight;
-    public GameObject cameraTop;
 
     Chunk[] chunks;
     ChunkManager chunkManager;
@@ -24,7 +21,7 @@ public class PerspectiveController : MonoBehaviour {
 
     private void CheckKeys() {
 		if (!PointsAndLevelManager.gameOver) {
-			if (Input.GetKeyDown(KeyCode.Z) && currentView != View.Persp) {
+			if (Input.GetKeyDown(KeyCode.C) && currentView != View.Persp) {
 				ChangePerspective(View.Persp);
 				return;
 			}
@@ -32,7 +29,7 @@ public class PerspectiveController : MonoBehaviour {
 				ChangePerspective(View.Right);
 				return;
 			}
-			if (Input.GetKeyDown(KeyCode.C) && currentView != View.Top) {
+			if (Input.GetKeyDown(KeyCode.Z) && currentView != View.Top) {
 				ChangePerspective(View.Top);
 				return;
 			}

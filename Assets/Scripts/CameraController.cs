@@ -26,7 +26,7 @@ public class CameraController : MonoBehaviour {
 
     PerspectiveController perspectiveController;
 
-    private void Start() {
+    private void Awake() {
         //Time.timeScale = 0.5f;
         cam = GetComponent<Camera>();
 
@@ -37,7 +37,26 @@ public class CameraController : MonoBehaviour {
         perspective = Matrix4x4.Perspective(60, aspect, 0.3f, 1000);
 
         perspectiveController = GameObject.FindGameObjectWithTag("GameController").GetComponent<PerspectiveController>();
+            
+        CalculatePlayerPosition();
+    }
 
+    private void CalculatePlayerPosition() {
+        GameObject auxGO = new GameObject();
+        GameObject player = GameObject.FindGameObjectWithTag("Player");
+        auxGO.transform.parent = gameObject.transform;
+        Camera aux = auxGO.AddComponent<Camera>();
+        aux.enabled = false;
+
+        aux.projectionMatrix = orthoRight;
+        aux.transform.position = rightTransform.position;
+        aux.transform.rotation = rightTransform.rotation;
+
+        float newZ = aux.ViewportToWorldPoint(new Vector3(0.15f, 0, 0)).z;
+        Vector3 newPos = player.transform.position;
+        newPos.z = newZ;
+        player.transform.position = newPos;
+        Destroy(auxGO);
     }
 
     // Use this for initialization

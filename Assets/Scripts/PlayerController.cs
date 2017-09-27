@@ -11,6 +11,7 @@ public class PlayerController : MonoBehaviour {
     public float inmuneTime = 2f;
 
     PointsAndLevelManager points;
+    ChaseController chaseController;
     bool sliding, isGrounded = false;
     bool dead = false;
     float initY = -1f;
@@ -24,7 +25,9 @@ public class PlayerController : MonoBehaviour {
         rigid = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
         Physics.gravity = new Vector3(0, -20f, 0);
-        points = GameObject.FindGameObjectWithTag("GameController").GetComponent<PointsAndLevelManager>();
+        GameObject gameController = GameObject.FindGameObjectWithTag("GameController");
+        points = gameController.GetComponent<PointsAndLevelManager>();
+        chaseController = gameController.GetComponent<ChaseController>();
     }
 
     void Update() {
@@ -70,12 +73,12 @@ public class PlayerController : MonoBehaviour {
         health--;
         animator.SetTrigger("DamageCollision");
         points.ResetObstacles();
-        Debug.Log(" got damage");
-        if (health == 0) {
-            Die(cause);
+        chaseController.AddHit();
+        if (!chaseController.MustDie()) {
+            StartCoroutine("Inmune");
         }
         else {
-            StartCoroutine("Inmune");
+            Die(cause);
         }
     }
 
