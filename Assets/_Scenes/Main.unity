@@ -784,18 +784,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ChunkGroupsEasy:
   - {fileID: 1803670378778784, guid: 292fccd130294414982bf85138d41464, type: 2}
-  - {fileID: 1715827939756782, guid: 5f5ee68470a251b46877f2a257344232, type: 2}
-  - {fileID: 1384082929907094, guid: 8e27344bb46e53346ba870885a6e5a46, type: 2}
   ChunkGroupsMedium:
-  - {fileID: 1384082929907094, guid: 8e27344bb46e53346ba870885a6e5a46, type: 2}
-  - {fileID: 1239652639791276, guid: 95cacea6383f8b340a77e736ecd4b6b9, type: 2}
-  - {fileID: 1384082929907094, guid: cb331ff607c1da547a0418ce58216d12, type: 2}
+  - {fileID: 1803670378778784, guid: 292fccd130294414982bf85138d41464, type: 2}
   ChunkGroupsHard:
   - {fileID: 1803670378778784, guid: 292fccd130294414982bf85138d41464, type: 2}
-  - {fileID: 0}
   ChunkGroupsImpossible:
   - {fileID: 1803670378778784, guid: 292fccd130294414982bf85138d41464, type: 2}
-  - {fileID: 0}
   totalChunks: 20
 --- !u!114 &1404265143
 MonoBehaviour:

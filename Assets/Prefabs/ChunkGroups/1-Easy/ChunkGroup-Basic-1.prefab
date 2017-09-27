@@ -53,7 +53,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   chunkPrefabs:
   - {fileID: 1448024552236502, guid: 9d7904676aeb9ee40a8c7f3e2db1003d, type: 2}
-  - {fileID: 1786340550944436, guid: 01e22bfc7f39c284892a2ad218b0791e, type: 2}
+  - {fileID: 1239652639791276, guid: 95cacea6383f8b340a77e736ecd4b6b9, type: 2}
   - {fileID: 1381515351213378, guid: 80aada99b1f82f14b91bb8fca006a7d1, type: 2}
   - {fileID: 1821000198687378, guid: a581b1ebb9adbbe48801beeca677c3bd, type: 2}
   - {fileID: 1239652639791276, guid: 95cacea6383f8b340a77e736ecd4b6b9, type: 2}
