@@ -39,7 +39,7 @@ public class Chunk : MonoBehaviour {
                     }
                     else {
                         if (myView == View.Top) {
-                            child.position = newPos;
+                            child.position = Vector3.Scale(newPos, TOP);
                         }
                     }
                 }
@@ -53,7 +53,7 @@ public class Chunk : MonoBehaviour {
                         child.position = newPos;
                     }
                     if (!isStart && myView == View.Right) {
-                        child.position = Vector3.Scale(newPos, TOP);
+                        child.position = Vector3.Scale(newPos, RIGHT);
                     }
                 }
                 break;

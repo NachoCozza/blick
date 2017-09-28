@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour {
     bool sliding, isGrounded = false;
     bool dead = false;
     float initY = -1f;
+    float maxZ;
     bool inmune = false;
 
     Animator animator;
@@ -30,6 +31,10 @@ public class PlayerController : MonoBehaviour {
         chaseController = gameController.GetComponent<ChaseController>();
     }
 
+    public void SetMaxZ(float maxZ) {
+        this.maxZ = maxZ;
+    }
+
     void Update() {
         if (Input.GetKeyDown(KeyCode.DownArrow) && !sliding) {
             StartCoroutine("DoSlide");
@@ -40,6 +45,9 @@ public class PlayerController : MonoBehaviour {
 
         if (transform.position.y < initY) {
             Die(DeathCause.Fall);
+        }
+        if (transform.position.z < maxZ) {
+            Die(DeathCause.Caught);
         }
     }
 

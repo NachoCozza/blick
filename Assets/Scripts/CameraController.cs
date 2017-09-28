@@ -56,9 +56,11 @@ public class CameraController : MonoBehaviour
         aux.transform.rotation = rightTransform.rotation;
 
         float newZ = aux.ViewportToWorldPoint(new Vector3(0.15f, 0, 0)).z;
+        float maxZForPlayer = aux.ViewportToWorldPoint(new Vector3(0f, 0, 0)).z;
         Vector3 newPos = player.transform.position;
         newPos.z = newZ;
         player.transform.position = newPos;
+        player.GetComponent<PlayerController>().SetMaxZ(maxZForPlayer);
         Destroy(auxGO);
     }
 
