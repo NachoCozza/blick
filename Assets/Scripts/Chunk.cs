@@ -78,8 +78,10 @@ public class Chunk : MonoBehaviour {
     }
 
     public void MovePlayer(GameObject player) {
-        //ToDo do it when you have to, based on the code in adjustCurrentPosiion
 		Vector3 aux = GetTransform().position;
+        if (myView != View.Top) {
+            aux.y = player.transform.position.y;
+        }
 		aux.z = player.transform.position.z;
 		player.transform.position = aux;
     }
