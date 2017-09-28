@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4609173017804674}
   - component: {fileID: 114281293446040838}
   m_Layer: 0
-  m_Name: ChunkGroup-Basic-2
+  m_Name: ChGr-Medium-1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -15,7 +15,7 @@ public class ChunkGroup : MonoBehaviour {
         Vector3 auxPos;
         for (int i = 0; i < chunkPrefabs.Length; i ++) {
             chunks[i] = Instantiate(chunkPrefabs[i]);
-            chunks[i].transform.parent = this.transform;
+            chunks[i].transform.parent = transform;
             if (i > 0) {
                 auxPos = chunks[i].transform.position;
                 auxPos.z = chunks[i - 1].transform.position.z + ChunkManager.chunkSize;
@@ -30,7 +30,20 @@ public class ChunkGroup : MonoBehaviour {
     }
 
     public Chunk AddChunkBehaviour(int idx) {
-        return chunks[idx].AddComponent<Chunk>();
+        string auxName = chunks[idx].name;
+        View view = View.Persp;
+        if (auxName.StartsWith(("P"))) {
+            view = View.Persp;
+        }
+        if (auxName.StartsWith("R")) {
+            view = View.Right;
+        }
+        if (auxName.StartsWith(("T"))) {
+            view = View.Top;
+        }
+        Chunk c = chunks[idx].AddComponent<Chunk>();
+        c.myView = view;
+        return c;
     }
 
 }

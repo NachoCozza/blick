@@ -3,5 +3,5 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public enum View  {
-    Persp, Top, Right
+    Persp, Top, Right, Unknwn
 }
