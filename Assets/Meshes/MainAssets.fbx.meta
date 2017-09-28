@@ -23,6 +23,8 @@ ModelImporter:
     100030: StairDoor
     100032: WaterTank
     100034: EmergencyStairs
+    100036: Box
+    100038: Sign1
     400000: AC_Big
     400002: AC_Small
     400004: Background
@@ -41,6 +43,8 @@ ModelImporter:
     400030: StairDoor
     400032: WaterTank
     400034: EmergencyStairs
+    400036: Box
+    400038: Sign1
     2300000: AC_Big
     2300002: AC_Small
     2300004: Background
@@ -59,6 +63,8 @@ ModelImporter:
     2300030: WaterTank
     2300032: //RootNode
     2300034: EmergencyStairs
+    2300036: Box
+    2300038: Sign1
     3300000: AC_Big
     3300002: AC_Small
     3300004: Background
@@ -77,6 +83,8 @@ ModelImporter:
     3300030: WaterTank
     3300032: //RootNode
     3300034: EmergencyStairs
+    3300036: Box
+    3300038: Sign1
     4300000: WaterTank
     4300002: AC_Big
     4300004: AC_Small
@@ -94,6 +102,8 @@ ModelImporter:
     4300028: Background
     4300030: Ceiling
     4300032: EmergencyStairs
+    4300034: Box
+    4300036: Sign1
   materials:
     importMaterials: 0
     materialName: 0
