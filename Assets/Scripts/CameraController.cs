@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraController : MonoBehaviour {
+public class CameraController : MonoBehaviour
+{
 
     public Transform perspectiveTransform;
     public Transform topTransform;
@@ -26,7 +27,8 @@ public class CameraController : MonoBehaviour {
 
     PerspectiveController perspectiveController;
 
-    private void Awake() {
+    private void Awake()
+    {
         //Time.timeScale = 0.5f;
         cam = GetComponent<Camera>();
 
@@ -37,11 +39,12 @@ public class CameraController : MonoBehaviour {
         perspective = Matrix4x4.Perspective(60, aspect, 0.3f, 1000);
 
         perspectiveController = GameObject.FindGameObjectWithTag("GameController").GetComponent<PerspectiveController>();
-            
+
         CalculatePlayerPosition();
     }
 
-    private void CalculatePlayerPosition() {
+    private void CalculatePlayerPosition()
+    {
         GameObject auxGO = new GameObject();
         GameObject player = GameObject.FindGameObjectWithTag("Player");
         auxGO.transform.parent = gameObject.transform;
@@ -60,81 +63,68 @@ public class CameraController : MonoBehaviour {
     }
 
     // Use this for initialization
-    public void SetCurrentView(View oldView, View newView) {
+    public void SetCurrentView(View oldView, View newView)
+    {
         Transform moveTo = null;
         Matrix4x4 projectTo;
-        bool atStart;
-        switch (newView) {
+        switch (newView)
+        {
             case View.Top:
                 moveTo = topTransform;
                 projectTo = orthoTop;
-                atStart = false;
                 break;
             case View.Right:
                 moveTo = rightTransform;
                 projectTo = orthoRight;
-
-                if (oldView == View.Persp) {
-                    atStart = false;
-                }
-                else {
-                    atStart = true;
-                }
                 break;
             case View.Persp:
             default:
                 moveTo = perspectiveTransform;
                 projectTo = perspective;
-                atStart = true;
                 break;
         }
-        if (moving) {
+        if (moving)
+        {
             StopCoroutine(currentTransitionCoroutine);
             moving = false;
         }
-        currentTransitionCoroutine = StartCoroutine(MoveToPosition(moveTo, projectTo, atStart));
+        currentTransitionCoroutine = StartCoroutine(MoveToPosition(moveTo, projectTo, oldView, newView));
     }
 
 
     // Update is called once per frame
-    IEnumerator MoveToPosition(Transform endTransform, Matrix4x4 endProjection, bool atStart) {
+    IEnumerator MoveToPosition(Transform endTransform, Matrix4x4 endProjection, View oldView, View newView)
+    {
         Transform startTransform = transform;
         Matrix4x4 startProjection = cam.projectionMatrix;
-        if (!moving) {
+        if (!moving)
+        {
             moving = true;
-            if (atStart) {
-                perspectiveController.UnlockChunkArrangement();
-            }
+            perspectiveController.NotifyCameraStart(oldView, newView);
+
             float i = 0f;
             float rate = 1 / movementTime;
-            while (i < 1) {
+            while (i < 1)
+            {
                 i += Time.deltaTime * rate;
                 transform.localPosition = Vector3.Lerp(startTransform.position, endTransform.position, movementCurve.Evaluate(i));
                 transform.localRotation = Quaternion.Lerp(startTransform.rotation, endTransform.rotation, movementCurve.Evaluate(i));
                 cam.projectionMatrix = MatrixLerp(startProjection, endProjection, fovCurve.Evaluate(i));
                 yield return 0;
             }
-            if (!atStart) {
-                perspectiveController.UnlockChunkArrangement();
-            }
 
-            //i = 0f;
-            //while (i < 1) {
-            //    i += Time.deltaTime * rate;
-            //    cam.projectionMatrix = MatrixLerp(startProjection, endProjection, fovCurve.Evaluate(i));
-            //    yield return 0;
-            //}
+            perspectiveController.NotifyCameraFinish(oldView, newView);
             moving = false;
         }
         yield return 0;
     }
 
-    Matrix4x4 MatrixLerp(Matrix4x4 from, Matrix4x4 to, float time) {
+    Matrix4x4 MatrixLerp(Matrix4x4 from, Matrix4x4 to, float time)
+    {
         Matrix4x4 ret = new Matrix4x4();
         for (int i = 0; i < 16; i++)
             ret[i] = Mathf.Lerp(from[i], to[i], time);
         return ret;
     }
-
 
 }

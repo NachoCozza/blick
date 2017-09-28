@@ -36,7 +36,6 @@ public class PerspectiveController : MonoBehaviour {
 		}
     }
 
-
     void Update() {
         CheckKeys();
     }
@@ -44,37 +43,31 @@ public class PerspectiveController : MonoBehaviour {
     void ChangePerspective(View newView) {
         camera.SetCurrentView(currentView, newView);
         currentView = newView;
-        IterateChunksAndArrange(false);
     }
 
-    private void IterateChunksAndArrange(bool instantExecution) {
-        if (instantExecution) {
-            UnlockChunkArrangement();
-        }
-        IEnumerator doChunkArrangement = DoChunkArrengement();
-        StartCoroutine(doChunkArrangement);
+
+	public void NotifyCameraStart(View oldView, View newView)
+	{
+        IterateChildrenAndArrange(oldView, newView, true);
+	}
+
+	public void NotifyCameraFinish(View oldView, View newView)
+	{
+        IterateChildrenAndArrange(oldView, newView, false);
+	}
+
+
+    void IterateChildrenAndArrange(View oldView, View newView, bool isStart) {
+		for (int chunkIdx = 0; chunkIdx < chunks.Length; chunkIdx++)
+		{
+			Chunk child = chunks[chunkIdx];
+            child.AdjustCurrentPosition(oldView, newView, isStart);
+			if (chunkIdx == FloorMovement.lastChunkIndex)
+			{
+				child.MovePlayer(player);
+			}
+		}
     }
 
-    //This method will wait for ExecuteChunkArrangement() to be called before actually arranging the chunks
-    IEnumerator DoChunkArrengement() {
-        while (!mustMoveChunks) {
-            yield return 0;
-        }
-        for (int chunkIdx = 0; chunkIdx < chunks.Length; chunkIdx++) {
-            Chunk child = chunks[chunkIdx];
-            child.AdjustCurrentPosition();
-            if (chunkIdx == FloorMovement.lastChunkIndex) {
-                Vector3 aux = child.getTransform().position;
-                aux.z = player.transform.position.z;
-                player.transform.position = aux;
-            }
-        }
-        yield return 0;
-        mustMoveChunks = false;
-    }
 
-    //This method sets this flag to true, so that IterateChunksAndArrange stops waiting and actually does arrange the chunks
-    public void UnlockChunkArrangement() {
-        mustMoveChunks = true;
-    }
 }

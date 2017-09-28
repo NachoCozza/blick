@@ -28,6 +28,7 @@ public class PlayerController : MonoBehaviour {
         GameObject gameController = GameObject.FindGameObjectWithTag("GameController");
         points = gameController.GetComponent<PointsAndLevelManager>();
         chaseController = gameController.GetComponent<ChaseController>();
+        Time.timeScale = 0.5f;
     }
 
     void Update() {
