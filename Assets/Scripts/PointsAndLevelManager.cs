@@ -19,6 +19,8 @@ public class PointsAndLevelManager : MonoBehaviour {
     public int chunksToImpossible = 40;
     public int chunksToWin = 70;
 
+    public int maxScoreCount = 5;
+
     public static bool gameOver = false;
 
     int currentMultiplier = 1;
@@ -112,8 +114,46 @@ public class PointsAndLevelManager : MonoBehaviour {
         GetComponent<ChunkManager>().StopCoroutine("UpdateLastChunkIndex");
         StopCoroutine("Points");
         Time.timeScale = 0.1f;
+        SetScore();
         //ToDo save high score and redirect to score scene
         Debug.Log("FINISHED m8, died of " + cause);
+    }
+
+    void SetScore() {
+        bool added = false;
+        string score = PlayerPrefs.GetString("scores");
+        List<int> scores = new List<int>(ToIntArray(score.Split('|')));
+
+        if (scores.Count < maxScoreCount) {
+            scores.Add(points);
+            added = true;
+        }
+        else {
+            
+        }
+
+        if (added) {
+            string newScoreString = JoinScores(scores);
+            PlayerPrefs.SetString("scores", newScoreString);
+        }
+    }
+
+    string JoinScores(List<int> scores) {
+        scores.Sort();
+        string response = "";
+        foreach(int score in scores) {
+            response += score.ToString() + "|";
+        }
+        response = response.Substring(0, response.Length - 1);
+        return response;
+    }
+
+    int [] ToIntArray(string [] arr) {
+        int[] res = new int[arr.Length];
+        for (int i = 0; i < arr.Length; i++) {
+            res[i] = int.Parse(arr[i]);
+        }
+        return res;
     }
 
     public void ResetObstacles() {
