@@ -8,7 +8,6 @@ public class Chunk : MonoBehaviour {
     static PerspectiveController PERSPECTIVE;
     static Vector3 TOP = new Vector3(1, 0, 1);
     static Vector3 RIGHT = new Vector3(0, 1, 1);
-    static int STANDING_INSTANCE_ID;
     public View myView;
 
     // Use this for initialization
@@ -78,25 +77,13 @@ public class Chunk : MonoBehaviour {
         return transform.GetChild(0);
     }
 
-    void OnCollisionEnter(Collision collision) {
-        if (collision.collider.tag == "Player") {
-            STANDING_INSTANCE_ID = GetInstanceID();
+    public void MovePlayer(GameObject player) {
+		Vector3 aux = GetTransform().position;
+        if (myView != View.Top) {
+            aux.y = player.transform.position.y;
         }
-    }
-
-    public void MovePlayer(GameObject player, View oldView) {
-        if (oldView == myView || IsStandingOnMe()) {
-			Vector3 aux = GetTransform().position;
-			if (myView != View.Top) {
-				aux.y = player.transform.position.y;
-			}
-			aux.z = player.transform.position.z;
-			player.transform.position = aux;         
-        }
-    }
-
-    bool IsStandingOnMe() {
-        return GetInstanceID() == STANDING_INSTANCE_ID;
+		aux.z = player.transform.position.z;
+		player.transform.position = aux;
     }
 
 }

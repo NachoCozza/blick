@@ -32,7 +32,7 @@ public class PlayerController : MonoBehaviour {
     }
 
     public void SetMaxZ(float maxZ) {
-        this.maxZ = maxZ - 2f;
+        this.maxZ = maxZ;
     }
 
     void Update() {
@@ -96,10 +96,6 @@ public class PlayerController : MonoBehaviour {
             animator.SetTrigger("Die");
             GameObject.FindGameObjectWithTag("GameController").GetComponent<PointsAndLevelManager>().GameOver(cause);
         }
-    }
-
-    public bool IsGrounded() {
-        return isGrounded;
     }
 
     IEnumerator Inmune() {
