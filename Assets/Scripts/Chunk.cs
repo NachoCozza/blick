@@ -39,7 +39,7 @@ public class Chunk : MonoBehaviour {
                     }
                     else {
                         if (myView == View.Top) {
-                            child.position = newPos;
+                            child.position = Vector3.Scale(newPos, TOP);
                         }
                     }
                 }
@@ -53,7 +53,7 @@ public class Chunk : MonoBehaviour {
                         child.position = newPos;
                     }
                     if (!isStart && myView == View.Right) {
-                        child.position = Vector3.Scale(newPos, TOP);
+                        child.position = Vector3.Scale(newPos, RIGHT);
                     }
                 }
                 break;
@@ -78,8 +78,10 @@ public class Chunk : MonoBehaviour {
     }
 
     public void MovePlayer(GameObject player) {
-        //ToDo do it when you have to, based on the code in adjustCurrentPosiion
 		Vector3 aux = GetTransform().position;
+        if (myView != View.Top) {
+            aux.y = player.transform.position.y;
+        }
 		aux.z = player.transform.position.z;
 		player.transform.position = aux;
     }
