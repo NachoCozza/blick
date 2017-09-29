@@ -18,6 +18,7 @@ public class Chunk : MonoBehaviour {
         }
         originalPosition = GetTransform().position;
         AdjustCurrentPosition(View.Unknwn, PERSPECTIVE.currentView, true);
+        transform.GetChild(0).gameObject.AddComponent<ChunkChildCollider>().SetChunk(this);
     }
 
     public void AdjustCurrentPosition(View oldView, View newView, bool isStart) {
@@ -36,7 +37,7 @@ public class Chunk : MonoBehaviour {
                     if (isStart) {
                         if (myView == View.Top || myView == View.Right) {
                             child.position = newPos;
-						}
+                        }
                     }
                     else {
                         if (myView == View.Top) {
@@ -78,20 +79,19 @@ public class Chunk : MonoBehaviour {
         return transform.GetChild(0);
     }
 
-    void OnCollisionEnter(Collision collision) {
-        if (collision.collider.tag == "Player") {
-            STANDING_INSTANCE_ID = GetInstanceID();
-        }
+    public void CollisionWithPlayer() {
+        STANDING_INSTANCE_ID = GetInstanceID();
+
     }
 
     public void MovePlayer(GameObject player, View oldView) {
         if (oldView == myView || IsStandingOnMe()) {
-			Vector3 aux = GetTransform().position;
-			if (myView != View.Top) {
-				aux.y = player.transform.position.y;
-			}
-			aux.z = player.transform.position.z;
-			player.transform.position = aux;         
+            Vector3 aux = GetTransform().position;
+            if (myView != View.Top) {
+                aux.y = player.transform.position.y;
+            }
+            aux.z = player.transform.position.z;
+            player.transform.position = aux;
         }
     }
 
