@@ -14,6 +14,9 @@ public class PointsAndLevelManager : MonoBehaviour {
     public Text scoreText;
     public Text multiplierText;
 
+    //TODO DELETE
+    public Text scoreList;
+
     public int chunksToMedium = 10;
     public int chunksToHard = 25;
     public int chunksToImpossible = 40;
@@ -36,6 +39,10 @@ public class PointsAndLevelManager : MonoBehaviour {
         currentDifficulty = Difficulty.Easy;
         floor = GetComponent<FloorMovement>();
         StartCoroutine("Points");
+        string scores = PlayerPrefs.GetString("scores");
+        if (scores != null) {
+			scoreList.text = scores.Replace("|", "\n");
+        }
     }
 
     IEnumerator Points() {
@@ -122,14 +129,26 @@ public class PointsAndLevelManager : MonoBehaviour {
     void SetScore() {
         bool added = false;
         string score = PlayerPrefs.GetString("scores");
-        List<int> scores = new List<int>(ToIntArray(score.Split('|')));
-
+        List<int> scores = new List<int>();
+        if (score == null) {
+            scores = new List<int>(ToIntArray(score.Split('|')));
+        }
         if (scores.Count < maxScoreCount) {
             scores.Add(points);
             added = true;
         }
         else {
-            
+            int insertIndex = -1;
+            for (int i = 0; i < scores.Count; i ++) {
+                if (scores[i] < points) {
+                    insertIndex = i;
+                }
+            }
+            if (insertIndex != -1) {
+                scores.Insert(insertIndex, points);
+                scores = scores.GetRange(0, 4);
+                added = true;
+            }
         }
 
         if (added) {
