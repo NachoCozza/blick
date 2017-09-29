@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PerspectiveController : MonoBehaviour {
-    public GameObject player;
+    public PlayerController player;
 
     public CameraController camera;
 
@@ -64,10 +64,8 @@ public class PerspectiveController : MonoBehaviour {
             child.AdjustCurrentPosition(oldView, newView, isStart);
 			if (chunkIdx == FloorMovement.lastChunkIndex)
 			{
-				child.MovePlayer(player);
+                child.MovePlayer(player.gameObject, oldView);
 			}
 		}
     }
-
-
 }
