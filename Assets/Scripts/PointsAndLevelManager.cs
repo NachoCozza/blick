@@ -17,9 +17,6 @@ public class PointsAndLevelManager : MonoBehaviour {
     public Text scoreText;
     public Text multiplierText;
 
-    //TODO DELETE
-    public Text scoreList;
-
     public int chunksToMedium = 10;
     public int chunksToHard = 25;
     public int chunksToImpossible = 40;
@@ -50,10 +47,6 @@ public class PointsAndLevelManager : MonoBehaviour {
         currentDifficulty = Difficulty.Easy;
         floor = GetComponent<FloorMovement>();
         StartCoroutine("Points");
-        string scores = PlayerPrefs.GetString("scores");
-        if (scores != null) {
-			scoreList.text = scores.Replace("|", "\n");
-        }
     }
 
     IEnumerator Points() {
