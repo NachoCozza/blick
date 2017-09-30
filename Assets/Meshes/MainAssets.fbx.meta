@@ -38,6 +38,10 @@ ModelImporter:
     100060: CraneHook
     100062: CraneStructure1
     100064: CraneStructure
+    100066: Crane
+    100068: CraneCabin
+    100070: EmergencyStair15
+    100072: CraneDetail
     400000: AC_Big
     400002: AC_Small
     400004: Background
@@ -71,6 +75,10 @@ ModelImporter:
     400060: CraneHook
     400062: CraneStructure1
     400064: CraneStructure
+    400066: Crane
+    400068: CraneCabin
+    400070: EmergencyStair15
+    400072: CraneDetail
     2300000: AC_Big
     2300002: AC_Small
     2300004: Background
@@ -104,6 +112,10 @@ ModelImporter:
     2300060: CraneHook
     2300062: CraneStructure1
     2300064: CraneStructure
+    2300066: Crane
+    2300068: CraneCabin
+    2300070: EmergencyStair15
+    2300072: CraneDetail
     3300000: AC_Big
     3300002: AC_Small
     3300004: Background
@@ -137,6 +149,10 @@ ModelImporter:
     3300060: CraneHook
     3300062: CraneStructure1
     3300064: CraneStructure
+    3300066: Crane
+    3300068: CraneCabin
+    3300070: EmergencyStair15
+    3300072: CraneDetail
     4300000: WaterTank
     4300002: AC_Big
     4300004: AC_Small
@@ -169,6 +185,10 @@ ModelImporter:
     4300058: CraneStructure1
     4300060: Crane2
     4300062: CraneStructure
+    4300064: CraneCabin
+    4300066: Crane
+    4300068: EmergencyStair15
+    4300070: CraneDetail
   materials:
     importMaterials: 0
     materialName: 0
