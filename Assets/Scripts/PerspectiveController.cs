@@ -12,7 +12,6 @@ public class PerspectiveController : MonoBehaviour {
 
     [HideInInspector]
     public View currentView = View.Persp;
-    private bool mustMoveChunks = false;
 
     void Start() {
         chunkManager = GetComponent<ChunkManager>();

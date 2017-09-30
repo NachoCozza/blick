@@ -41,6 +41,10 @@ public class PointsAndLevelManager : MonoBehaviour {
     void Start() {
         Time.timeScale = 1f;
         gameOver = false;
+        currentMultiplier = 1;
+        pointsPerTick = 1;
+        chunksPassed = 0;
+        obstaclesPassed = 0;
         playerNameInput = playerNamePanel.transform.GetChild(0).GetComponent<InputField>();
         playerNameInput.characterLimit = 5;
         currentDifficulty = Difficulty.Easy;

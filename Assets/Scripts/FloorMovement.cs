@@ -11,6 +11,7 @@ public class FloorMovement : MonoBehaviour {
     PointsAndLevelManager points;
 
     void Start() {
+        lastChunkIndex = 0;
         chunkManager = GetComponent<ChunkManager>();
         points = GetComponent<PointsAndLevelManager>();
         chunks = chunkManager.GetChunks();

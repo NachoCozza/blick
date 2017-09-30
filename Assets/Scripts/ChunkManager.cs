@@ -26,6 +26,7 @@ public class ChunkManager : MonoBehaviour {
     }
 
     void Start() {
+        allTimeSpawnedChunks = 0;
         perspective = GetComponent<PerspectiveController>();
         level = GetComponent<PointsAndLevelManager>();
         chunks = new Chunk[totalChunks];

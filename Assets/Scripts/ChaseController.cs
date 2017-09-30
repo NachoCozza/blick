@@ -11,7 +11,7 @@ public class ChaseController : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
-        
+        hits = 0;
     }
 
     public void AddHit() {

@@ -31,7 +31,7 @@ public class CameraController : MonoBehaviour
     {
         //Time.timeScale = 0.5f;
         cam = GetComponent<Camera>();
-
+        moving = false;
         float aspect = (float)Screen.width / (float)Screen.height;
 
         orthoTop = Matrix4x4.Ortho(-topProjectionSize * aspect, topProjectionSize * aspect, -topProjectionSize, topProjectionSize, 0.3f, 1000);
