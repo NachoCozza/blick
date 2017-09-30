@@ -42,6 +42,12 @@ ModelImporter:
     100068: CraneCabin
     100070: EmergencyStair15
     100072: CraneDetail
+    100074: SignIn1
+    100076: SignIn2
+    100078: SignIn3
+    100080: SignIn4
+    100082: SignIn5
+    100084: SignIn6
     400000: AC_Big
     400002: AC_Small
     400004: Background
@@ -79,6 +85,12 @@ ModelImporter:
     400068: CraneCabin
     400070: EmergencyStair15
     400072: CraneDetail
+    400074: SignIn1
+    400076: SignIn2
+    400078: SignIn3
+    400080: SignIn4
+    400082: SignIn5
+    400084: SignIn6
     2300000: AC_Big
     2300002: AC_Small
     2300004: Background
@@ -116,6 +128,12 @@ ModelImporter:
     2300068: CraneCabin
     2300070: EmergencyStair15
     2300072: CraneDetail
+    2300074: SignIn1
+    2300076: SignIn2
+    2300078: SignIn3
+    2300080: SignIn4
+    2300082: SignIn5
+    2300084: SignIn6
     3300000: AC_Big
     3300002: AC_Small
     3300004: Background
@@ -153,6 +171,12 @@ ModelImporter:
     3300068: CraneCabin
     3300070: EmergencyStair15
     3300072: CraneDetail
+    3300074: SignIn1
+    3300076: SignIn2
+    3300078: SignIn3
+    3300080: SignIn4
+    3300082: SignIn5
+    3300084: SignIn6
     4300000: WaterTank
     4300002: AC_Big
     4300004: AC_Small
@@ -189,6 +213,12 @@ ModelImporter:
     4300066: Crane
     4300068: EmergencyStair15
     4300070: CraneDetail
+    4300072: SignIn1
+    4300074: SignIn2
+    4300076: SignIn3
+    4300078: SignIn4
+    4300080: SignIn5
+    4300082: SignIn6
   materials:
     importMaterials: 0
     materialName: 0
