@@ -48,6 +48,10 @@ ModelImporter:
     100080: SignIn4
     100082: SignIn5
     100084: SignIn6
+    100086: Background12
+    100088: Background3
+    100090: Background7
+    100092: pCylinder7
     400000: AC_Big
     400002: AC_Small
     400004: Background
@@ -91,6 +95,10 @@ ModelImporter:
     400080: SignIn4
     400082: SignIn5
     400084: SignIn6
+    400086: Background12
+    400088: Background3
+    400090: Background7
+    400092: pCylinder7
     2300000: AC_Big
     2300002: AC_Small
     2300004: Background
@@ -134,6 +142,10 @@ ModelImporter:
     2300080: SignIn4
     2300082: SignIn5
     2300084: SignIn6
+    2300086: Background12
+    2300088: Background3
+    2300090: Background7
+    2300092: pCylinder7
     3300000: AC_Big
     3300002: AC_Small
     3300004: Background
@@ -177,6 +189,10 @@ ModelImporter:
     3300080: SignIn4
     3300082: SignIn5
     3300084: SignIn6
+    3300086: Background12
+    3300088: Background3
+    3300090: Background7
+    3300092: pCylinder7
     4300000: WaterTank
     4300002: AC_Big
     4300004: AC_Small
@@ -219,6 +235,10 @@ ModelImporter:
     4300078: SignIn4
     4300080: SignIn5
     4300082: SignIn6
+    4300084: Background3
+    4300086: Background7
+    4300088: pCylinder7
+    4300090: Background12
   materials:
     importMaterials: 0
     materialName: 0
