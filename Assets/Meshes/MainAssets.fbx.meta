@@ -25,6 +25,19 @@ ModelImporter:
     100034: EmergencyStairs
     100036: Box
     100038: Sign1
+    100040: Building3
+    100042: Building4
+    100044: Building5
+    100046: EmergencyFloor
+    100048: EmergencyStair
+    100050: Sign2
+    100052: SignIn
+    100054: Box1
+    100056: Box2
+    100058: Crane2
+    100060: CraneHook
+    100062: CraneStructure1
+    100064: CraneStructure
     400000: AC_Big
     400002: AC_Small
     400004: Background
@@ -45,6 +58,19 @@ ModelImporter:
     400034: EmergencyStairs
     400036: Box
     400038: Sign1
+    400040: Building3
+    400042: Building4
+    400044: Building5
+    400046: EmergencyFloor
+    400048: EmergencyStair
+    400050: Sign2
+    400052: SignIn
+    400054: Box1
+    400056: Box2
+    400058: Crane2
+    400060: CraneHook
+    400062: CraneStructure1
+    400064: CraneStructure
     2300000: AC_Big
     2300002: AC_Small
     2300004: Background
@@ -65,6 +91,19 @@ ModelImporter:
     2300034: EmergencyStairs
     2300036: Box
     2300038: Sign1
+    2300040: Building3
+    2300042: Building4
+    2300044: Building5
+    2300046: EmergencyFloor
+    2300048: EmergencyStair
+    2300050: Sign2
+    2300052: SignIn
+    2300054: Box1
+    2300056: Box2
+    2300058: Crane2
+    2300060: CraneHook
+    2300062: CraneStructure1
+    2300064: CraneStructure
     3300000: AC_Big
     3300002: AC_Small
     3300004: Background
@@ -85,6 +124,19 @@ ModelImporter:
     3300034: EmergencyStairs
     3300036: Box
     3300038: Sign1
+    3300040: Building3
+    3300042: Building4
+    3300044: Building5
+    3300046: EmergencyFloor
+    3300048: EmergencyStair
+    3300050: Sign2
+    3300052: SignIn
+    3300054: Box1
+    3300056: Box2
+    3300058: Crane2
+    3300060: CraneHook
+    3300062: CraneStructure1
+    3300064: CraneStructure
     4300000: WaterTank
     4300002: AC_Big
     4300004: AC_Small
@@ -104,6 +156,19 @@ ModelImporter:
     4300032: EmergencyStairs
     4300034: Box
     4300036: Sign1
+    4300038: Building3
+    4300040: Building4
+    4300042: Building5
+    4300044: EmergencyStair
+    4300046: EmergencyFloor
+    4300048: SignIn
+    4300050: Sign2
+    4300052: Box1
+    4300054: Box2
+    4300056: CraneHook
+    4300058: CraneStructure1
+    4300060: Crane2
+    4300062: CraneStructure
   materials:
     importMaterials: 0
     materialName: 0
