@@ -130,23 +130,36 @@ public class PointsAndLevelManager : MonoBehaviour {
         bool added = false;
         string score = PlayerPrefs.GetString("scores");
         List<int> scores = new List<int>();
-        if (score == null) {
+        if (score != null && score != "") {
             scores = new List<int>(ToIntArray(score.Split('|')));
         }
         if (scores.Count < maxScoreCount) {
-            scores.Add(points);
-            added = true;
+            bool hasToAdd = true;
+            int i = 0;
+            while(hasToAdd && i < scores.Count) {
+                hasToAdd = scores[i] != points;
+                i++;
+            }
+            if (hasToAdd) {
+				scores.Add(points);
+				added = true;
+            }
         }
         else {
             int insertIndex = -1;
             for (int i = 0; i < scores.Count; i ++) {
                 if (scores[i] < points) {
                     insertIndex = i;
+                    break;
+                }
+                if (scores[i] == points) {
+                    insertIndex = -1;
+                    break;
                 }
             }
             if (insertIndex != -1) {
                 scores.Insert(insertIndex, points);
-                scores = scores.GetRange(0, 4);
+                scores = scores.GetRange(0, 5);
                 added = true;
             }
         }
@@ -158,7 +171,7 @@ public class PointsAndLevelManager : MonoBehaviour {
     }
 
     string JoinScores(List<int> scores) {
-        scores.Sort();
+        scores.Sort((a, b) => -1 * a.CompareTo(b)); //Descending
         string response = "";
         foreach(int score in scores) {
             response += score.ToString() + "|";

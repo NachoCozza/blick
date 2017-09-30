@@ -23,8 +23,6 @@ public class Chunk : MonoBehaviour {
     }
 
     public void AdjustCurrentPosition(View oldView, View newView, bool isStart) {
-        //Debug.Log(isStart);
-        //Debug.Log("My name is " + name + " and my view is " + view);
         Transform child = GetTransform();
         Vector3 newPos = originalPosition;
         newPos.z = child.position.z;
@@ -32,7 +30,6 @@ public class Chunk : MonoBehaviour {
             case View.Persp:
                 if (newView == View.Right && !isStart) {
                     child.position = Vector3.Scale(newPos, RIGHT);
-                    //child.position = newPos;    
                 }
                 if (newView == View.Top) {
                     if (isStart) {
@@ -94,7 +91,6 @@ public class Chunk : MonoBehaviour {
     }
     public void CollisionWithPlayer() {
         STANDING_INSTANCE_ID = GetInstanceID();
-
     }
 
     public void MovePlayer(GameObject player, View oldView) {
