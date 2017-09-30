@@ -98,6 +98,10 @@ public class PlayerController : MonoBehaviour {
         }
     }
 
+    public bool IsDead() {
+        return dead;
+    }
+
     IEnumerator Inmune() {
         inmune = true;
         WaitForSeconds wait = new WaitForSeconds(inmuneTime / 6);

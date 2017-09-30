@@ -45,7 +45,7 @@ public class PointsAndLevelManager : MonoBehaviour {
         pointsPerTick = 1;
         chunksPassed = 0;
         obstaclesPassed = 0;
-        playerNameInput = playerNamePanel.transform.GetChild(0).GetComponent<InputField>();
+        playerNameInput = playerNamePanel.transform.GetChild(1).GetComponent<InputField>();
         playerNameInput.characterLimit = 5;
         currentDifficulty = Difficulty.Easy;
         floor = GetComponent<FloorMovement>();
@@ -135,7 +135,12 @@ public class PointsAndLevelManager : MonoBehaviour {
         GetComponent<ChunkManager>().StopCoroutine("SpawnNextAndDeleteLast");
         GetComponent<ChunkManager>().StopCoroutine("UpdateLastChunkIndex");
         StopCoroutine("Points");
-        Time.timeScale = 0f;
+        StartCoroutine("FinishGameAndAskForName");
+
+    }
+
+    IEnumerator FinishGameAndAskForName() {
+        yield return new WaitForSeconds(1.5f);
         AskForName();
     }
 

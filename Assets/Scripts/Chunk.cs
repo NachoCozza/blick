@@ -8,6 +8,7 @@ public class Chunk : MonoBehaviour {
     static PerspectiveController PERSPECTIVE;
     static Vector3 TOP = new Vector3(1, 0, 1);
     static Vector3 RIGHT = new Vector3(0, 1, 1);
+    static PlayerController PLAYER;
     public View myView;
 
     int STANDING_INSTANCE_ID;
@@ -94,7 +95,10 @@ public class Chunk : MonoBehaviour {
     }
 
     public void MovePlayer(GameObject player, View oldView) {
-        if (oldView == myView || IsStandingOnMe()) {
+        if (PLAYER == null) {
+            PLAYER = player.GetComponent<PlayerController>();
+        }
+        if (!PLAYER.IsDead() && (oldView == myView || IsStandingOnMe())) {
             Vector3 aux = GetTransform().position;
             if (myView != View.Top) {
                 aux.y = player.transform.position.y;
