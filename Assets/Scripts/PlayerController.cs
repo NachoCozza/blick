@@ -12,7 +12,7 @@ public class PlayerController : MonoBehaviour {
 
     PointsAndLevelManager points;
     ChaseController chaseController;
-    bool sliding, isGrounded = false;
+    bool isGrounded = false;
     bool dead = false;
     float initY = -1f;
     float maxZ;
@@ -36,27 +36,17 @@ public class PlayerController : MonoBehaviour {
     }
 
     void Update() {
-        if (Input.GetKeyDown(KeyCode.DownArrow) && !sliding) {
-            StartCoroutine("DoSlide");
-        }
         if (Input.GetKeyDown(KeyCode.UpArrow) && isGrounded) {
             DoJump();
         }
 
         if (transform.position.y < initY) {
             Die(DeathCause.Fall);
+            animator.SetBool("Jumping", true);
         }
         if (transform.position.z < maxZ) {
             Die(DeathCause.Caught);
         }
-    }
-
-    IEnumerator DoSlide() {
-        sliding = true;
-        animator.SetBool("IsSliding", sliding);
-        yield return new WaitForSeconds(slideTime);
-        sliding = false;
-        animator.SetBool("IsSliding", sliding);
     }
 
     void DoJump() {
@@ -67,11 +57,11 @@ public class PlayerController : MonoBehaviour {
 
     void OnCollisionEnter(Collision collision) {
         if (collision.collider.tag == "Floor") {
+			if (!isGrounded && animator != null) {
+				animator.SetBool("Jumping", false);
+			}
             if (initY == -1f) {
                 initY = transform.position.y - 0.5f;
-            }
-            if (!isGrounded) {
-                animator.SetBool("Jumping", false);
             }
             isGrounded = true;
         }

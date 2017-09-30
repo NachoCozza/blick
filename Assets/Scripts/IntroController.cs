@@ -5,9 +5,10 @@ using UnityEngine;
 public class IntroController : MonoBehaviour {
 
     public float waitTime = 1f;
-
+    PlayerController player;
     // Use this for initialization
     void Start() {
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
         StartCoroutine("Timer");
     }
 
@@ -16,5 +17,6 @@ public class IntroController : MonoBehaviour {
         yield return new WaitForSeconds(waitTime);
         GetComponent<FloorMovement>().enabled = true;
         GetComponent<PerspectiveController>().enabled = true;
+        player.enabled = true;
     }
 }
