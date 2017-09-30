@@ -26,9 +26,6 @@ public class FloorMovement : MonoBehaviour {
 		}
     }
 
-    public void Faster() {
-        //ToDo
-    }
 
     IEnumerator UpdateLastChunkIndex() {
         float interval = ChunkManager.chunkSize / speed - 0.01f;

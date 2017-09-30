@@ -11,9 +11,10 @@ public class MainMenuController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+        Time.timeScale = 1f;
         string scoresText = PlayerPrefs.GetString("scores");
         if (scoresText != null && scoresText != "") {
-            scoresText = scoresText.Replace("|", "\n");
+            scoresText = scoresText.Replace("|", "\n").Replace(";", " - ");
         }
         else {
             scoresText = "No highscores. GO PLAY!";

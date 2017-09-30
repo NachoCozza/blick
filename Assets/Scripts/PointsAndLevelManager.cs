@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class PointsAndLevelManager : MonoBehaviour {
 
@@ -11,6 +12,8 @@ public class PointsAndLevelManager : MonoBehaviour {
     public float pointRate = 0.3f;
     public int pointsPerObstacle;
 
+    InputField playerNameInput;
+    public GameObject playerNamePanel;
     public Text scoreText;
     public Text multiplierText;
 
@@ -36,6 +39,10 @@ public class PointsAndLevelManager : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
+        Time.timeScale = 1f;
+        gameOver = false;
+        playerNameInput = playerNamePanel.transform.GetChild(0).GetComponent<InputField>();
+        playerNameInput.characterLimit = 5;
         currentDifficulty = Difficulty.Easy;
         floor = GetComponent<FloorMovement>();
         StartCoroutine("Points");
@@ -57,13 +64,13 @@ public class PointsAndLevelManager : MonoBehaviour {
 
     public Difficulty GetDifficulty(int forChunks) {
         Difficulty response = Difficulty.Easy;
-        if (chunksPassed >= chunksToMedium) {
+        if (forChunks >= chunksToMedium) {
             response = Difficulty.Medium;
         }
-        if (chunksPassed >= chunksToHard) {
+        if (forChunks >= chunksToHard) {
             response = Difficulty.Hard;
         }
-        if (chunksPassed >= chunksToImpossible) {
+        if (forChunks >= chunksToImpossible) {
             response = Difficulty.Impossible;
         }
         return response;
@@ -91,11 +98,15 @@ public class PointsAndLevelManager : MonoBehaviour {
 
 
     void UpDifficulty() {
-        floor.Faster();
-        //ToDo tell the player x2 score
         pointRate -= 0.1f;
         multiplierText.text = "x" + currentMultiplier;
-    }
+        if (currentDifficulty == Difficulty.Hard) {
+            Time.timeScale = 1.1f;
+        }
+        if (currentDifficulty == Difficulty.Impossible) {
+            Time.timeScale = 1.3f;
+        }
+    } 
 
     public void AddObstacle(GameObject obstacle) {
         if (lastObstacleInstanceId == 0 || lastObstacleInstanceId != obstacle.GetInstanceID()) {
@@ -120,78 +131,115 @@ public class PointsAndLevelManager : MonoBehaviour {
         GetComponent<ChunkManager>().StopCoroutine("SpawnNextAndDeleteLast");
         GetComponent<ChunkManager>().StopCoroutine("UpdateLastChunkIndex");
         StopCoroutine("Points");
-        Time.timeScale = 0.1f;
+        Time.timeScale = 0f;
+        AskForName();
+    }
+
+    void AskForName() {
+        playerNamePanel.SetActive(true);
+		playerNameInput.Select();
+		playerNameInput.ActivateInputField();
+    }
+
+    public void SetScoreAndQuit() {
         SetScore();
-        //ToDo save high score and redirect to score scene
-        Debug.Log("FINISHED m8, died of " + cause);
+        SceneManager.LoadScene("MainMenu");
+    }
+
+    public void SetScoreAndRestart() {
+        SetScore();
+        SceneManager.LoadScene("Main");
     }
 
     void SetScore() {
+        string playerName = playerNameInput.text;
         bool added = false;
         string score = PlayerPrefs.GetString("scores");
-        List<int> scores = new List<int>();
+        List<Score> scores = new List<Score>();
         if (score != null && score != "") {
-            scores = new List<int>(ToIntArray(score.Split('|')));
+            scores = Score.GetScoreList(score);
         }
         if (scores.Count < maxScoreCount) {
             bool hasToAdd = true;
             int i = 0;
             while(hasToAdd && i < scores.Count) {
-                hasToAdd = scores[i] != points;
+                hasToAdd = scores[i].score != points;
                 i++;
             }
             if (hasToAdd) {
-				scores.Add(points);
+                scores.Add(new Score(playerName, points));
 				added = true;
             }
         }
         else {
             int insertIndex = -1;
             for (int i = 0; i < scores.Count; i ++) {
-                if (scores[i] < points) {
+                if (scores[i].score < points) {
                     insertIndex = i;
                     break;
                 }
-                if (scores[i] == points) {
+                if (scores[i].score == points) {
                     insertIndex = -1;
                     break;
                 }
             }
             if (insertIndex != -1) {
-                scores.Insert(insertIndex, points);
+                scores.Insert(insertIndex, new Score(playerName, points));
                 scores = scores.GetRange(0, 5);
                 added = true;
             }
         }
 
         if (added) {
-            string newScoreString = JoinScores(scores);
+            string newScoreString = Score.GetScoreString(scores);
             PlayerPrefs.SetString("scores", newScoreString);
         }
     }
 
-    string JoinScores(List<int> scores) {
-        scores.Sort((a, b) => -1 * a.CompareTo(b)); //Descending
-        string response = "";
-        foreach(int score in scores) {
-            response += score.ToString() + "|";
-        }
-        response = response.Substring(0, response.Length - 1);
-        return response;
-    }
-
-    int [] ToIntArray(string [] arr) {
-        int[] res = new int[arr.Length];
-        for (int i = 0; i < arr.Length; i++) {
-            res[i] = int.Parse(arr[i]);
-        }
-        return res;
-    }
 
     public void ResetObstacles() {
         obstaclesPassed = 0;
         currentMultiplier = 1;
         multiplierText.text = "x" + currentMultiplier;
+    }
+
+    private class Score {
+        public string name;
+        public int score;
+
+        override public string ToString() {
+            return this.name + ";" + score;
+        }
+
+        public Score(string name, int score) {
+            this.name = name;
+            this.score = score;
+        }
+
+        public static List<Score> GetScoreList(string score) {
+            string[] scores = score.Split('|');
+            List<Score> response = new List<Score>();
+            Score aux;
+            string[] auxScore;
+            foreach (string singleScore in scores) {
+                auxScore = singleScore.Split(';');
+                aux = new Score(auxScore[0], int.Parse(auxScore[1]));
+                response.Add(aux);
+            }
+            return response;
+        }
+
+        public static string GetScoreString(List<Score> scores) {
+            scores.Sort((a, b) => -1 * a.score.CompareTo(b.score)); //Descending
+			string response = "";
+			foreach (Score score in scores)
+			{
+				response += score.ToString() + "|";
+			}
+			response = response.Substring(0, response.Length - 1);
+			return response;
+        }
+
     }
 
 }
