@@ -69,7 +69,6 @@ public class PlayerController : MonoBehaviour {
 
     public void Damage(DeathCause cause) {
         health--;
-        animator.SetTrigger("DamageCollision");
         points.ResetObstacles();
         chaseController.AddHit();
         if (!chaseController.MustDie()) {
