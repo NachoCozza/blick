@@ -23,7 +23,6 @@ public class Obstacle : MonoBehaviour {
                 }
             }
             if (!canGoThrough) {
-
                 player.Damage(DeathCause.Collision);
             }
             else {
