@@ -9,30 +9,30 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1384082929907094}
+  m_RootGameObject: {fileID: 1827687491312610}
   m_IsPrefabParent: 1
---- !u!1 &1384082929907094
+--- !u!1 &1827687491312610
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4609173017804674}
-  - component: {fileID: 114281293446040838}
+  - component: {fileID: 4670433735345630}
+  - component: {fileID: 114262947645272682}
   m_Layer: 0
-  m_Name: ChGr-Medium-1
+  m_Name: chgr-hard-2!
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4609173017804674
+--- !u!4 &4670433735345630
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1384082929907094}
+  m_GameObject: {fileID: 1827687491312610}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -40,20 +40,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114281293446040838
+--- !u!114 &114262947645272682
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1384082929907094}
+  m_GameObject: {fileID: 1827687491312610}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 83b081201dc2a7444927ba9bfa6f0aa3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   chunkPrefabs:
-  - {fileID: 1381515351213378, guid: 80aada99b1f82f14b91bb8fca006a7d1, type: 2}
-  - {fileID: 1904947221126336, guid: aab86bd8ab7ba40449bfc02a8bf19ccf, type: 2}
-  - {fileID: 1381515351213378, guid: 80aada99b1f82f14b91bb8fca006a7d1, type: 2}
-  - {fileID: 1821000198687378, guid: a581b1ebb9adbbe48801beeca677c3bd, type: 2}
-  - {fileID: 1213174681127432, guid: d9a2f180b7e7a994a977b0dcbb18a3eb, type: 2}
+  - {fileID: 1239652639791276, guid: 95cacea6383f8b340a77e736ecd4b6b9, type: 2}
+  - {fileID: 1639302719021652, guid: 0c406b6cc2fa1b94281d657e1d5fdbe9, type: 2}
+  - {fileID: 1327919225082706, guid: 0c4b167a3ba38054a9bd05d8e207a7e8, type: 2}
+  - {fileID: 1639302719021652, guid: 0c406b6cc2fa1b94281d657e1d5fdbe9, type: 2}
+  - {fileID: 1239652639791276, guid: 95cacea6383f8b340a77e736ecd4b6b9, type: 2}
