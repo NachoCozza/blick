@@ -503,12 +503,13 @@ MonoBehaviour:
   chunkGroupsMedium:
   - {fileID: 1384082929907094, guid: 299485e9752aafa4396b2067bd2ed588, type: 2}
   chunkGroupsHard:
-  - {fileID: 1561167195599654, guid: 770765b220b7b466f8d46e45b5d85529, type: 2}
+  - {fileID: 0}
   backgroundPrefabs:
-  - {fileID: 1561167195599654, guid: 770765b220b7b466f8d46e45b5d85529, type: 2}
+  - {fileID: 1880872936776344, guid: 7a4f402434138ad4fa0acebfc331099e, type: 2}
   - {fileID: 1254978225890660, guid: b2489348b86164c3799f54bb0cf013e3, type: 2}
   - {fileID: 1519896320970812, guid: 03c1bb02a5400453cae62e702bca6997, type: 2}
   - {fileID: 1668201247933506, guid: 3f27b0ce1d8fa4f3fb1f4ebaa23d276f, type: 2}
+  - {fileID: 1968848920103260, guid: b374f92816b790441b5f971a044c1da9, type: 2}
   totalChunks: 20
   firstBackgroundLane: {fileID: 1305545413}
   secondBackgroundLane: {fileID: 1060207274}
