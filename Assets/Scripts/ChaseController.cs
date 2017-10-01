@@ -27,8 +27,8 @@ public class ChaseController : MonoBehaviour {
         secondPosition = player.transform.position;
         finalPosition = player.transform.position;
 
-        firstPosition.z -= 10f;
-        secondPosition.z -= 5f;
+        firstPosition.z -= 15f;
+        secondPosition.z -= 12.4f;
 
     }
 
