@@ -19,7 +19,7 @@ public class MainMenuController : MonoBehaviour {
         else {
             scoresText = "No highscores. GO PLAY!";
         }
-        Text txt = highscores.transform.GetChild(1).gameObject.GetComponent<Text>();
+        Text txt = highscores.transform.GetChild(2).gameObject.GetComponent<Text>();
         txt.text = scoresText;
 	}
 	

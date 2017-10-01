@@ -4,13 +4,25 @@ using UnityEngine;
 
 public class ChunkManager : MonoBehaviour {
 
-    public GameObject[] ChunkGroupsEasy;
-    public GameObject[] ChunkGroupsMedium;
-    public GameObject[] ChunkGroupsHard;
-    public GameObject[] ChunkGroupsImpossible;
+    public GameObject[] chunkGroupsEasy;
+    public GameObject[] chunkGroupsMedium;
+    public GameObject[] chunkGroupsHard;
+    public GameObject[] chunkGroupsImpossible;
+
+    public GameObject[] backgroundPrefabs;
     public int totalChunks;
 
+    public Transform firstBackgroundLane;
+    public Transform secondBackgroundLane;
+    public float firstLaneMovementSpeed;
+    public float secondLaneMovementSpeed;
+
+    public int backgroundChunksPerLane = 40;
+
+    public Transform backgroundParent;
+
     Chunk[] chunks;
+    GameObject[] backgroundInstances;
     float interval = 0f;
     PerspectiveController perspective;
     PointsAndLevelManager level;
@@ -33,6 +45,7 @@ public class ChunkManager : MonoBehaviour {
         interval = (chunkSize / GetComponent<FloorMovement>().speed) * (totalChunks / 2 + 2);
         float initZ = perspective.player.transform.position.z + chunkSize / 2;
         InstantiateNewChunks(0, initZ);
+        InstantiateNewBackground();
 		StartCoroutine("SpawnNextAndDeleteLast");
     }
 
@@ -59,13 +72,13 @@ public class ChunkManager : MonoBehaviour {
         switch (difficulty) {
             case Difficulty.Easy:
             default:
-                return ChunkGroupsEasy;
+                return chunkGroupsEasy;
             case Difficulty.Medium:
-                return ChunkGroupsMedium;
+                return chunkGroupsMedium;
             case Difficulty.Hard:
-                return ChunkGroupsHard;
+                return chunkGroupsHard;
             case Difficulty.Impossible:
-                return ChunkGroupsImpossible;
+                return chunkGroupsImpossible;
         }
     }
 
@@ -84,10 +97,59 @@ public class ChunkManager : MonoBehaviour {
             lastZ += chunkSize;
             FloorMovement.lastChunkIndex -= newIndex;
             InstantiateNewChunks(newIndex, lastZ);
+            InstantiateNewBackground(); 
             //perspective.SetChunks(this.chunks);
             yield return wait;
 
         }
+    }
+
+    void InstantiateNewBackground() {
+        float lastZ = 0;
+        if (backgroundInstances != null && backgroundInstances.Length > 0) {
+            for (int i = 0; i < backgroundChunksPerLane * 2; i ++) {
+                Destroy(backgroundInstances[i]);
+                backgroundInstances[i] = backgroundInstances[i + backgroundChunksPerLane];
+			}
+            lastZ = backgroundInstances[backgroundChunksPerLane - 1].transform.position.z;
+        }
+        else {
+            backgroundInstances = new GameObject[backgroundChunksPerLane * 4];
+        }
+
+
+        //Debug.Log(backgroundInstances.Length);
+
+        for (int i = backgroundChunksPerLane * 2; i < (backgroundChunksPerLane * 3); i++)
+        {
+            InstantiateBackgroundChunk(i, lastZ, true);
+            InstantiateBackgroundChunk(i + backgroundChunksPerLane, lastZ, false);
+            lastZ += 35;   
+        }
+    }
+
+    private void InstantiateBackgroundChunk(int idx, float lastZ, bool firstLane) {
+		int prefabIdx = Random.Range(0, backgroundPrefabs.Length);
+        float randomHeight = Random.Range(-10, 10);
+		GameObject aux = Instantiate(backgroundPrefabs[prefabIdx]);
+        Vector3 auxPos;
+        float movementSpeed;
+        if (firstLane) {
+			auxPos = firstBackgroundLane.position;
+            movementSpeed = firstLaneMovementSpeed;
+        }
+        else {
+            auxPos = secondBackgroundLane.position;
+            movementSpeed = secondLaneMovementSpeed;
+        }
+		auxPos.y += randomHeight;
+		auxPos.z = lastZ;
+		aux.transform.position = auxPos;
+        aux.AddComponent<BackgroundChunk>().movementSpeed = movementSpeed;
+        aux.name += idx;
+        aux.transform.parent = backgroundParent;
+		backgroundInstances[idx] = aux;
+		
     }
 
 }
