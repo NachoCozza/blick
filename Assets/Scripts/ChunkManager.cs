@@ -42,7 +42,6 @@ public class ChunkManager : MonoBehaviour {
     }
 
     void Start() {
-        Time.timeScale = 20;
         allTimeSpawnedChunks = 0;
         perspective = GetComponent<PerspectiveController>();
         level = GetComponent<PointsAndLevelManager>();
@@ -147,9 +146,6 @@ public class ChunkManager : MonoBehaviour {
         else {
             backgroundInstances = new GameObject[backgroundChunksPerLane * 4];
         }
-
-
-        //Debug.Log(backgroundInstances.Length);
 
         for (int i = backgroundChunksPerLane * 2; i < (backgroundChunksPerLane * 3); i++)
         {
