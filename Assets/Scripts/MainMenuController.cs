@@ -8,6 +8,7 @@ public class MainMenuController : MonoBehaviour {
 
     public GameObject mainMenu;
     public GameObject highscores;
+    public GameObject roadMap;
 
 	// Use this for initialization
 	void Start () {
@@ -32,13 +33,15 @@ public class MainMenuController : MonoBehaviour {
         mainMenu.SetActive(false);
     }
 
-    public void Quit() {
-		Application.Quit();
-    }
-
     public void MainMenu() {
         highscores.SetActive(false);
+        roadMap.SetActive(false);
         mainMenu.SetActive(true);
+    }
+
+    public void FutureFeatures() {
+        roadMap.SetActive(true);
+        mainMenu.SetActive(false);
     }
 
 }
