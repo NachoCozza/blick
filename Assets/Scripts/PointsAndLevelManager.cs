@@ -133,7 +133,7 @@ public class PointsAndLevelManager : MonoBehaviour {
     }
 
     IEnumerator FinishGameAndAskForName() {
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(1.2f);
         AskForName();
     }
 
@@ -144,13 +144,18 @@ public class PointsAndLevelManager : MonoBehaviour {
     }
 
     public void SetScoreAndQuit() {
-        SetScore();
-        SceneManager.LoadScene("MainMenu");
+        if (!string.IsNullOrEmpty(playerNameInput.text)) {
+			SetScore();
+			SceneManager.LoadScene("MainMenu");
+        }
     }
 
     public void SetScoreAndRestart() {
-        SetScore();
-        SceneManager.LoadScene("Main");
+        if (!string.IsNullOrEmpty(playerNameInput.text)) {
+			SetScore();
+			SceneManager.LoadScene("Main");         
+        }
+        
     }
 
     void SetScore() {
