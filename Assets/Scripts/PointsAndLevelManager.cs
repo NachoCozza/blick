@@ -98,10 +98,10 @@ public class PointsAndLevelManager : MonoBehaviour {
         pointRate -= 0.1f;
         multiplierText.text = "x" + currentMultiplier;
         if (currentDifficulty == Difficulty.Hard) {
-            Time.timeScale = 1.1f;
+            //Time.timeScale = 1.1f;
         }
         if (currentDifficulty == Difficulty.Impossible) {
-            Time.timeScale = 1.3f;
+           // Time.timeScale = 1.3f;
         }
     } 
 

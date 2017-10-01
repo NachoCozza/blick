@@ -16,6 +16,8 @@ public class ChunkManager : MonoBehaviour {
     public float firstLaneMovementSpeed;
     public float secondLaneMovementSpeed;
 
+    float backgroundInterval;
+
     public int backgroundChunksPerLane = 40;
 
     Chunk[] chunks;
@@ -30,7 +32,9 @@ public class ChunkManager : MonoBehaviour {
     public Material firstBackgroundMaterial;
     public Material secondBackgroundMaterial;
 
+
     int allTimeSpawnedChunks = 0;
+    bool mustInstantiateSecondBackground = true; //ToDo make a more elegant solution
 
 
     public Chunk[] GetChunks() {
@@ -38,15 +42,18 @@ public class ChunkManager : MonoBehaviour {
     }
 
     void Start() {
+        Time.timeScale = 20;
         allTimeSpawnedChunks = 0;
         perspective = GetComponent<PerspectiveController>();
         level = GetComponent<PointsAndLevelManager>();
         chunks = new Chunk[totalChunks];
-        interval = (chunkSize / GetComponent<FloorMovement>().speed) * (totalChunks / 2 + 2);
+        interval = (chunkSize / GetComponent<FloorMovement>().speed) * (totalChunks / 2);
+        backgroundInterval = (35 / firstLaneMovementSpeed) * (56);
         float initZ = perspective.player.transform.position.z + chunkSize / 2;
         InstantiateNewChunks(0, initZ);
         InstantiateNewBackground();
 		StartCoroutine("SpawnNextAndDeleteLast");
+        StartCoroutine("SpawnBackground");
     }
 
 
@@ -103,21 +110,39 @@ public class ChunkManager : MonoBehaviour {
             lastZ += chunkSize;
             FloorMovement.lastChunkIndex -= newIndex;
             InstantiateNewChunks(newIndex, lastZ);
-            InstantiateNewBackground(); 
             //perspective.SetChunks(this.chunks);
             yield return wait;
 
         }
     }
 
+    IEnumerator SpawnBackground() {
+        WaitForSeconds wait = new WaitForSeconds(backgroundInterval);
+		yield return wait;
+		while (true)
+		{
+			InstantiateNewBackground();
+            yield return wait;
+		}
+	}
+
     void InstantiateNewBackground() {
-        float lastZ = 0;
+        float secondZ = 0;
+        float firstZ = 0;
+        //TODO optimize to only one loop
         if (backgroundInstances != null && backgroundInstances.Length > 0) {
+            int upTo = backgroundChunksPerLane;
+            if (mustInstantiateSecondBackground) {
+                upTo *= 2;
+            }
             for (int i = 0; i < backgroundChunksPerLane * 2; i ++) {
-                Destroy(backgroundInstances[i]);
-                backgroundInstances[i] = backgroundInstances[i + backgroundChunksPerLane];
+                if (backgroundInstances[i] != null) {
+					Destroy(backgroundInstances[i]);
+                }
+                backgroundInstances[i] = backgroundInstances[i + backgroundChunksPerLane * 2];
 			}
-            lastZ = backgroundInstances[backgroundChunksPerLane - 1].transform.position.z;
+            firstZ = backgroundInstances[backgroundChunksPerLane - 1].transform.position.z;
+            secondZ = backgroundInstances[backgroundChunksPerLane * 2 - 1].transform.position.z;
         }
         else {
             backgroundInstances = new GameObject[backgroundChunksPerLane * 4];
@@ -128,10 +153,14 @@ public class ChunkManager : MonoBehaviour {
 
         for (int i = backgroundChunksPerLane * 2; i < (backgroundChunksPerLane * 3); i++)
         {
-            InstantiateBackgroundChunk(i, lastZ, true);
-            InstantiateBackgroundChunk(i + backgroundChunksPerLane, lastZ, false);
-            lastZ += 35;   
+            InstantiateBackgroundChunk(i, firstZ, true);
+            if (mustInstantiateSecondBackground) {
+				InstantiateBackgroundChunk(i + backgroundChunksPerLane, secondZ, false);
+				secondZ += 35;            
+            }
+            firstZ += 35;
         }
+        mustInstantiateSecondBackground = !mustInstantiateSecondBackground;
     }
 
     private void InstantiateBackgroundChunk(int idx, float lastZ, bool firstLane) {
@@ -164,7 +193,6 @@ public class ChunkManager : MonoBehaviour {
         aux.name += idx;
         aux.transform.parent = parent;
 		backgroundInstances[idx] = aux;
-		
     }
 
 }

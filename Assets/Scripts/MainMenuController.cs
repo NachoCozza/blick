@@ -30,7 +30,6 @@ public class MainMenuController : MonoBehaviour {
     public void HighScores() {
 		highscores.SetActive(true);
         mainMenu.SetActive(false);
-        //TODo set scores
     }
 
     public void Quit() {
