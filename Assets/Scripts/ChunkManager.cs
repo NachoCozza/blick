@@ -27,6 +27,9 @@ public class ChunkManager : MonoBehaviour {
     public static float chunkSize = 15f;
     public static int chunkGroupSize = 5;
 
+    public Material firstBackgroundMaterial;
+    public Material secondBackgroundMaterial;
+
     int allTimeSpawnedChunks = 0;
 
 
@@ -133,25 +136,31 @@ public class ChunkManager : MonoBehaviour {
 
     private void InstantiateBackgroundChunk(int idx, float lastZ, bool firstLane) {
 		int prefabIdx = Random.Range(0, backgroundPrefabs.Length);
-        float randomHeight = Random.Range(-10, 10);
+        float randomHeight;
 		GameObject aux = Instantiate(backgroundPrefabs[prefabIdx]);
         Vector3 auxPos;
         Transform parent;
+        Material currentMaterial;
         float movementSpeed;
         if (firstLane) {
+            randomHeight = Random.Range(-2, 2);
 			auxPos = firstBackgroundLane.position;
             movementSpeed = firstLaneMovementSpeed;
             parent = firstBackgroundLane;
+            currentMaterial = firstBackgroundMaterial;
         }
         else {
+            randomHeight = Random.Range(-10, 10);
             auxPos = secondBackgroundLane.position;
             movementSpeed = secondLaneMovementSpeed;
             parent = secondBackgroundLane;
+            currentMaterial = secondBackgroundMaterial;
         }
 		auxPos.y += randomHeight;
 		auxPos.z = lastZ;
 		aux.transform.position = auxPos;
         aux.AddComponent<BackgroundChunk>().movementSpeed = movementSpeed;
+        aux.GetComponent<MeshRenderer>().material = currentMaterial;
         aux.name += idx;
         aux.transform.parent = parent;
 		backgroundInstances[idx] = aux;

@@ -31,6 +31,7 @@ public class PauseController : MonoBehaviour {
     }
 
     public void QuitGame() {
+        Debug.Log("quit");
         SceneManager.LoadScene("MainMenu");
     }
 
