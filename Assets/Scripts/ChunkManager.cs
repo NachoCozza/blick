@@ -7,7 +7,6 @@ public class ChunkManager : MonoBehaviour {
     public GameObject[] chunkGroupsEasy;
     public GameObject[] chunkGroupsMedium;
     public GameObject[] chunkGroupsHard;
-    public GameObject[] chunkGroupsImpossible;
 
     public GameObject[] backgroundPrefabs;
     public int totalChunks;
@@ -78,7 +77,13 @@ public class ChunkManager : MonoBehaviour {
             case Difficulty.Hard:
                 return chunkGroupsHard;
             case Difficulty.Impossible:
-                return chunkGroupsImpossible;
+                int random = Random.Range(0, 1);
+                switch(random) {
+                    case 0:
+                        return chunkGroupsMedium;
+                    case 1: default:
+                        return chunkGroupsHard;
+                }
         }
     }
 

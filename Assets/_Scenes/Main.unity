@@ -523,14 +523,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   chunkGroupsEasy:
   - {fileID: 1803670378778784, guid: 47a0f473b6b0cca44aeedbdb0904afec, type: 2}
-  - {fileID: 1384082929907094, guid: 299485e9752aafa4396b2067bd2ed588, type: 2}
-  - {fileID: 1384082929907094, guid: 8e27344bb46e53346ba870885a6e5a46, type: 2}
+  - {fileID: 1803670378778784, guid: 292fccd130294414982bf85138d41464, type: 2}
   chunkGroupsMedium:
   - {fileID: 1384082929907094, guid: 299485e9752aafa4396b2067bd2ed588, type: 2}
   chunkGroupsHard:
-  - {fileID: 1384082929907094, guid: 8e27344bb46e53346ba870885a6e5a46, type: 2}
-  chunkGroupsImpossible:
-  - {fileID: 1384082929907094, guid: cb331ff607c1da547a0418ce58216d12, type: 2}
+  - {fileID: 1561167195599654, guid: 770765b220b7b466f8d46e45b5d85529, type: 2}
   backgroundPrefabs:
   - {fileID: 1561167195599654, guid: 770765b220b7b466f8d46e45b5d85529, type: 2}
   - {fileID: 1254978225890660, guid: b2489348b86164c3799f54bb0cf013e3, type: 2}
