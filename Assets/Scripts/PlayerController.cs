@@ -36,7 +36,7 @@ public class PlayerController : MonoBehaviour {
     }
 
     void Update() {
-        if (Input.GetKeyDown(KeyCode.UpArrow) && isGrounded) {
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded) {
             DoJump();
         }
 
