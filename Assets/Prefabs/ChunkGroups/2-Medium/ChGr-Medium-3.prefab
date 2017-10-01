@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 4379318055421038}
   - component: {fileID: 114424516370021982}
   m_Layer: 0
-  m_Name: chgr-medium-3
+  m_Name: ChGr-Medium-3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -13,7 +13,6 @@ public class IntroController : MonoBehaviour {
     public GameObject secondTutorialText;
     // Use this for initialization
     void Start() {
-        PlayerPrefs.DeleteAll();
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
         string hadTutorial = PlayerPrefs.GetString("hadTutorial");
         enemy = GameObject.FindGameObjectWithTag("Enemy");

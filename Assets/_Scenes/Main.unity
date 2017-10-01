@@ -1032,11 +1032,18 @@ MonoBehaviour:
   - {fileID: 1264008208858090, guid: 2244394c6eb144c5c8c32b1c8910f38d, type: 2}
   - {fileID: 1968444600634912, guid: cb331ff607c1da547a0418ce58216d12, type: 2}
   - {fileID: 1131573238300344, guid: d90fd97e08fa24780bcadc6bed38b7e2, type: 2}
+  - {fileID: 1886940879282754, guid: 6ba2da4de49da46bf8a156ee8ed44c5f, type: 2}
+  - {fileID: 1827687491312610, guid: 88faa927e8890164a85cc3754a917566, type: 2}
   chunkGroupsHard:
-  - {fileID: 1131573238300344, guid: d90fd97e08fa24780bcadc6bed38b7e2, type: 2}
   - {fileID: 1718351816824278, guid: 7b835fa8d7852420b822ff73ee45b388, type: 2}
   - {fileID: 1886940879282754, guid: 6ba2da4de49da46bf8a156ee8ed44c5f, type: 2}
   - {fileID: 1660397415586964, guid: abc34802af5d44cf380da78177511025, type: 2}
+  - {fileID: 1827687491312610, guid: bbeb5c538afc9544d90411c4a44df3ef, type: 2}
+  - {fileID: 1827687491312610, guid: cf0eaa2d56564d147abc602fd4730f7b, type: 2}
+  - {fileID: 1827687491312610, guid: 88faa927e8890164a85cc3754a917566, type: 2}
+  - {fileID: 1827687491312610, guid: cf0c1ba2e665ba149a6a82c36f05fba4, type: 2}
+  - {fileID: 1827687491312610, guid: 32177653f6fb71b48923fce1bec895a1, type: 2}
+  - {fileID: 1827687491312610, guid: 872322dcba2904c4284465af50d301f7, type: 2}
   backgroundPrefabs:
   - {fileID: 1880872936776344, guid: 7a4f402434138ad4fa0acebfc331099e, type: 2}
   - {fileID: 1254978225890660, guid: b2489348b86164c3799f54bb0cf013e3, type: 2}
