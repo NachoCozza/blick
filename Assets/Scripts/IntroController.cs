@@ -6,9 +6,11 @@ public class IntroController : MonoBehaviour {
 
     public float waitTime = 1f;
     PlayerController player;
+    GameObject enemy;
     // Use this for initialization
     void Start() {
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+        enemy = GameObject.FindGameObjectWithTag("Enemy");
         StartCoroutine("Timer");
     }
 
@@ -17,6 +19,7 @@ public class IntroController : MonoBehaviour {
         yield return new WaitForSeconds(waitTime);
         GetComponent<FloorMovement>().enabled = true;
         GetComponent<PerspectiveController>().enabled = true;
+        enemy.layer = LayerMask.NameToLayer("Enemy");
         player.enabled = true;
     }
 }
