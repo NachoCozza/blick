@@ -52,6 +52,12 @@ ModelImporter:
     100088: Background3
     100090: Background7
     100092: pCylinder7
+    100094: Background1
+    100096: Background2
+    100098: Background4
+    100100: Pipe
+    100102: WaterTank1
+    100104: WaterTank2
     400000: AC_Big
     400002: AC_Small
     400004: Background
@@ -99,6 +105,12 @@ ModelImporter:
     400088: Background3
     400090: Background7
     400092: pCylinder7
+    400094: Background1
+    400096: Background2
+    400098: Background4
+    400100: Pipe
+    400102: WaterTank1
+    400104: WaterTank2
     2300000: AC_Big
     2300002: AC_Small
     2300004: Background
@@ -146,6 +158,12 @@ ModelImporter:
     2300088: Background3
     2300090: Background7
     2300092: pCylinder7
+    2300094: Background1
+    2300096: Background2
+    2300098: Background4
+    2300100: Pipe
+    2300102: WaterTank1
+    2300104: WaterTank2
     3300000: AC_Big
     3300002: AC_Small
     3300004: Background
@@ -193,6 +211,12 @@ ModelImporter:
     3300088: Background3
     3300090: Background7
     3300092: pCylinder7
+    3300094: Background1
+    3300096: Background2
+    3300098: Background4
+    3300100: Pipe
+    3300102: WaterTank1
+    3300104: WaterTank2
     4300000: WaterTank
     4300002: AC_Big
     4300004: AC_Small
@@ -239,6 +263,12 @@ ModelImporter:
     4300086: Background7
     4300088: pCylinder7
     4300090: Background12
+    4300092: WaterTank1
+    4300094: WaterTank2
+    4300096: Pipe
+    4300098: Background1
+    4300100: Background2
+    4300102: Background4
   materials:
     importMaterials: 0
     materialName: 0
