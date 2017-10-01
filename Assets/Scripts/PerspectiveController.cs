@@ -16,6 +16,7 @@ public class PerspectiveController : MonoBehaviour {
     void Start() {
         chunkManager = GetComponent<ChunkManager>();
         chunks = chunkManager.GetChunks();
+        ChangePerspective(View.Persp);
     }
 
     private void CheckKeys() {
