@@ -39,7 +39,7 @@ GameObject:
   - component: {fileID: 33592333840620744}
   - component: {fileID: 23559202616536148}
   m_Layer: 8
-  m_Name: R-sign-jump
+  m_Name: R-Sign-jump
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -220,7 +220,7 @@ MeshFilter:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1982182926386226}
-  m_Mesh: {fileID: 4300036, guid: 3aa3bd3f71fcab04bb558be7596ba2d9, type: 3}
+  m_Mesh: {fileID: 4300024, guid: 3aa3bd3f71fcab04bb558be7596ba2d9, type: 3}
 --- !u!65 &65000544527945666
 BoxCollider:
   m_ObjectHideFlags: 1
