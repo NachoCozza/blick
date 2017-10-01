@@ -1639,7 +1639,12 @@ MonoBehaviour:
     - Fix some perspective-change teleport bugs.
 
 
-    -Make more chunks'
+    -Make more chunks
+
+
+    - Fix BUGS!!!
+
+'
 --- !u!222 &1499204302
 CanvasRenderer:
   m_ObjectHideFlags: 0

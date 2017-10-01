@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ChunkManager : MonoBehaviour {
+	
+    public GameObject initialChunkGroup;
 
     public GameObject[] chunkGroupsEasy;
     public GameObject[] chunkGroupsMedium;
     public GameObject[] chunkGroupsHard;
+
 
     public GameObject[] backgroundPrefabs;
     public int totalChunks;
@@ -61,16 +64,22 @@ public class ChunkManager : MonoBehaviour {
         for (int i = startIndex; i < totalChunks; i += chunkGroupSize) {
             Difficulty difficulty = level.GetDifficulty(allTimeSpawnedChunks);
             currentChunkGroups = GetCurrentChunkGroup(difficulty);
-            int prefabIdx = Random.Range(0, currentChunkGroups.Length);
+            ChunkGroup newChunkGroup;
             if (i == 0) {
-                prefabIdx = 0; //Start in center. prefab idx = 0 should be walkable in 0,0,0
+                newChunkGroup = Instantiate(initialChunkGroup).GetComponent<ChunkGroup>();
             }
-            ChunkGroup newChunkGroup = Instantiate(currentChunkGroups[prefabIdx]).GetComponent<ChunkGroup>();
-            newChunkGroup.transform.position = new Vector3(newChunkGroup.transform.position.x, newChunkGroup.transform.position.y, lastZ + (i / chunkGroupSize * chunkSize * chunkGroupSize));
+            else {
+				int prefabIdx = Random.Range(0, currentChunkGroups.Length);
+				newChunkGroup = Instantiate(currentChunkGroups[prefabIdx]).GetComponent<ChunkGroup>();
+            }
+            newChunkGroup.transform.position = new Vector3(newChunkGroup.transform.position.x, newChunkGroup.transform.position.y, lastZ);
             for (int k = 0; k < chunkGroupSize; k++) {
                 chunks[k + i] = newChunkGroup.AddChunkBehaviour(k);
             }
-            allTimeSpawnedChunks += chunkGroupSize;
+            if (i > 0) {
+				allTimeSpawnedChunks += chunkGroupSize;
+            }
+            lastZ += chunkGroupSize * chunkSize;
         }
     }
 
@@ -99,14 +108,12 @@ public class ChunkManager : MonoBehaviour {
         yield return wait;
         while (true) {
             int newIndex = totalChunks / 2;
-            float lastZ = 0;
             for (int i = 0; i < newIndex; i++) {
                 Chunk toDelete = chunks[i];
-                lastZ = toDelete.transform.position.z;
                 Destroy(toDelete.gameObject);
                 chunks[i] = chunks[newIndex + i];
             }
-            lastZ += chunkSize;
+            float lastZ = chunks[newIndex - 1].transform.position.z + chunkSize;
             FloorMovement.lastChunkIndex -= newIndex;
             InstantiateNewChunks(newIndex, lastZ);
             //perspective.SetChunks(this.chunks);

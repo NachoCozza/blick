@@ -15,18 +15,14 @@ public class ChunkGroup : MonoBehaviour {
         Vector3 auxPos;
         for (int i = 0; i < chunkPrefabs.Length; i ++) {
             chunks[i] = Instantiate(chunkPrefabs[i]);
-            chunks[i].transform.parent = transform;
+			chunks[i].transform.parent = transform;
+            chunks[i].transform.localPosition = Vector3.zero;
             if (i > 0) {
-                auxPos = chunks[i].transform.position;
-                auxPos.z = chunks[i - 1].transform.position.z + ChunkManager.chunkSize;
-                chunks[i].transform.position = auxPos;
+                auxPos = chunks[i].transform.localPosition;
+                auxPos.z = chunks[i - 1].transform.localPosition.z + ChunkManager.chunkSize;
+                chunks[i].transform.localPosition = auxPos;
             }
         }
-    }
-
-    // Update is called once per frame
-    void Update() {
-
     }
 
     public Chunk AddChunkBehaviour(int idx) {

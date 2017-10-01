@@ -17,10 +17,10 @@ public class PointsAndLevelManager : MonoBehaviour {
     public Text scoreText;
     public Text multiplierText;
 
-    public int chunksToMedium = 10;
-    public int chunksToHard = 25;
-    public int chunksToImpossible = 40;
-    public int chunksToWin = 70;
+    public int chunksToMedium = 15;
+    public int chunksToHard = 30;
+    public int chunksToImpossible = 70;
+    public int chunksToWin = 200;
 
     public int maxScoreCount = 5;
 
@@ -98,10 +98,10 @@ public class PointsAndLevelManager : MonoBehaviour {
         pointRate -= 0.1f;
         multiplierText.text = "x" + currentMultiplier;
         if (currentDifficulty == Difficulty.Hard) {
-            //Time.timeScale = 1.1f;
+            Time.timeScale = 1.1f;
         }
         if (currentDifficulty == Difficulty.Impossible) {
-           // Time.timeScale = 1.3f;
+            Time.timeScale = 1.3f;
         }
     } 
 

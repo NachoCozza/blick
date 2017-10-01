@@ -68,6 +68,7 @@ public class PlayerController : MonoBehaviour {
     }
 
     public void Damage(DeathCause cause) {
+        Debug.Log("GOT DAMAGE");
         health--;
         points.ResetObstacles();
         chaseController.AddHit();

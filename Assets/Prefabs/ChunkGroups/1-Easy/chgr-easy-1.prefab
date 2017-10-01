@@ -9,30 +9,30 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1803670378778784}
+  m_RootGameObject: {fileID: 1430982764995156}
   m_IsPrefabParent: 1
---- !u!1 &1803670378778784
+--- !u!1 &1430982764995156
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 5
   m_Component:
-  - component: {fileID: 4838077705968510}
-  - component: {fileID: 114544084719723040}
+  - component: {fileID: 4346833454285916}
+  - component: {fileID: 114086069012923538}
   m_Layer: 0
-  m_Name: ChunkGroup(Basics)
+  m_Name: chgr-easy-1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4838077705968510
+--- !u!4 &4346833454285916
 Transform:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1803670378778784}
+  m_GameObject: {fileID: 1430982764995156}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
@@ -40,12 +40,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114544084719723040
+--- !u!114 &114086069012923538
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1803670378778784}
+  m_GameObject: {fileID: 1430982764995156}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 83b081201dc2a7444927ba9bfa6f0aa3, type: 3}
@@ -54,6 +54,6 @@ MonoBehaviour:
   chunkPrefabs:
   - {fileID: 1448024552236502, guid: 9d7904676aeb9ee40a8c7f3e2db1003d, type: 2}
   - {fileID: 1213174681127432, guid: d9a2f180b7e7a994a977b0dcbb18a3eb, type: 2}
-  - {fileID: 1997498680875108, guid: 1eaa680aa6ad37e4ea8b0d363f693849, type: 2}
-  - {fileID: 1239652639791276, guid: 95cacea6383f8b340a77e736ecd4b6b9, type: 2}
-  - {fileID: 1821000198687378, guid: a581b1ebb9adbbe48801beeca677c3bd, type: 2}
+  - {fileID: 1866402948770836, guid: d26faf06278414eb7a235f5b5eaacd28, type: 2}
+  - {fileID: 1213174681127432, guid: d9a2f180b7e7a994a977b0dcbb18a3eb, type: 2}
+  - {fileID: 1381515351213378, guid: 80aada99b1f82f14b91bb8fca006a7d1, type: 2}
