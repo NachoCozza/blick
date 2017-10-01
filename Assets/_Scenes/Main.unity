@@ -397,7 +397,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 216393766}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.87, z: -5.41}
+  m_LocalPosition: {x: 0, y: 3, z: -15}
   m_LocalScale: {x: 6.7101426, y: 6.710144, z: 6.710144}
   m_Children: []
   m_Father: {fileID: 0}
@@ -437,6 +437,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hitsToDie: 3
   timeToResetHits: 10
+  enemy: {fileID: 216393766}
 --- !u!114 &407941699
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -498,12 +499,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   chunkGroupsEasy:
-  - {fileID: 1803670378778784, guid: 47a0f473b6b0cca44aeedbdb0904afec, type: 2}
+  - {fileID: 1803670378778784, guid: 292fccd130294414982bf85138d41464, type: 2}
   - {fileID: 1803670378778784, guid: 292fccd130294414982bf85138d41464, type: 2}
   chunkGroupsMedium:
   - {fileID: 1384082929907094, guid: 299485e9752aafa4396b2067bd2ed588, type: 2}
   chunkGroupsHard:
-  - {fileID: 0}
+  - {fileID: 1803670378778784, guid: 47a0f473b6b0cca44aeedbdb0904afec, type: 2}
   backgroundPrefabs:
   - {fileID: 1880872936776344, guid: 7a4f402434138ad4fa0acebfc331099e, type: 2}
   - {fileID: 1254978225890660, guid: b2489348b86164c3799f54bb0cf013e3, type: 2}
@@ -516,7 +517,6 @@ MonoBehaviour:
   firstLaneMovementSpeed: 50
   secondLaneMovementSpeed: 30
   backgroundChunksPerLane: 60
-  backgroundParent: {fileID: 633801783}
 --- !u!114 &407941703
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 33105793430542000}
   - component: {fileID: 23191763210524138}
   m_Layer: 8
-  m_Name: R-Sign
+  m_Name: R-sign
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

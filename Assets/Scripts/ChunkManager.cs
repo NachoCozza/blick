@@ -18,8 +18,6 @@ public class ChunkManager : MonoBehaviour {
 
     public int backgroundChunksPerLane = 40;
 
-    public Transform backgroundParent;
-
     Chunk[] chunks;
     GameObject[] backgroundInstances;
     float interval = 0f;
@@ -138,21 +136,24 @@ public class ChunkManager : MonoBehaviour {
         float randomHeight = Random.Range(-10, 10);
 		GameObject aux = Instantiate(backgroundPrefabs[prefabIdx]);
         Vector3 auxPos;
+        Transform parent;
         float movementSpeed;
         if (firstLane) {
 			auxPos = firstBackgroundLane.position;
             movementSpeed = firstLaneMovementSpeed;
+            parent = firstBackgroundLane;
         }
         else {
             auxPos = secondBackgroundLane.position;
             movementSpeed = secondLaneMovementSpeed;
+            parent = secondBackgroundLane;
         }
 		auxPos.y += randomHeight;
 		auxPos.z = lastZ;
 		aux.transform.position = auxPos;
         aux.AddComponent<BackgroundChunk>().movementSpeed = movementSpeed;
         aux.name += idx;
-        aux.transform.parent = backgroundParent;
+        aux.transform.parent = parent;
 		backgroundInstances[idx] = aux;
 		
     }
