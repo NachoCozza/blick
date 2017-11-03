@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ChunkManager : MonoBehaviour {
-	
+
     public GameObject initialChunkGroup;
+    public GameObject tutorialChunkGroup;
 
     public GameObject[] chunkGroupsEasy;
     public GameObject[] chunkGroupsMedium;
@@ -39,6 +40,8 @@ public class ChunkManager : MonoBehaviour {
     int allTimeSpawnedChunks = 0;
     bool mustInstantiateSecondBackground = true; //ToDo make a more elegant solution
 
+    TutorialController tutorial;
+
 
     public Chunk[] GetChunks() {
         return chunks;
@@ -48,13 +51,14 @@ public class ChunkManager : MonoBehaviour {
         allTimeSpawnedChunks = 0;
         perspective = GetComponent<PerspectiveController>();
         level = GetComponent<PointsAndLevelManager>();
+        tutorial = GetComponent<TutorialController>();
         chunks = new Chunk[totalChunks];
         interval = (chunkSize / GetComponent<FloorMovement>().speed) * (totalChunks / 2);
         backgroundInterval = (35 / firstLaneMovementSpeed) * (56);
         float initZ = perspective.player.transform.position.z + chunkSize / 2;
         InstantiateNewChunks(0, initZ);
         InstantiateNewBackground();
-		StartCoroutine("SpawnNextAndDeleteLast");
+        StartCoroutine("SpawnNextAndDeleteLast");
         StartCoroutine("SpawnBackground");
     }
 
@@ -69,15 +73,20 @@ public class ChunkManager : MonoBehaviour {
                 newChunkGroup = Instantiate(initialChunkGroup).GetComponent<ChunkGroup>();
             }
             else {
-				int prefabIdx = Random.Range(0, currentChunkGroups.Length);
-				newChunkGroup = Instantiate(currentChunkGroups[prefabIdx]).GetComponent<ChunkGroup>();
+                if (i == chunkGroupSize && !tutorial.Finished()) {
+                    newChunkGroup = Instantiate(tutorialChunkGroup).GetComponent<ChunkGroup>();
+                }
+                else {
+                    int prefabIdx = Random.Range(0, currentChunkGroups.Length);
+                    newChunkGroup = Instantiate(currentChunkGroups[prefabIdx]).GetComponent<ChunkGroup>();
+                }
             }
             newChunkGroup.transform.position = new Vector3(newChunkGroup.transform.position.x, newChunkGroup.transform.position.y, lastZ);
             for (int k = 0; k < chunkGroupSize; k++) {
                 chunks[k + i] = newChunkGroup.AddChunkBehaviour(k);
             }
             if (i > 0) {
-				allTimeSpawnedChunks += chunkGroupSize;
+                allTimeSpawnedChunks += chunkGroupSize;
             }
             lastZ += chunkGroupSize * chunkSize;
         }
@@ -94,10 +103,11 @@ public class ChunkManager : MonoBehaviour {
                 return chunkGroupsHard;
             case Difficulty.Impossible:
                 int random = Random.Range(0, 1);
-                switch(random) {
+                switch (random) {
                     case 0:
                         return chunkGroupsMedium;
-                    case 1: default:
+                    case 1:
+                    default:
                         return chunkGroupsHard;
                 }
         }
@@ -124,13 +134,12 @@ public class ChunkManager : MonoBehaviour {
 
     IEnumerator SpawnBackground() {
         WaitForSeconds wait = new WaitForSeconds(backgroundInterval);
-		yield return wait;
-		while (true)
-		{
-			InstantiateNewBackground();
+        yield return wait;
+        while (true) {
+            InstantiateNewBackground();
             yield return wait;
-		}
-	}
+        }
+    }
 
     void InstantiateNewBackground() {
         float secondZ = 0;
@@ -141,12 +150,12 @@ public class ChunkManager : MonoBehaviour {
             if (mustInstantiateSecondBackground) {
                 upTo *= 2;
             }
-            for (int i = 0; i < backgroundChunksPerLane * 2; i ++) {
+            for (int i = 0; i < backgroundChunksPerLane * 2; i++) {
                 if (backgroundInstances[i] != null) {
-					Destroy(backgroundInstances[i]);
+                    Destroy(backgroundInstances[i]);
                 }
                 backgroundInstances[i] = backgroundInstances[i + backgroundChunksPerLane * 2];
-			}
+            }
             firstZ = backgroundInstances[backgroundChunksPerLane - 1].transform.position.z;
             secondZ = backgroundInstances[backgroundChunksPerLane * 2 - 1].transform.position.z;
         }
@@ -154,12 +163,11 @@ public class ChunkManager : MonoBehaviour {
             backgroundInstances = new GameObject[backgroundChunksPerLane * 4];
         }
 
-        for (int i = backgroundChunksPerLane * 2; i < (backgroundChunksPerLane * 3); i++)
-        {
+        for (int i = backgroundChunksPerLane * 2; i < (backgroundChunksPerLane * 3); i++) {
             InstantiateBackgroundChunk(i, firstZ, true);
             if (mustInstantiateSecondBackground) {
-				InstantiateBackgroundChunk(i + backgroundChunksPerLane, secondZ, false);
-				secondZ += 35;            
+                InstantiateBackgroundChunk(i + backgroundChunksPerLane, secondZ, false);
+                secondZ += 35;
             }
             firstZ += 35;
         }
@@ -167,16 +175,16 @@ public class ChunkManager : MonoBehaviour {
     }
 
     private void InstantiateBackgroundChunk(int idx, float lastZ, bool firstLane) {
-		int prefabIdx = Random.Range(0, backgroundPrefabs.Length);
+        int prefabIdx = Random.Range(0, backgroundPrefabs.Length);
         float randomHeight;
-		GameObject aux = Instantiate(backgroundPrefabs[prefabIdx]);
+        GameObject aux = Instantiate(backgroundPrefabs[prefabIdx]);
         Vector3 auxPos;
         Transform parent;
         Material currentMaterial;
         float movementSpeed;
         if (firstLane) {
             randomHeight = Random.Range(-2, 2);
-			auxPos = firstBackgroundLane.position;
+            auxPos = firstBackgroundLane.position;
             movementSpeed = firstLaneMovementSpeed;
             parent = firstBackgroundLane;
             currentMaterial = firstBackgroundMaterial;
@@ -188,14 +196,14 @@ public class ChunkManager : MonoBehaviour {
             parent = secondBackgroundLane;
             currentMaterial = secondBackgroundMaterial;
         }
-		auxPos.y += randomHeight;
-		auxPos.z = lastZ;
-		aux.transform.position = auxPos;
+        auxPos.y += randomHeight;
+        auxPos.z = lastZ;
+        aux.transform.position = auxPos;
         aux.AddComponent<BackgroundChunk>().movementSpeed = movementSpeed;
         aux.GetComponent<MeshRenderer>().material = currentMaterial;
         aux.name += idx;
         aux.transform.parent = parent;
-		backgroundInstances[idx] = aux;
+        backgroundInstances[idx] = aux;
     }
 
 }

@@ -10,7 +10,6 @@ public class Obstacle : MonoBehaviour {
     static PointsAndLevelManager points;
 
     void OnTriggerEnter(Collider other) {
-        Debug.Log("ttigger enter");
         if (other.tag == "Player") {
             if (player == null) {
                 player = other.GetComponent<PlayerController>();
