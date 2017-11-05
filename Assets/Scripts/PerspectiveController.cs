@@ -20,20 +20,32 @@ public class PerspectiveController : MonoBehaviour {
     }
 
     private void CheckKeys() {
-		if (!PointsAndLevelManager.gameOver) {
-			if (Input.GetKeyDown(KeyCode.C) && currentView != View.Persp) {
-				ChangePerspective(View.Persp);
-				return;
-			}
-			if (Input.GetKeyDown(KeyCode.X) && currentView != View.Right) {
-				ChangePerspective(View.Right);
-				return;
-			}
-			if (Input.GetKeyDown(KeyCode.Z) && currentView != View.Top) {
-				ChangePerspective(View.Top);
-				return;
-			}
-		}
+        if (!PointsAndLevelManager.gameOver) {
+
+            if (Input.GetKeyDown(KeyCode.Z)) {
+                if (currentView != View.Persp) {
+                    ChangePerspective(View.Persp);
+                    return;
+                }
+                if (currentView != View.Right) {
+                    ChangePerspective(View.Right);
+                    return;
+                }
+            }
+
+            //if (Input.GetKeyDown(KeyCode.C) && currentView != View.Persp) {
+            //    ChangePerspective(View.Persp);
+            //    return;
+            //}
+            //if (Input.GetKeyDown(KeyCode.X) && currentView != View.Right) {
+            //    ChangePerspective(View.Right);
+            //    return;
+            //}
+            //if (Input.GetKeyDown(KeyCode.Z) && currentView != View.Top) {
+            //    ChangePerspective(View.Top);
+            //    return;
+            //}
+        }
     }
 
     void Update() {
@@ -46,27 +58,23 @@ public class PerspectiveController : MonoBehaviour {
     }
 
 
-	public void NotifyCameraStart(View oldView, View newView)
-	{
+    public void NotifyCameraStart(View oldView, View newView) {
         IterateChildrenAndArrange(oldView, newView, true);
-	}
+    }
 
-	public void NotifyCameraFinish(View oldView, View newView)
-	{
+    public void NotifyCameraFinish(View oldView, View newView) {
         IterateChildrenAndArrange(oldView, newView, false);
-	}
+    }
 
 
     void IterateChildrenAndArrange(View oldView, View newView, bool isStart) {
-		for (int chunkIdx = 0; chunkIdx < chunks.Length; chunkIdx++)
-		{
-			Chunk child = chunks[chunkIdx];
+        for (int chunkIdx = 0; chunkIdx < chunks.Length; chunkIdx++) {
+            Chunk child = chunks[chunkIdx];
             child.AdjustCurrentPosition(oldView, newView, isStart);
-			if (chunkIdx == FloorMovement.lastChunkIndex)
-			{
-				child.MovePlayer(player);
-			}
-		}
+            if (chunkIdx == FloorMovement.lastChunkIndex) {
+                child.MovePlayer(player);
+            }
+        }
     }
 
 

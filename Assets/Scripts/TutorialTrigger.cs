@@ -13,7 +13,6 @@ public class TutorialTrigger : MonoBehaviour {
         }
     }
     public void OnTriggerEnter(Collider other) {
-        Debug.Log("Trigger");
         if (other.tag  == "Player") {
             controller.EnterTutorialTrigger(messageToDisplay, keyToPress);
         }

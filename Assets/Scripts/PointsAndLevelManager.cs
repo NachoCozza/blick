@@ -19,7 +19,9 @@ public class PointsAndLevelManager : MonoBehaviour {
 
     public int chunksToMedium = 15;
     public int chunksToHard = 30;
+    public float hardDifficultyFloorSpeed = 10;
     public int chunksToImpossible = 70;
+    public float impossibleDifficultyFloorSpeed = 14;
     public int chunksToWin = 200;
 
     public int maxScoreCount = 5;
@@ -36,7 +38,7 @@ public class PointsAndLevelManager : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
-        Time.timeScale = 1f;
+        //Time.timeScale = 1f;
         gameOver = false;
         currentMultiplier = 1;
         pointsPerTick = 1;
@@ -98,10 +100,10 @@ public class PointsAndLevelManager : MonoBehaviour {
         pointRate -= 0.1f;
         multiplierText.text = "x" + currentMultiplier;
         if (currentDifficulty == Difficulty.Hard) {
-            Time.timeScale = 1.1f;
+           // floor.SetNewSpeed(hardDifficultyFloorSpeed);
         }
         if (currentDifficulty == Difficulty.Impossible) {
-            Time.timeScale = 1.5f;
+           // floor.SetNewSpeed(impossibleDifficultyFloorSpeed);
         }
     } 
 

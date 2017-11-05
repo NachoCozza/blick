@@ -53,9 +53,10 @@ public class ChunkManager : MonoBehaviour {
         level = GetComponent<PointsAndLevelManager>();
         tutorial = GetComponent<TutorialController>();
         chunks = new Chunk[totalChunks];
-        interval = (chunkSize / GetComponent<FloorMovement>().speed) * (totalChunks / 2);
+        // interval = (chunkSize / GetComponent<FloorMovement>().speed) * (totalChunks / 2 );
+        CalculateNewInterval(GetComponent<FloorMovement>().speed);
         backgroundInterval = (35 / firstLaneMovementSpeed) * (56);
-        float initZ = perspective.player.transform.position.z + chunkSize / 2;
+        float initZ = perspective.player.transform.position.z - chunkSize / 2;
         InstantiateNewChunks(0, initZ);
         InstantiateNewBackground();
         StartCoroutine("SpawnNextAndDeleteLast");
@@ -114,8 +115,7 @@ public class ChunkManager : MonoBehaviour {
     }
 
     IEnumerator SpawnNextAndDeleteLast() {
-        WaitForSeconds wait = new WaitForSeconds(interval);
-        yield return wait;
+        yield return new WaitForSeconds(interval);
         while (true) {
             int newIndex = totalChunks / 2;
             for (int i = 0; i < newIndex; i++) {
@@ -126,10 +126,13 @@ public class ChunkManager : MonoBehaviour {
             float lastZ = chunks[newIndex - 1].transform.position.z + chunkSize;
             FloorMovement.lastChunkIndex -= newIndex;
             InstantiateNewChunks(newIndex, lastZ);
-            //perspective.SetChunks(this.chunks);
-            yield return wait;
+            yield return new WaitForSeconds(interval);
 
         }
+    }
+
+    public void CalculateNewInterval(float newSpeed) {
+        interval = (chunkSize * totalChunks) / (2 * newSpeed);
     }
 
     IEnumerator SpawnBackground() {

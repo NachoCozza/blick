@@ -5,13 +5,13 @@ using UnityEngine;
 public class FloorMovement : MonoBehaviour {
 
     public float speed;
-    public static int lastChunkIndex = 0;
+    public static int lastChunkIndex;
     ChunkManager chunkManager;
     Chunk[] chunks;
     PointsAndLevelManager points;
 
     void Start() {
-        lastChunkIndex = 0;
+        lastChunkIndex = 1;
         chunkManager = GetComponent<ChunkManager>();
         points = GetComponent<PointsAndLevelManager>();
         chunks = chunkManager.GetChunks();
@@ -27,6 +27,10 @@ public class FloorMovement : MonoBehaviour {
 		}
     }
 
+    public void SetNewSpeed(float newSpeed) {
+        speed = newSpeed;
+        chunkManager.CalculateNewInterval(newSpeed);
+    }
 
     IEnumerator UpdateLastChunkIndex() {
         float interval = ChunkManager.chunkSize / speed - 0.01f;

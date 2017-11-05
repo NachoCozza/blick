@@ -31,7 +31,6 @@ public class TutorialController : MonoBehaviour {
 	}
 
     public void EnterTutorialTrigger(string message, KeyCode keyToPress) {
-        Debug.Log(message);
         tutorialText.text = message;
         Time.timeScale = 0.5f;
         tutorialTextAnimation.clip = tutorialTextAnimation.GetClip("TutorialFadeIn");
