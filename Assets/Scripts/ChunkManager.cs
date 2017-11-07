@@ -216,10 +216,4 @@ public class ChunkManager : MonoBehaviour {
         return aux.transform.position.z;
     }
 
-    private void Update() {
-        if (Input.GetKeyDown(KeyCode.K)) {
-            ArrangeBackground();
-        }
-    }
-
 }
