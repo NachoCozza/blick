@@ -17,15 +17,14 @@ public class ChunkManager : MonoBehaviour {
 
     public Transform firstBackgroundLane;
     public Transform secondBackgroundLane;
-    public float firstLaneMovementSpeed;
-    public float secondLaneMovementSpeed;
-
-    float backgroundInterval;
 
     public int backgroundChunksPerLane = 40;
 
+    float backgroundInterval;
+
     Chunk[] chunks;
-    GameObject[] backgroundInstances;
+    GameObject[] backgroundFirstLaneArray;
+    GameObject[] backgroundSecondLaneArray;
     float interval = 0f;
     PerspectiveController perspective;
     PointsAndLevelManager level;
@@ -39,6 +38,7 @@ public class ChunkManager : MonoBehaviour {
 
     int allTimeSpawnedChunks = 0;
     bool mustInstantiateSecondBackground = true; //ToDo make a more elegant solution
+    bool mustMoveSecondLane = false;
 
     TutorialController tutorial;
 
@@ -53,16 +53,38 @@ public class ChunkManager : MonoBehaviour {
         level = GetComponent<PointsAndLevelManager>();
         tutorial = GetComponent<TutorialController>();
         chunks = new Chunk[totalChunks];
-        // interval = (chunkSize / GetComponent<FloorMovement>().speed) * (totalChunks / 2 );
-        CalculateNewInterval(GetComponent<FloorMovement>().speed);
-        backgroundInterval = (35 / firstLaneMovementSpeed) * (56);
+        backgroundFirstLaneArray = new GameObject[backgroundChunksPerLane];
+        backgroundSecondLaneArray = new GameObject[backgroundChunksPerLane];
+        CalculateNewInterval();
         float initZ = perspective.player.transform.position.z - chunkSize / 2;
         InstantiateNewChunks(0, initZ);
         InstantiateNewBackground();
         StartCoroutine("SpawnNextAndDeleteLast");
-        StartCoroutine("SpawnBackground");
     }
 
+    GameObject[] GetCurrentChunkGroup(Difficulty difficulty) {
+        switch (difficulty) {
+            case Difficulty.Easy:
+            default:
+                return chunkGroupsEasy;
+            case Difficulty.Medium:
+                return chunkGroupsMedium;
+            case Difficulty.Hard:
+                return chunkGroupsHard;
+            case Difficulty.Impossible:
+                int random = Random.Range(0, 1);
+                switch (random) {
+                    case 0:
+                        return chunkGroupsMedium;
+                    case 1:
+                    default:
+                        return chunkGroupsHard;
+                }
+        }
+    }
+    public void CalculateNewInterval() {
+        interval = (chunkSize * totalChunks) / (2 * FloorMovement.SPEED);
+    }
 
     void InstantiateNewChunks(int startIndex, float lastZ) {
         GameObject[] currentChunkGroups;
@@ -93,26 +115,6 @@ public class ChunkManager : MonoBehaviour {
         }
     }
 
-    GameObject[] GetCurrentChunkGroup(Difficulty difficulty) {
-        switch (difficulty) {
-            case Difficulty.Easy:
-            default:
-                return chunkGroupsEasy;
-            case Difficulty.Medium:
-                return chunkGroupsMedium;
-            case Difficulty.Hard:
-                return chunkGroupsHard;
-            case Difficulty.Impossible:
-                int random = Random.Range(0, 1);
-                switch (random) {
-                    case 0:
-                        return chunkGroupsMedium;
-                    case 1:
-                    default:
-                        return chunkGroupsHard;
-                }
-        }
-    }
 
     IEnumerator SpawnNextAndDeleteLast() {
         yield return new WaitForSeconds(interval);
@@ -131,82 +133,93 @@ public class ChunkManager : MonoBehaviour {
         }
     }
 
-    public void CalculateNewInterval(float newSpeed) {
-        interval = (chunkSize * totalChunks) / (2 * newSpeed);
+    public void ArrangeBackground() {
+        float firstBackZ = backgroundFirstLaneArray[backgroundChunksPerLane - 1].transform.position.z;
+        float secondBackZ = backgroundSecondLaneArray[backgroundChunksPerLane - 1].transform.position.z;
+        for (int i = 0; i < backgroundChunksPerLane / 2; i++) {
+            firstBackZ += 35;
+            PositionBackgroundChunk(i, firstBackZ, backgroundFirstLaneArray);
+            if (mustMoveSecondLane) {
+                secondBackZ += 35;
+                PositionBackgroundChunk(i, secondBackZ, backgroundSecondLaneArray);
+            }
+        }
+        mustMoveSecondLane = !mustMoveSecondLane;
     }
 
-    IEnumerator SpawnBackground() {
-        WaitForSeconds wait = new WaitForSeconds(backgroundInterval);
-        yield return wait;
-        while (true) {
-            InstantiateNewBackground();
-            yield return wait;
-        }
+    private void PositionBackgroundChunk(int idx, float lastZ, GameObject[] backgroundArray) {
+        int moveIdx = idx + backgroundChunksPerLane / 2;
+        GameObject aux = backgroundArray[idx];
+        aux.transform.position = new Vector3(aux.transform.position.x, aux.transform.position.y, lastZ);
+        backgroundArray[idx] = backgroundArray[moveIdx];
+        backgroundArray[moveIdx] = aux;
     }
+
 
     void InstantiateNewBackground() {
-        float secondZ = 0;
-        float firstZ = 0;
-        //TODO optimize to only one loop
-        if (backgroundInstances != null && backgroundInstances.Length > 0) {
-            int upTo = backgroundChunksPerLane;
-            if (mustInstantiateSecondBackground) {
-                upTo *= 2;
+        float lastZ = 0;
+        for (int i = 0; i < backgroundChunksPerLane * 2; i++) {
+            bool firstLane = i < backgroundChunksPerLane;
+            if (i == backgroundChunksPerLane) {
+                lastZ = 0;
             }
-            for (int i = 0; i < backgroundChunksPerLane * 2; i++) {
-                if (backgroundInstances[i] != null) {
-                    Destroy(backgroundInstances[i]);
-                }
-                backgroundInstances[i] = backgroundInstances[i + backgroundChunksPerLane * 2];
-            }
-            firstZ = backgroundInstances[backgroundChunksPerLane - 1].transform.position.z;
-            secondZ = backgroundInstances[backgroundChunksPerLane * 2 - 1].transform.position.z;
+            lastZ = InstantiateBackgroundChunk(i, lastZ, firstLane);
         }
-        else {
-            backgroundInstances = new GameObject[backgroundChunksPerLane * 4];
-        }
-
-        for (int i = backgroundChunksPerLane * 2; i < (backgroundChunksPerLane * 3); i++) {
-            InstantiateBackgroundChunk(i, firstZ, true);
-            if (mustInstantiateSecondBackground) {
-                InstantiateBackgroundChunk(i + backgroundChunksPerLane, secondZ, false);
-                secondZ += 35;
-            }
-            firstZ += 35;
-        }
-        mustInstantiateSecondBackground = !mustInstantiateSecondBackground;
+        Debug.Log(lastZ);
     }
 
-    private void InstantiateBackgroundChunk(int idx, float lastZ, bool firstLane) {
+    private float InstantiateBackgroundChunk(int idx, float lastZ, bool firstLane) {
         int prefabIdx = Random.Range(0, backgroundPrefabs.Length);
         float randomHeight;
         GameObject aux = Instantiate(backgroundPrefabs[prefabIdx]);
         Vector3 auxPos;
         Transform parent;
         Material currentMaterial;
-        float movementSpeed;
+        GameObject[] parentArray;
         if (firstLane) {
             randomHeight = Random.Range(-2, 2);
             auxPos = firstBackgroundLane.position;
-            movementSpeed = firstLaneMovementSpeed;
+            if (lastZ == 0) {
+                lastZ = auxPos.z;
+            }
             parent = firstBackgroundLane;
             currentMaterial = firstBackgroundMaterial;
+            parentArray = backgroundFirstLaneArray;
+            if (idx == 0 || idx == backgroundChunksPerLane / 2) {
+                Rigidbody r = aux.AddComponent<Rigidbody>();
+                r.isKinematic = true;
+                r.useGravity = false;
+                BoxCollider col = aux.AddComponent<BoxCollider>();
+                col.isTrigger = true;
+                aux.tag = "BackgroundTrigger";
+            }
         }
         else {
             randomHeight = Random.Range(-10, 10);
             auxPos = secondBackgroundLane.position;
-            movementSpeed = secondLaneMovementSpeed;
+            if (lastZ == 0) {
+                lastZ = auxPos.z;
+            }
             parent = secondBackgroundLane;
             currentMaterial = secondBackgroundMaterial;
+            parentArray = backgroundSecondLaneArray;
+            idx -= backgroundChunksPerLane;
         }
         auxPos.y += randomHeight;
-        auxPos.z = lastZ;
+        auxPos.z = lastZ + 35;
         aux.transform.position = auxPos;
-        aux.AddComponent<BackgroundChunk>().movementSpeed = movementSpeed;
+        aux.GetComponent<BackgroundChunk>().isFrontLane = firstLane;
         aux.GetComponent<MeshRenderer>().material = currentMaterial;
         aux.name += idx;
         aux.transform.parent = parent;
-        backgroundInstances[idx] = aux;
+        parentArray[idx] = aux;
+        return aux.transform.position.z;
+    }
+
+    private void Update() {
+        if (Input.GetKeyDown(KeyCode.K)) {
+            ArrangeBackground();
+        }
     }
 
 }

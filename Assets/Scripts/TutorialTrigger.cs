@@ -6,6 +6,7 @@ public class TutorialTrigger : MonoBehaviour {
     public string messageToDisplay;
     public KeyCode keyToPress;
     static TutorialController controller;
+    public bool finishesTutorial;
 
     private void Start() {
         if (controller == null) {
@@ -14,7 +15,7 @@ public class TutorialTrigger : MonoBehaviour {
     }
     public void OnTriggerEnter(Collider other) {
         if (other.tag  == "Player") {
-            controller.EnterTutorialTrigger(messageToDisplay, keyToPress);
+            controller.EnterTutorialTrigger(this);
         }
     }
 }

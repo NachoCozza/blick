@@ -673,7 +673,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1209292419290856}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.92, z: 0.264}
+  m_LocalPosition: {x: 0, y: 1.92, z: 0.214}
   m_LocalScale: {x: 0.06666667, y: 1.6666665, z: 0.06666667}
   m_Children: []
   m_Father: {fileID: 4052457579287346}
@@ -1684,8 +1684,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 846bca8de5f47a04cb5646d2b3fd37da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  messageToDisplay: Press Z again to go back to 3D mode
+  messageToDisplay: Use Z to go back to 3D
   keyToPress: 122
+  finishesTutorial: 0
 --- !u!114 &114923156331330298
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1699,3 +1700,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   messageToDisplay: And back to 2D with Z!
   keyToPress: 122
+  finishesTutorial: 1

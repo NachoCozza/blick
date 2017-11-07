@@ -17,12 +17,12 @@ public class PointsAndLevelManager : MonoBehaviour {
     public Text scoreText;
     public Text multiplierText;
 
-    public int chunksToMedium = 15;
-    public int chunksToHard = 30;
+    public int chunksToMedium = 50;
+    public int chunksToHard = 100;
     public float hardDifficultyFloorSpeed = 10;
-    public int chunksToImpossible = 70;
+    public int chunksToImpossible = 200;
     public float impossibleDifficultyFloorSpeed = 14;
-    public int chunksToWin = 200;
+    public int chunksToWin = 300;
 
     public int maxScoreCount = 5;
 
@@ -105,6 +105,7 @@ public class PointsAndLevelManager : MonoBehaviour {
         if (currentDifficulty == Difficulty.Impossible) {
            // floor.SetNewSpeed(impossibleDifficultyFloorSpeed);
         }
+        Debug.Log("NEW DIFFICULTY " + currentDifficulty);
     } 
 
     public void AddObstacle(GameObject obstacle) {

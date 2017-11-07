@@ -30,23 +30,26 @@ public class TutorialController : MonoBehaviour {
 		
 	}
 
-    public void EnterTutorialTrigger(string message, KeyCode keyToPress) {
-        tutorialText.text = message;
-        Time.timeScale = 0.5f;
+    public void EnterTutorialTrigger(TutorialTrigger trigger) {
+        tutorialText.text = trigger.messageToDisplay;
+        Time.timeScale = 0.35f;
         tutorialTextAnimation.clip = tutorialTextAnimation.GetClip("TutorialFadeIn");
         tutorialTextAnimation.Play();
-        StartCoroutine("WaitForKeyPress", keyToPress);
+        StartCoroutine("WaitForKeyPress", trigger);
     }
 
-    IEnumerator WaitForKeyPress(KeyCode key) {
-        bool keyPress = Input.GetKeyDown(key);
+    IEnumerator WaitForKeyPress(TutorialTrigger trigger) {
+        bool keyPress = Input.GetKeyDown(trigger.keyToPress);
         while (!keyPress) {
             yield return 0;
-            keyPress = Input.GetKeyDown(key);
+            keyPress = Input.GetKeyDown(trigger.keyToPress);
         }
         Time.timeScale = 1f;
         tutorialTextAnimation.clip = tutorialTextAnimation.GetClip("TutorialFadeOut");
         tutorialTextAnimation.Play();
+        if (false && trigger.finishesTutorial) {
+            PlayerPrefs.SetString("TutorialDone", "true");
+        }
     }
 
     void FinishTutorial() {
