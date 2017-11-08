@@ -1623,14 +1623,10 @@ MonoBehaviour:
   m_Text: 'FUTURE FEATURES:
 
 
-
-    - In-game seamless tutorial
+    - Navigate menus with arrow keys...
 
 
     - Server for online high scores
-
-
-    - Make chunk spawning smoother
 
 
     - Make MORE obstacles that can only be passed in certain perspectives
@@ -1639,10 +1635,8 @@ MonoBehaviour:
     - Fix some perspective-change teleport bugs.
 
 
-    -Make more chunks
+    - Make more chunks
 
-
-    - Fix BUGS!!!
 
 '
 --- !u!222 &1499204302
@@ -5218,7 +5212,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: BETA 0.1.1
+  m_Text: BETA 0.2.0
 --- !u!222 &1704317378
 CanvasRenderer:
   m_ObjectHideFlags: 0

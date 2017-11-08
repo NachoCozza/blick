@@ -17,6 +17,12 @@ public class CameraController : MonoBehaviour
     public float movementTime = 0.4f;
     public float fovTime = 0.3f;
 
+    float cameraShakeDuration = 0f;
+    public float shakeAmount = 0.7f;
+    public float decreaseFactor = 1.0f;
+
+    private Vector3 originalPos;
+
     bool moving = false;
     Camera cam;
     Coroutine currentTransitionCoroutine;
@@ -41,6 +47,10 @@ public class CameraController : MonoBehaviour
         perspectiveController = GameObject.FindGameObjectWithTag("GameController").GetComponent<PerspectiveController>();
 
         CalculatePlayerPosition();
+    }
+
+    private void Start() {
+        originalPos = perspectiveTransform.position;
     }
 
     private void CalculatePlayerPosition()
@@ -102,6 +112,7 @@ public class CameraController : MonoBehaviour
         if (!moving)
         {
             moving = true;
+            originalPos = endTransform.position;
             perspectiveController.NotifyCameraStart(oldView, newView);
 
             float i = 0f;
@@ -127,6 +138,17 @@ public class CameraController : MonoBehaviour
         for (int i = 0; i < 16; i++)
             ret[i] = Mathf.Lerp(from[i], to[i], time);
         return ret;
+    }
+
+    void Update() {
+        if (cameraShakeDuration > 0) {
+            transform.localPosition = originalPos + Random.insideUnitSphere * shakeAmount;
+            cameraShakeDuration -= Time.deltaTime * decreaseFactor;
+        }
+    }
+
+    public void DoShake(float duration) {
+        cameraShakeDuration = duration;
     }
 
 }

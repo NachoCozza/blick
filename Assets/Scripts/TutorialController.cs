@@ -5,17 +5,13 @@ using UnityEngine.UI;
 
 public class TutorialController : MonoBehaviour {
 
-    Chunk[] chunks;
-    ChunkManager manager;
     public GameObject tutorialTextContainer;
     Animation tutorialTextAnimation;
     Text tutorialText;
 
     bool finishedTutorial;
     // Use this for initialization
-    void Start () {
-        manager = GetComponent<ChunkManager>();
-        chunks = manager.GetChunks();
+    void Awake() {
         finishedTutorial = PlayerPrefs.GetString("TutorialDone") == "true";
         if (finishedTutorial) {
             this.enabled = false;
@@ -24,18 +20,15 @@ public class TutorialController : MonoBehaviour {
         tutorialText = tutorialTextContainer.GetComponent<RectTransform>().GetChild(0).gameObject.GetComponent<Text>();
         tutorialTextAnimation = tutorialTextContainer.GetComponent<Animation>();
     }
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 
     public void EnterTutorialTrigger(TutorialTrigger trigger) {
-        tutorialText.text = trigger.messageToDisplay;
-        Time.timeScale = 0.35f;
-        tutorialTextAnimation.clip = tutorialTextAnimation.GetClip("TutorialFadeIn");
-        tutorialTextAnimation.Play();
-        StartCoroutine("WaitForKeyPress", trigger);
+        if (!finishedTutorial) {
+            tutorialText.text = trigger.messageToDisplay;
+            Time.timeScale = 0.15f;
+            tutorialTextAnimation.clip = tutorialTextAnimation.GetClip("TutorialFadeIn");
+            tutorialTextAnimation.Play();
+            StartCoroutine("WaitForKeyPress", trigger);
+        }
     }
 
     IEnumerator WaitForKeyPress(TutorialTrigger trigger) {
@@ -47,7 +40,7 @@ public class TutorialController : MonoBehaviour {
         Time.timeScale = 1f;
         tutorialTextAnimation.clip = tutorialTextAnimation.GetClip("TutorialFadeOut");
         tutorialTextAnimation.Play();
-        if (false && trigger.finishesTutorial) {
+        if (trigger.finishesTutorial) {
             PlayerPrefs.SetString("TutorialDone", "true");
         }
     }

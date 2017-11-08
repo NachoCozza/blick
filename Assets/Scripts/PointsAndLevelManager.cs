@@ -32,7 +32,6 @@ public class PointsAndLevelManager : MonoBehaviour {
     int currentMultiplier = 1;
     int pointsPerTick = 1;
     int chunksPassed = 0;
-    FloorMovement floor;
     int obstaclesPassed = 0;
 
     int lastObstacleInstanceId;
@@ -43,25 +42,26 @@ public class PointsAndLevelManager : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
+        //PlayerPrefs.DeleteAll();
         Time.timeScale = 1f;
         gameOver = false;
         currentMultiplier = 1;
         pointsPerTick = 1;
         chunksPassed = 0;
         obstaclesPassed = 0;
-        playerNameInput = playerNamePanel.transform.GetChild(1).GetComponent<InputField>();
+        playerNameInput = playerNamePanel.transform.GetChild(2).GetComponent<InputField>();
         playerNameInput.characterLimit = 5;
         currentDifficulty = Difficulty.Easy;
-        floor = GetComponent<FloorMovement>();
         GetHighscores();
         StartCoroutine("Points");
-        aux.text = Score.GetScoreString(highscores).Replace("|", "\n");
+        if (highscores.Count > 0) {
+            aux.text = Score.GetScoreString(highscores).Replace("|", "\n");
+        }
     }
 
     private void GetHighscores() {
         string score = PlayerPrefs.GetString("scores");
-        List<Score> scores = new List<Score>();
-        if (score != null && score != "") {
+        if (!string.IsNullOrEmpty(score)) {
             highscores = Score.GetScoreList(score);
         }
         else {
@@ -209,20 +209,24 @@ public class PointsAndLevelManager : MonoBehaviour {
     public void SetScoreAndRestart() {
         if (!string.IsNullOrEmpty(playerNameInput.text)) {
             SetScore();
-            SceneManager.LoadScene("Main");
+            Restart();
         }
+    }
+
+    public void Restart() {
+        SceneManager.LoadScene("Main");
     }
 
     void SetScore() {
         string playerName = playerNameInput.text;
         int newIdx = GetNewScoreIndex(points);
         if (newIdx != -1) {
-            if (newIdx <= highscores.Count) {
+            if (highscores.Count + 1 <= maxScoreCount) {
                 highscores.Add(new Score(playerName, points));
             }
             else {
                 highscores.Insert(newIdx, new Score(playerName, points));
-                highscores = highscores.GetRange(0, maxScoreCount - 1);
+                highscores = highscores.GetRange(0, maxScoreCount);
             }
             string newScoreString = Score.GetScoreString(highscores);
             PlayerPrefs.SetString("scores", newScoreString);

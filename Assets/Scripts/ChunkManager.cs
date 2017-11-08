@@ -37,7 +37,6 @@ public class ChunkManager : MonoBehaviour {
 
 
     int allTimeSpawnedChunks = 0;
-    bool mustInstantiateSecondBackground = true; //ToDo make a more elegant solution
     bool mustMoveSecondLane = false;
 
     TutorialController tutorial;
@@ -165,7 +164,6 @@ public class ChunkManager : MonoBehaviour {
             }
             lastZ = InstantiateBackgroundChunk(i, lastZ, firstLane);
         }
-        Debug.Log(lastZ);
     }
 
     private float InstantiateBackgroundChunk(int idx, float lastZ, bool firstLane) {

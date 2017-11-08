@@ -5,13 +5,13 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour {
 
     //Character Movement Values
-    public float slideTime = 1f;
     public float jumpForce = 3f;
     public int health = 3;
     public float inmuneTime = 2f;
 
     PointsAndLevelManager points;
     ChaseController chaseController;
+    CameraController camController;
     bool isGrounded = false;
     bool dead = false;
     float initY = -1f;
@@ -29,6 +29,7 @@ public class PlayerController : MonoBehaviour {
         GameObject gameController = GameObject.FindGameObjectWithTag("GameController");
         points = gameController.GetComponent<PointsAndLevelManager>();
         chaseController = gameController.GetComponent<ChaseController>();
+        camController = Camera.main.gameObject.GetComponent<CameraController>();
     }
 
     public void SetMaxZ(float maxZ) {
@@ -73,6 +74,7 @@ public class PlayerController : MonoBehaviour {
         points.ResetObstacles();
         chaseController.AddHit();
         if (!chaseController.MustDie()) {
+            camController.DoShake(inmuneTime / 12);
             StartCoroutine("Inmune");
         }
         else {
