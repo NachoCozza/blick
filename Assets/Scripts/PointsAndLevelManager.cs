@@ -139,8 +139,10 @@ public class PointsAndLevelManager : MonoBehaviour {
     }
 
     private void MoreMultiplier() {
-        currentMultiplier++;
-        multiplierText.text = "x" + currentMultiplier;
+        if (currentMultiplier <= 2) {
+            currentMultiplier++;
+            multiplierText.text = "x" + currentMultiplier;
+        }
         //ToDo animation
     }
 
