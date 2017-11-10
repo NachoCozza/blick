@@ -5,7 +5,7 @@ using UnityEngine;
 public class Obstacle : MonoBehaviour {
 
     public View[] allowedViews;
-    PerspectiveController perspective;
+    static PerspectiveController perspective;
     static PlayerController player;
     static PointsAndLevelManager points;
 
@@ -30,7 +30,7 @@ public class Obstacle : MonoBehaviour {
                     points = GameObject.FindGameObjectWithTag("GameController").GetComponent<PointsAndLevelManager>();
                 }
                 if (!player.IsInmune()) {
-					points.AddObstacle(this.gameObject);
+                    points.AddObstacle(this.gameObject);
                 }
             }
         }
@@ -39,7 +39,15 @@ public class Obstacle : MonoBehaviour {
 
     // Use this for initialization
     void Awake() {
-        perspective = GameObject.FindGameObjectWithTag("GameController").GetComponent<PerspectiveController>();
+        //TODO DELETEEEEEEEEEE
+        /**
+         * Fuck unity and their lack of nested prefabs. I forgot to make all the collider triggers and now it's gonna take 20 mins. Or just this aweful hack. FUck unity
+         * 
+         */
+        GetComponent<BoxCollider>().isTrigger = true;
+        if (perspective == null) {
+            perspective = GameObject.FindGameObjectWithTag("GameController").GetComponent<PerspectiveController>();
+        }
         if (allowedViews.Length > 3) {
             Debug.LogError("More than 3 allowed perspectives in gameObject " + this.name + " ID: " + this.GetInstanceID());
         }

@@ -40,6 +40,8 @@ public class PointsAndLevelManager : MonoBehaviour {
 
     public Text aux;
 
+    ColorManager colorManager;
+
     // Use this for initialization
     void Start() {
         //PlayerPrefs.DeleteAll();
@@ -57,6 +59,7 @@ public class PointsAndLevelManager : MonoBehaviour {
         if (highscores.Count > 0) {
             aux.text = Score.GetScoreString(highscores).Replace("|", "\n");
         }
+        colorManager = GetComponent<ColorManager>();
     }
 
     private void GetHighscores() {
@@ -139,10 +142,11 @@ public class PointsAndLevelManager : MonoBehaviour {
     }
 
     private void MoreMultiplier() {
-        if (currentMultiplier <= 2) {
+        if (currentMultiplier < 4) {
             currentMultiplier++;
             multiplierText.text = "x" + currentMultiplier;
         }
+        colorManager.OneColorUp();
         //ToDo animation
     }
 
@@ -240,6 +244,7 @@ public class PointsAndLevelManager : MonoBehaviour {
         obstaclesPassed = 0;
         currentMultiplier = 1;
         multiplierText.text = "x" + currentMultiplier;
+        colorManager.ResetColor();
     }
 
     private class Score {

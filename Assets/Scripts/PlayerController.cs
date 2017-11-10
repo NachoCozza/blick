@@ -16,7 +16,7 @@ public class PlayerController : MonoBehaviour {
     bool dead = false;
     float initY = -1f;
     float maxZ;
-    bool inmune = false;
+    public static bool inmune = false;
 
     Animator animator;
     Rigidbody rigid;
@@ -69,6 +69,7 @@ public class PlayerController : MonoBehaviour {
     }
 
     public void Damage(DeathCause cause) {
+        inmune = true;
         Debug.Log("GOT DAMAGE");
         health--;
         points.ResetObstacles();
@@ -95,7 +96,7 @@ public class PlayerController : MonoBehaviour {
     }
 
     IEnumerator Inmune() {
-        inmune = true;
+        
         WaitForSeconds wait = new WaitForSeconds(inmuneTime / 6);
         SkinnedMeshRenderer mesh = transform.GetChild(0).GetComponent<SkinnedMeshRenderer>();
         Color originalColor = mesh.material.color;
